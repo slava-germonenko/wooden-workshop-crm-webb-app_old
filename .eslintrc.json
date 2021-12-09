@@ -37,7 +37,14 @@
             "style": "kebab-case"
           }
         ],
-        "max-len": [2, {"code": 120, "tabWidth": 2, "ignoreUrls": true}],
+        "max-len": [
+          2,
+          {
+            "code": 120,
+            "tabWidth": 2,
+            "ignoreUrls": true
+          }
+        ],
         "import/prefer-default-export": "off"
       }
     },
@@ -49,6 +56,14 @@
         "plugin:@angular-eslint/template/recommended"
       ],
       "rules": {}
+    },
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "plugin:ngrx/recommended"
+      ]
     }
   ]
 }
