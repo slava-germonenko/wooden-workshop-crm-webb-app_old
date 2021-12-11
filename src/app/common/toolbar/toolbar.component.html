@@ -1,2 +1,41 @@
-<mat-toolbar *ngIf="toolbarVisible$ | async">
+<mat-toolbar
+  color="primary"
+  class="mat-elevation-z6"
+  *ngIf="toolbarVisible$ | async"
+>
+  <section>
+    <ng-container *ngFor="let button of leftSectionButtons">
+      <button
+        mat-button
+        routerLinkActive="header-time-active"
+        (click)="button.click && button.click()"
+        [routerLink]="button.link ? button.link : undefined"
+        *ngIf="button.permission ? userHasAnyPermissions(button.permission) : true"
+      >
+        <mat-icon *ngIf="button.icon">{{button.icon}}</mat-icon>
+        <ng-container *ngIf="button.label">{{button.label}}</ng-container>
+      </button>
+    </ng-container>
+  </section>
+
+  <span class="spacer"></span>
+
+  <section>
+    <button mat-icon-button [mat-menu-trigger-for]="profileMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </section>
 </mat-toolbar>
+
+<mat-menu #profileMenu="matMenu">
+  <ng-container *ngFor="let button of profileMenuActions">
+    <button
+      mat-menu-item
+      (click)="button.click && button.click()"
+      [routerLink]="button.link ? button.link : undefined"
+      *ngIf="button.permission ? userHasAnyPermissions(button.permission) : true"
+    >
+      {{button.label}}
+    </button>
+  </ng-container>
+</mat-menu>

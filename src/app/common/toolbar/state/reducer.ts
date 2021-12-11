@@ -4,7 +4,7 @@ import { hideToolbar, showToolbar } from './actions';
 import { IToolbarState } from '../interfaces';
 
 const INITIAL_TOOLBAR_STATE: IToolbarState = {
-  visible: false,
+  visible: true,
 };
 
 export const toolbarReducer = createReducer(
