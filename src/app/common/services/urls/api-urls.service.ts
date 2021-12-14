@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { EnvironmentService } from '@common/environment';
+import { EnvironmentService } from '@common/services';
 
 @Injectable({ providedIn: 'root' })
 export class ApiUrlsService {
