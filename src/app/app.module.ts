@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { ToolbarModule } from '@common/toolbar';
+import { ToolbarModule } from '@framework/toolbar';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';

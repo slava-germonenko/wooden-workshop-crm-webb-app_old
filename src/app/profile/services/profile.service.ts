@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 import { IUser } from '@common/interfaces';
 import { ApiUrlsService, UserService } from '@common/services';
@@ -16,6 +16,12 @@ export class ProfileService {
   ) { }
 
   public getCurrentUserProfile(): Observable<IProfile> {
+    return of({
+      userId: 'test',
+      firstName: 'Slava',
+      lastName: 'Germonenko',
+      emailAddress: 'slava.germonenko@gmail.com',
+    });
     return this.userService.currentUser$
       .pipe(
         switchMap((user: IUser) => this.httpClient.get<IProfile>(
