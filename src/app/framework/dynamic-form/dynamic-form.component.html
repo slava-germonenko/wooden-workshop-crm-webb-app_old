@@ -1,0 +1,71 @@
+<form (ngSubmit)="formSubmit.emit(form.value)" [formGroup]="form" *ngIf="form">
+  <ng-container *ngFor="let field of fieldDefinitions">
+    <ng-container [ngSwitch]="field.type">
+
+      <ng-template [ngSwitchCase]="'text' || 'number'">
+        <mat-form-field [appearance]="field.appearance ?? 'standard'">
+          <mat-label *ngIf="field.label">{{field.label}}</mat-label>
+          <input
+            matInput
+            [type]="field.type"
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder ?? ''"
+          />
+
+          <mat-error>
+            {{getErrorMessage(field)}}
+          </mat-error>
+        </mat-form-field>
+      </ng-template>
+
+      <ng-template ngSwitchCase="password">
+        <mat-form-field [appearance]="field.appearance ?? 'standard'">
+          <mat-label *ngIf="field.label">{{field.label}}</mat-label>
+          <input
+            #inputElement
+            matInput
+            type="password"
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder ?? ''"
+          />
+
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="inputElement.type = inputElement.type === 'password' ? 'text' : 'password'"
+          >
+            <mat-icon>{{inputElement.type === 'password' ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </button>
+
+          <mat-error>{{getErrorMessage(field)}}
+          </mat-error>
+        </mat-form-field>
+      </ng-template>
+
+    </ng-container>
+  </ng-container>
+
+  <section class="align-center form-actions">
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="formCancel.emit()"
+      *ngIf="showCancel"
+    >
+      {{cancelButtonText}}
+    </button>
+
+    <span class="spacer"></span>
+
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      *ngIf="showSubmit"
+    >
+      {{submitButtonText}}
+    </button>
+  </section>
+</form>

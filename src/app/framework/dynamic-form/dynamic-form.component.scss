@@ -1,0 +1,16 @@
+form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+
+  mat-form-field {
+    flex: 1 1 48%;
+    margin: 1%;
+  }
+
+  .form-actions {
+    flex-basis: 98%;
+    margin: 1%;
+  }
+}

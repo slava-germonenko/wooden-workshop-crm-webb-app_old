@@ -24,7 +24,7 @@ import { ToolbarComponent } from './toolbar.component';
     ToolbarComponent,
   ],
   exports: [
-    ToolbarComponent
-  ]
+    ToolbarComponent,
+  ],
 })
 export class ToolbarModule { }
