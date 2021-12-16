@@ -1,80 +1,71 @@
-<form *ngIf="form">
+<form (ngSubmit)="formSubmit.emit(form.value)" [formGroup]="form" *ngIf="form">
   <ng-container *ngFor="let field of fieldDefinitions">
     <ng-container [ngSwitch]="field.type">
 
-      <ng-template
-        ngSwitchCase="text"
-        [ngTemplateOutlet]="text"
-        [ngTemplateOutletContext]="field"
-      ></ng-template>
+      <ng-template [ngSwitchCase]="'text' || 'number'">
+        <mat-form-field [appearance]="field.appearance ?? 'standard'">
+          <mat-label *ngIf="field.label">{{field.label}}</mat-label>
+          <input
+            matInput
+            [type]="field.type"
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder ?? ''"
+          />
 
-      <ng-template
-        ngSwitchCase="number"
-        [ngTemplateOutlet]="number"
-        [ngTemplateOutletContext]="field"
-      ></ng-template>
+          <mat-error>
+            {{getErrorMessage(field)}}
+          </mat-error>
+        </mat-form-field>
+      </ng-template>
 
-      <ng-template
-        ngSwitchCase="password"
-        [ngTemplateOutlet]="password"
-        [ngTemplateOutletContext]="field"
-      ></ng-template>
+      <ng-template ngSwitchCase="password">
+        <mat-form-field [appearance]="field.appearance ?? 'standard'">
+          <mat-label *ngIf="field.label">{{field.label}}</mat-label>
+          <input
+            #inputElement
+            matInput
+            type="password"
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder ?? ''"
+          />
+
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="inputElement.type = inputElement.type === 'password' ? 'text' : 'password'"
+          >
+            <mat-icon>{{inputElement.type === 'password' ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </button>
+
+          <mat-error>{{getErrorMessage(field)}}
+          </mat-error>
+        </mat-form-field>
+      </ng-template>
 
     </ng-container>
-
   </ng-container>
-</form>
 
-<ng-template #text let-field>
-  <mat-form-field [appearance]="field.appearance">
-    <mat-label *ngIf="field.label">{{field.label}}</mat-label>
-    <input
-      type="text"
-      [formControlName]="field.name"
-      [placeholder]="field.placeholder"
-    ></input>
-
-    <ng-container *ngFor="let validator of getFieldErrorMessages(field)">
-      <mat-error>{{validator.message}}</mat-error>
-    </ng-container>
-  </mat-form-field>
-</ng-template>
-
-<ng-template #number let-field>
-  <mat-form-field [appearance]="field.appearance">
-    <mat-label *ngIf="field.label">{{field.label}}</mat-label>
-    <input
-      type="number"
-      [formControlName]="field.name"
-      [placeholder]="field.placeholder"
-    ></input>
-
-    <ng-container *ngFor="let validator of getFieldErrorMessages(field)">
-      <mat-error>{{validator.message}}</mat-error>
-    </ng-container>
-  </mat-form-field>
-</ng-template>
-
-<ng-template #password let-field>
-  <mat-form-field [appearance]="field.appearance">
-    <mat-label *ngIf="field.label">{{field.label}}</mat-label>
-    <input
-      #inputElement
-      type="password"
-      [formControlName]="field.name"
-      [placeholder]="field.placeholder"
-    ></input>
-
+  <section class="align-center form-actions">
     <button
-      mat-icon-button
-      matSuffix
-      (click)="inputElement.type = inputElement.type === 'password' ? 'text' : 'password'"
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="formCancel.emit()"
+      *ngIf="showCancel"
     >
-      <mat-icon>{{inputElement.type === 'password' ? 'visibility' : 'visibility_off'}}</mat-icon>
+      {{cancelButtonText}}
     </button>
 
-    <ng-container *ngFor="let validator of getFieldErrorMessages(field)">
-      <mat-error>{{validator.message}}</mat-error>
-    </ng-container>
-  </mat-form-field>
-</ng-template>
+    <span class="spacer"></span>
+
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      *ngIf="showSubmit"
+    >
+      {{submitButtonText}}
+    </button>
+  </section>
+</form>

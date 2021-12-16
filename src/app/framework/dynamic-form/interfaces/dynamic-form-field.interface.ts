@@ -1,7 +1,7 @@
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 import { IDynamicFormFieldValidator } from './dynamic-form-field-validator.interface';
-import { DynamicFormFieldType } from '../types/dynamic-form-field-type';
+import { DynamicFormFieldType } from '../types';
 
 export interface IDynamicFormField<TValue = unknown> {
   appearance?: MatFormFieldAppearance;
