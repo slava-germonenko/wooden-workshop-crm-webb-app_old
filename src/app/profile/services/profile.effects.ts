@@ -13,13 +13,14 @@ import {
 
 @Injectable()
 export class ProfileEffects {
+  private loadProfileEffect = this.createLoadProfileEffect();
+
+  private updatedProfileEffect = this.createUpdateProfileEffect();
+
   constructor(
     private readonly actions: Actions,
     private readonly profileService: ProfileService,
-  ) {
-    this.createLoadProfileEffect();
-    this.createUpdateProfileEffect();
-  }
+  ) { }
 
   private createLoadProfileEffect(): Observable<IProfile> {
     return createEffect(() => {

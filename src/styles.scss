@@ -8,17 +8,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .pad-page-content {
-  padding: 8px;
+  padding: 16px;
 }
 
-.align-content {
+.align-center {
   display: flex;
   flex-direction: row;
   align-content: center;
   align-items: center;
 }
 
-.justify-content {
+.justify-center {
   display: flex;
   flex-direction: row;
   justify-content: center;
