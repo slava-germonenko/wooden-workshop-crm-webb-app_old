@@ -4,13 +4,13 @@
   *ngIf="toolbarVisible$ | async"
 >
   <section>
-    <ng-container *ngFor="let button of leftSectionButtons">
+    <ng-container *ngFor="let button of leftSectionButtons$ | async">
       <button
         mat-button
         routerLinkActive="header-time-active"
         (click)="button.click && button.click()"
         [routerLink]="button.link ? button.link : undefined"
-        *ngIf="button.permission ? userHasAnyPermissions(button.permission) : true"
+        *ngIf="button.permissions ? userHasAnyPermissions(button.permissions) : true"
       >
         <mat-icon *ngIf="button.icon">{{button.icon}}</mat-icon>
         <ng-container *ngIf="button.label">{{button.label}}</ng-container>
@@ -28,12 +28,12 @@
 </mat-toolbar>
 
 <mat-menu #profileMenu="matMenu">
-  <ng-container *ngFor="let button of profileMenuActions">
+  <ng-container *ngFor="let button of profileMenuActions$ | async">
     <button
       mat-menu-item
       (click)="button.click && button.click()"
       [routerLink]="button.link ? button.link : undefined"
-      *ngIf="button.permission ? userHasAnyPermissions(button.permission) : true"
+      *ngIf="button.permissions ? userHasAnyPermissions(button.permissions) : true"
     >
       {{button.label}}
     </button>
