@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Permissions } from '@common/enums';
-import { UserService } from '@common/services/user.service';
+import { UserStateService } from '@common/services/user';
 
 import { LEFT_SECTION_TOOLBAR_BUTTONS, PROFILE_MENU_ACTIONS } from './constants';
-import { selectVisible } from './state';
 
 @Component({
   selector: 'ww-toolbar',
@@ -19,11 +17,10 @@ export class ToolbarComponent {
 
   public readonly profileMenuActions = [...PROFILE_MENU_ACTIONS];
 
-  public readonly toolbarVisible$ = this.store.select(selectVisible);
+  // public readonly toolbarVisible$ = this.store.select(selectVisible);
 
   public constructor(
-    private readonly userService: UserService,
-    private readonly store: Store,
+    private readonly userService: UserStateService,
   ) { }
 
   public userHasAnyPermissions(permissions: Permissions[]): Observable<boolean> {
