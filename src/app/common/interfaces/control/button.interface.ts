@@ -5,6 +5,6 @@ export interface IButton {
   label?: string;
   icon?: string;
   link?: string;
-  permission?: Permissions[];
+  permissions?: Permissions[];
   click?(): void;
 }

@@ -5,9 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
 
-import { toolbarReducer } from './state';
 import { ToolbarComponent } from './toolbar.component';
 
 @NgModule({
@@ -18,7 +16,6 @@ import { ToolbarComponent } from './toolbar.component';
     MatMenuModule,
     MatToolbarModule,
     RouterModule,
-    StoreModule.forFeature('toolbar', toolbarReducer),
   ],
   declarations: [
     ToolbarComponent,

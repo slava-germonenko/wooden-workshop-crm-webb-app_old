@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { Permissions } from '@common/enums';
 import { UserStateService } from '@common/services/user';
+import { IButton } from '@common/interfaces';
+import { ArrayHelper } from '@common/helpers';
 
+import { ToolbarService } from './toolbar.service';
 import { LEFT_SECTION_TOOLBAR_BUTTONS, PROFILE_MENU_ACTIONS } from './constants';
 
 @Component({
@@ -13,17 +16,29 @@ import { LEFT_SECTION_TOOLBAR_BUTTONS, PROFILE_MENU_ACTIONS } from './constants'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarComponent {
-  public readonly leftSectionButtons = [...LEFT_SECTION_TOOLBAR_BUTTONS];
+  public readonly leftSectionButtons$ = this.getButtonsBasedOnUserPermissions(LEFT_SECTION_TOOLBAR_BUTTONS);
 
-  public readonly profileMenuActions = [...PROFILE_MENU_ACTIONS];
+  public readonly profileMenuActions$ = this.getButtonsBasedOnUserPermissions(PROFILE_MENU_ACTIONS);
 
-  // public readonly toolbarVisible$ = this.store.select(selectVisible);
+  public readonly toolbarVisible$ = this.toolbarService.toolbarVisible$;
 
   public constructor(
+    private readonly toolbarService: ToolbarService,
     private readonly userService: UserStateService,
   ) { }
 
   public userHasAnyPermissions(permissions: Permissions[]): Observable<boolean> {
     return this.userService.userHasAnyOfPermissionsAsync(permissions);
+  }
+
+  private getButtonsBasedOnUserPermissions(buttons: IButton[]): Observable<IButton[]> {
+    return this.userService.currentUserPermissions$
+      .pipe(
+        map((permissions) => {
+          return buttons.filter((button) => !button.permissions
+            || !button.permissions.length
+            || ArrayHelper.haveIntersection(permissions, button.permissions));
+        }),
+      );
   }
 }
