@@ -1,0 +1,9 @@
+<mat-card class="mat-elevation-z4">
+  <h1 mat-card-title>Вход в CRM</h1>
+  <ww-dynamic-form
+    mat-card-content
+    submitButtonText="Войти"
+    [fields]="loginFormFields"
+    (formSubmit)="login($event)"
+  ></ww-dynamic-form>
+</mat-card>

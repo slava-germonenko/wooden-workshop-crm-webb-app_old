@@ -8,5 +8,9 @@ export class EnvironmentService {
     return this.env.apiUrl;
   }
 
+  public get isProduction(): boolean {
+    return this.env.production;
+  }
+
   private readonly env = { ...environment };
 }
