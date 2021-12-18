@@ -10,7 +10,6 @@
         routerLinkActive="header-time-active"
         (click)="button.click && button.click()"
         [routerLink]="button.link ? button.link : undefined"
-        *ngIf="button.permissions ? userHasAnyPermissions(button.permissions) : true"
       >
         <mat-icon *ngIf="button.icon">{{button.icon}}</mat-icon>
         <ng-container *ngIf="button.label">{{button.label}}</ng-container>
@@ -33,7 +32,6 @@
       mat-menu-item
       (click)="button.click && button.click()"
       [routerLink]="button.link ? button.link : undefined"
-      *ngIf="button.permissions ? userHasAnyPermissions(button.permissions) : true"
     >
       {{button.label}}
     </button>

@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 import { ToolbarModule } from '@framework/toolbar';
 
@@ -20,7 +21,9 @@ import { routes } from './app.routes';
     RouterModule.forRoot(routes),
     ToolbarModule,
   ],
-  providers: [],
+  providers: [
+    CookieService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

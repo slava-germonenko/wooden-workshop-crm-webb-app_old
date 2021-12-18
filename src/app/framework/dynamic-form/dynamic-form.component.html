@@ -63,6 +63,7 @@
       type="submit"
       mat-raised-button
       color="primary"
+      [disabled]="disabled || form.invalid && disableInvalid"
       *ngIf="showSubmit"
     >
       {{submitButtonText}}

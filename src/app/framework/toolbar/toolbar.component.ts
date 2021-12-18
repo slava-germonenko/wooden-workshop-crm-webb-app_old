@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
-import { Permissions } from '@common/enums';
 import { UserStateService } from '@common/services/user';
 import { IButton } from '@common/interfaces';
 import { ArrayHelper } from '@common/helpers';
@@ -26,10 +25,6 @@ export class ToolbarComponent {
     private readonly toolbarService: ToolbarService,
     private readonly userService: UserStateService,
   ) { }
-
-  public userHasAnyPermissions(permissions: Permissions[]): Observable<boolean> {
-    return this.userService.userHasAnyOfPermissionsAsync(permissions);
-  }
 
   private getButtonsBasedOnUserPermissions(buttons: IButton[]): Observable<IButton[]> {
     return this.userService.currentUserPermissions$

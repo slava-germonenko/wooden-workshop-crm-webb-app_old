@@ -1,25 +1,22 @@
 import { Injectable } from '@angular/core';
-import { UserService } from '@common/services';
-import { Permissions } from '@common/enums';
+import { Router } from '@angular/router';
 import {
   Observable,
   map,
   shareReplay,
-  switchMap, BehaviorSubject,
+  switchMap,
 } from 'rxjs';
 
+import { AppRoutesService, UserService } from '@common/services';
+import { Permissions } from '@common/enums';
 import { IUser } from '@common/interfaces';
 import { ArrayHelper } from '@common/helpers';
+import { ToolbarService } from '@framework/toolbar/toolbar.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserStateService {
-  private readonly userIsAuthorizedSource = new BehaviorSubject<boolean>(false);
-
-  public readonly userIsAuthorized$: Observable<boolean> = this.userIsAuthorizedSource.asObservable();
-
-  public readonly currentUser$: Observable<IUser> = this.userIsAuthorized$
+  public readonly currentUser$: Observable<IUser> = this.userService.getCurrentUser()
     .pipe(
-      switchMap(() => this.userService.getCurrentUser()),
       shareReplay(1),
     );
 
@@ -29,7 +26,12 @@ export class UserStateService {
       shareReplay(1),
     );
 
-  public constructor(private readonly userService: UserService) { }
+  public constructor(
+    private readonly appRoutesService: AppRoutesService,
+    private readonly router: Router,
+    private readonly toolbarService: ToolbarService,
+    private readonly userService: UserService,
+  ) { }
 
   public userHasPermissionAsync(permission: Permissions): Observable<boolean> {
     return this.currentUserPermissions$
