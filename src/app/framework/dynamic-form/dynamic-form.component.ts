@@ -37,6 +37,12 @@ export class DynamicFormComponent implements OnDestroy {
   public cancelButtonText = 'Отменить';
 
   @Input()
+  public disabled = false;
+
+  @Input()
+  public disableInvalid = true;
+
+  @Input()
   public showCancel = false;
 
   @Input()

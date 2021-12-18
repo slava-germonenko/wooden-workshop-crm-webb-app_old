@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ToolbarService {
-  private readonly toolbarVisibleSource = new BehaviorSubject<boolean>(true);
+  private readonly toolbarVisibleSource = new BehaviorSubject<boolean>(false);
 
   public readonly toolbarVisible$ = this.toolbarVisibleSource.asObservable();
 
@@ -11,7 +11,7 @@ export class ToolbarService {
     return this.toolbarVisibleSource.value;
   }
 
-  private set toolbarVisible(visible: boolean) {
+  public set toolbarVisible(visible: boolean) {
     this.toolbarVisibleSource.next(visible);
   }
 }
