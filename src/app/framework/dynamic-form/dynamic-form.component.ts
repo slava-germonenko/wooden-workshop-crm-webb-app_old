@@ -106,7 +106,7 @@ export class DynamicFormComponent implements OnDestroy {
     fields.forEach((field) => {
       const validators = Array.isArray(field.validators)
         ? field.validators.map((v) => v.func)
-        : field.validators;
+        : field.validators?.func;
       controls[field.name] = [field.value, validators];
     });
 
