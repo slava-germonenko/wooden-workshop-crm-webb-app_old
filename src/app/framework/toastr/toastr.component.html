@@ -1,0 +1,16 @@
+<mat-icon class="severity-icon">
+  {{severityIcon}}
+</mat-icon>
+<span>
+  {{data.message}}
+</span>
+
+<span class="spacer"></span>
+
+<button mat-icon-button *ngIf="actionIcon">
+  <mat-icon>{{actionIcon}}</mat-icon>
+</button>
+
+<button mat-button *ngIf="actionMessage">
+  {{actionMessage}}
+</button>

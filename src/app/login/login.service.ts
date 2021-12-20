@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
-import { ToolbarService } from '@framework/toolbar';
 import { IAuthorizationResult } from '@common/interfaces';
+import { ToolbarService } from '@framework/toolbar';
+import { ToastrService } from '@framework/toastr';
 import { ApiUrlsService, UserService } from '@common/services';
+import { DEFAULT_ERROR_MESSAGE } from '@common/constants';
 
 @Injectable()
 export class LoginService {
   public constructor(
     private readonly apiUrlsService: ApiUrlsService,
     private readonly httpClient: HttpClient,
+    private readonly toastr: ToastrService,
     private readonly toolbarService: ToolbarService,
     private readonly userService: UserService,
   ) { }
@@ -20,9 +23,12 @@ export class LoginService {
       this.apiUrlsService.getAuthorizationEndpointUrl(),
       { username, password },
     ).pipe(
-      tap((result) => {
-        this.userService.setAuthorizationTokenCookie(result.refreshToken, result.expiresIn);
-        this.toolbarService.toolbarVisible = true;
+      tap({
+        next: (result) => {
+          this.userService.setAuthorizationTokenCookie(result.refreshToken, result.expiresIn);
+          this.toolbarService.toolbarVisible = true;
+        },
+        error: (error: HttpErrorResponse) => this.toastr.error(error.error.message ?? DEFAULT_ERROR_MESSAGE),
       }),
     );
   }
