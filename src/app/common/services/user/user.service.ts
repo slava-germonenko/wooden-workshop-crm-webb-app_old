@@ -24,7 +24,7 @@ export class UserService {
   }
 
   public getUserPermissions(userId: string): Observable<Permissions[]> {
-    const permissionsEndpointUrl = this.apiUrlsService.getGetProfileEndpointUrl(userId);
+    const permissionsEndpointUrl = this.apiUrlsService.getUserPermissionsEndpointUrl(userId);
     return this.httpClient.get<{ permissions: Permissions[] }>(permissionsEndpointUrl)
       .pipe(
         map(({ permissions }) => permissions),
@@ -51,6 +51,7 @@ export class UserService {
     this.cookieService.set(ACCESS_TOKEN_COOKIE_NAME, refreshToken, {
       sameSite: 'Strict',
       secure: this.environmentService.isProduction,
+      // eslint-disable-next-line no-restricted-globals
       domain: location.hostname,
       expires: expireDate,
     });

@@ -25,7 +25,7 @@ export class LoginService {
     ).pipe(
       tap({
         next: (result) => {
-          this.userService.setAuthorizationTokenCookie(result.refreshToken, result.expiresIn);
+          this.userService.setAuthorizationTokenCookie(result.accessToken, result.expiresIn);
           this.toolbarService.toolbarVisible = true;
         },
         error: (error: HttpErrorResponse) => this.toastr.error(error.error.message ?? DEFAULT_ERROR_MESSAGE),
