@@ -1,0 +1,2 @@
+export const DEFAULT_LOADER_DIAMETER = 36;
+export const DEFAULT_LOADER_STROKE_WIDTH = 4;
