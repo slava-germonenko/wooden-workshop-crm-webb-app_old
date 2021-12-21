@@ -28,3 +28,40 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   display: grid;
   place-items: center center;
 }
+
+.full-width {
+  width: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.full-size {
+  @extend .full-height;
+  @extend .full-width;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.error-alert {
+  color: rgb(97, 26, 21);
+  background-color: rgb(253, 236, 234);
+}
+
+.warning-alert {
+  color: rgb(102, 60, 0);
+  background-color: rgb(255, 244, 229);
+}
+
+.info-alert {
+  color: rgb(13, 60, 97);
+  background-color: rgb(232, 244, 253);
+}
+
+.success-alert {
+  color: rgb(30, 70, 32);
+  background-color: rgb(237, 247, 237);
+}

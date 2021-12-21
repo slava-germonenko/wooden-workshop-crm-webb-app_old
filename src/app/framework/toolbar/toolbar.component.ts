@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { catchError, of } from 'rxjs';
 
-import { Permissions } from '@common/enums';
 import { UserStateService } from '@common/services/user';
 import { IButton } from '@common/interfaces';
 import { ArrayHelper } from '@common/helpers';
@@ -15,10 +14,10 @@ import { LEFT_SECTION_TOOLBAR_BUTTONS, PROFILE_MENU_ACTIONS } from './constants'
   styleUrls: ['toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToolbarComponent {
-  public readonly leftSectionButtons$ = this.getButtonsBasedOnUserPermissions(LEFT_SECTION_TOOLBAR_BUTTONS);
+export class ToolbarComponent implements OnInit {
+  public leftSectionButtons: IButton[] = [];
 
-  public readonly profileMenuActions$ = this.getButtonsBasedOnUserPermissions(PROFILE_MENU_ACTIONS);
+  public profileMenuActions: IButton[] = [];
 
   public readonly toolbarVisible$ = this.toolbarService.toolbarVisible$;
 
@@ -27,18 +26,18 @@ export class ToolbarComponent {
     private readonly userService: UserStateService,
   ) { }
 
-  public userHasAnyPermissions(permissions: Permissions[]): Observable<boolean> {
-    return this.userService.userHasAnyOfPermissionsAsync(permissions);
-  }
-
-  private getButtonsBasedOnUserPermissions(buttons: IButton[]): Observable<IButton[]> {
-    return this.userService.currentUserPermissions$
+  public ngOnInit(): void {
+    this.userService.currentUserPermissions$
       .pipe(
-        map((permissions) => {
-          return buttons.filter((button) => !button.permissions
-            || !button.permissions.length
-            || ArrayHelper.haveIntersection(permissions, button.permissions));
-        }),
-      );
+        catchError(() => of([])),
+      )
+      .subscribe((permissions) => {
+        this.leftSectionButtons = LEFT_SECTION_TOOLBAR_BUTTONS.filter((button) => {
+          return !button.permissions?.length || ArrayHelper.haveIntersection(permissions, button.permissions);
+        });
+        this.profileMenuActions = PROFILE_MENU_ACTIONS.filter((button) => {
+          return !button.permissions?.length || ArrayHelper.haveIntersection(permissions, button.permissions);
+        });
+      });
   }
 }

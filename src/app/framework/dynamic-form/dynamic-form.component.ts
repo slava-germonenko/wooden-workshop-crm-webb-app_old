@@ -37,6 +37,12 @@ export class DynamicFormComponent implements OnDestroy {
   public cancelButtonText = 'Отменить';
 
   @Input()
+  public disabled = false;
+
+  @Input()
+  public disableInvalid = true;
+
+  @Input()
   public showCancel = false;
 
   @Input()
@@ -106,7 +112,7 @@ export class DynamicFormComponent implements OnDestroy {
     fields.forEach((field) => {
       const validators = Array.isArray(field.validators)
         ? field.validators.map((v) => v.func)
-        : field.validators;
+        : field.validators?.func;
       controls[field.name] = [field.value, validators];
     });
 
