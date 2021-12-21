@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
 
 import { SEVERITY_ICONS } from './constants';
@@ -8,6 +8,7 @@ import { IToastrData } from './interfaces';
   selector: 'ww-toastr',
   templateUrl: 'toastr.component.html',
   styleUrls: ['toastr.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastrComponent {
   public severityIcon = SEVERITY_ICONS[this.data.severity];

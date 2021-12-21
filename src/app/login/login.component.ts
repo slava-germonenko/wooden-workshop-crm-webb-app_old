@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 
 import { LoginService } from './login.service';
 import { LOGIN_FORM_FIELDS } from './constants';
@@ -6,6 +6,7 @@ import { LOGIN_FORM_FIELDS } from './constants';
 @Component({
   selector: 'ww-login',
   templateUrl: './login.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   @HostBinding('class')
