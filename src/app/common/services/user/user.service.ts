@@ -37,7 +37,7 @@ export class UserService {
       {},
     )
       .pipe(
-        tap((result: IAuthorizationResult) => this.setAuthorizationTokenCookie(result.refreshToken, result.expiresIn)),
+        tap((result: IAuthorizationResult) => this.setAuthorizationTokenCookie(result.accessToken, result.expiresIn)),
       );
   }
 

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnInit,
+} from '@angular/core';
 import { catchError, of } from 'rxjs';
 
 import { UserStateService } from '@common/services/user';
@@ -22,6 +27,7 @@ export class ToolbarComponent implements OnInit {
   public readonly toolbarVisible$ = this.toolbarService.toolbarVisible$;
 
   public constructor(
+    private readonly changeDetector: ChangeDetectorRef,
     private readonly toolbarService: ToolbarService,
     private readonly userService: UserStateService,
   ) { }
@@ -38,6 +44,7 @@ export class ToolbarComponent implements OnInit {
         this.profileMenuActions = PROFILE_MENU_ACTIONS.filter((button) => {
           return !button.permissions?.length || ArrayHelper.haveIntersection(permissions, button.permissions);
         });
+        this.changeDetector.markForCheck();
       });
   }
 }

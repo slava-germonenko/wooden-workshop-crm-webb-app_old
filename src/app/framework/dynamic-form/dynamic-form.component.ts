@@ -10,6 +10,7 @@ import { FormBuilder, FormControlStatus, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { IDynamicFormField, IDynamicFormFieldValidator } from './interfaces';
+import { SubmitButtonState } from './types';
 
 @Component({
   selector: 'ww-dynamic-form',
@@ -37,7 +38,7 @@ export class DynamicFormComponent implements OnDestroy {
   public cancelButtonText = 'Отменить';
 
   @Input()
-  public disabled = false;
+  public submitButtonState: SubmitButtonState = null;
 
   @Input()
   public disableInvalid = true;
@@ -59,7 +60,7 @@ export class DynamicFormComponent implements OnDestroy {
   }
 
   @Output()
-  public valueChange = new EventEmitter<unknown>();
+  public valueChange = new EventEmitter<Record<string, any>>();
 
   @Output()
   public statusChange = new EventEmitter<FormControlStatus>();
@@ -68,7 +69,7 @@ export class DynamicFormComponent implements OnDestroy {
   public formCancel = new EventEmitter<void>();
 
   @Output()
-  public formSubmit = new EventEmitter<unknown>();
+  public formSubmit = new EventEmitter<Record<string, any>>();
 
   public fieldDefinitions: IDynamicFormField[] = [];
 

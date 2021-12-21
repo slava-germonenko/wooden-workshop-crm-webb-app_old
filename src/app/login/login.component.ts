@@ -16,8 +16,8 @@ export class LoginComponent {
 
   public constructor(private readonly loginService: LoginService) { }
 
-  public login(formValue: unknown): void {
-    const { username, password } = formValue as { username: string, password: string };
+  public login(formValue: Record<string, any>): void {
+    const { username, password } = formValue;
     this.loginService
       .login(username, password)
       .subscribe();

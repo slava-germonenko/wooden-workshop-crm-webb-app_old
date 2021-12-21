@@ -1,0 +1,13 @@
+<div class="pad-page-content justify-center">
+  <mat-card>
+    <h1 mat-card-title>Профиль</h1>
+    <ww-dynamic-form
+      mat-card-content
+      submitButtonText="Сохранить"
+      [fields]="profileFormFields"
+      [submitButtonState]="loading ? 'loading' : null"
+      [value]="profile"
+      (formSubmit)="updateProfile($event)"
+    ></ww-dynamic-form>
+  </mat-card>
+</div>
