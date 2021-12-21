@@ -63,7 +63,10 @@
       type="submit"
       mat-raised-button
       color="primary"
-      [disabled]="disabled || form.invalid && disableInvalid"
+      [disabled]="submitButtonState !== null || form.invalid && disableInvalid"
+      [loading]="submitButtonState === 'loading'"
+      [diameter]="24"
+      [strokeWidth]="3"
       *ngIf="showSubmit"
     >
       {{submitButtonText}}
