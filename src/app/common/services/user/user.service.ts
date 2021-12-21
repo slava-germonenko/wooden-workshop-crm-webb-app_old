@@ -45,6 +45,10 @@ export class UserService {
     return this.cookieService.get(ACCESS_TOKEN_COOKIE_NAME);
   }
 
+  public removeAuthorizationTokenCookie(): void {
+    this.cookieService.delete(ACCESS_TOKEN_COOKIE_NAME);
+  }
+
   public setAuthorizationTokenCookie(refreshToken: string, ttlSeconds: number): void {
     const expireDate = new Date();
     expireDate.setSeconds(expireDate.getSeconds() + ttlSeconds);

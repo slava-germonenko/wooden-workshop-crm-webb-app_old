@@ -42,6 +42,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   @extend .full-width;
 }
 
+.no-margin {
+  margin: 0;
+}
+
 .error-alert {
   color: rgb(97, 26, 21);
   background-color: rgb(253, 236, 234);

@@ -15,6 +15,12 @@ export class AppRoutesService {
     );
   }
 
+  public getLogoutPageRoute(): string {
+    return this.urlSerializer.serialize(
+      this.router.createUrlTree(['logout']),
+    );
+  }
+
   public getDashboardPageRoute(): string {
     return this.urlSerializer.serialize(
       this.router.createUrlTree(['dashboard']),

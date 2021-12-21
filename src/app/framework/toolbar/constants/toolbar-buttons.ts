@@ -37,6 +37,6 @@ export const PROFILE_MENU_ACTIONS: IButton[] = [
   {
     name: 'sign-out',
     label: 'Выход',
-    link: '/sign-out',
+    link: '/logout',
   },
 ];

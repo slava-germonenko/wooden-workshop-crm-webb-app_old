@@ -1,26 +1,20 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import {
-  catchError,
-  map,
-  Observable,
-  of,
-} from 'rxjs';
+import { map, Observable } from 'rxjs';
 
-import { UserStateService } from '@common/services';
+import { UserSessionService } from '@common/services';
 
 @Injectable({ providedIn: 'root' })
 export class UnauthorizedGuard implements CanActivate {
   public constructor(
     private readonly router: Router,
-    private readonly userStateService: UserStateService,
+    private readonly userSessionService: UserSessionService,
   ) { }
 
   public canActivate(): Observable<boolean | UrlTree> {
-    return this.userStateService.currentUser$
+    return this.userSessionService.userSessionIsAlive$
       .pipe(
-        map((user) => (user ? this.buildRedirectRoute() : true)),
-        catchError(() => of(true)),
+        map((isAlive) => (isAlive ? this.buildRedirectRoute() : true)),
       );
   }
 
