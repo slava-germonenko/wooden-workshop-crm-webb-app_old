@@ -1,12 +1,17 @@
 import { Routes } from '@angular/router';
 
-import { UnauthorizedGuard } from '@common/guards';
+import { AuthorizedGuard, UnauthorizedGuard } from '@common/guards';
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('@app/profile/profile.module').then((m) => m.ProfileModule),
+    canActivate: [AuthorizedGuard],
   },
   {
     path: 'login',

@@ -20,8 +20,8 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/auth/expire`;
   }
 
-  public getGetProfileEndpointUrl(profileId: string): string {
-    return `${this.envService.apiBaseUrl}/profiles/${profileId}`;
+  public getGetProfileEndpointUrl(userId: string): string {
+    return `${this.envService.apiBaseUrl}/profiles/${userId}`;
   }
 
   public getRefreshTokenEndpointUrl(): string {
