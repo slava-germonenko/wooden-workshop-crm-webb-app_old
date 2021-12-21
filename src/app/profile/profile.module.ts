@@ -4,6 +4,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 
 import { DynamicFormModule } from '@framework/dynamic-form';
+import { LoadingModule } from '@framework/loading/loading.module';
 import { ToastrModule } from '@framework/toastr';
 import { WithTokenInterceptor } from '@common/interceptors';
 
@@ -14,6 +15,7 @@ import { routes } from './profile.routes';
 @NgModule({
   imports: [
     DynamicFormModule,
+    LoadingModule,
     MatCardModule,
     HttpClientModule,
     RouterModule.forChild(routes),

@@ -12,6 +12,8 @@ import { ProfileService } from './profile.service';
 export class ProfileComponent implements OnInit {
   public readonly profileFormFields = [...PROFILE_FORM_FIELDS];
 
+  public loading = false;
+
   public profile: IProfile | null = null;
 
   public constructor(private readonly profileService: ProfileService) { }
@@ -29,11 +31,13 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
     const profile = profileObj as { firstName: string, lastName: string, emailAddress: string };
     this.profileService
       .updateProfile({ ...profile, userId: this.profile.userId })
       .subscribe((updatedProfile) => {
         this.profile = updatedProfile;
+        this.loading = false;
       });
   }
 }

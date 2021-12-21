@@ -3,10 +3,11 @@
     <h1 mat-card-title>Профиль</h1>
     <ww-dynamic-form
       mat-card-content
-      (formSubmit)="updateProfile($event)"
       submitButtonText="Сохранить"
-      [value]="profile"
       [fields]="profileFormFields"
+      [submitButtonState]="loading ? 'loading' : null"
+      [value]="profile"
+      (formSubmit)="updateProfile($event)"
     ></ww-dynamic-form>
   </mat-card>
 </div>
