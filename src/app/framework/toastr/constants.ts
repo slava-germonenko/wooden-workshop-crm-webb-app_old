@@ -3,7 +3,7 @@ import { MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ToastrSeverity } from './types';
 
 export const BASE_CONFIG: Partial<MatSnackBarConfig> = {
-  duration: 50000,
+  duration: 5000,
   horizontalPosition: 'center',
   verticalPosition: 'bottom',
 };

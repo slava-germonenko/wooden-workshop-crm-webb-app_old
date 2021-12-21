@@ -13,4 +13,8 @@ export const routes: Routes = [
     loadChildren: () => import('@app/login/login.module').then((m) => m.LoginModule),
     canActivate: [UnauthorizedGuard],
   },
+  {
+    path: 'logout',
+    loadChildren: () => import('@app/logout/logout.module').then((m) => m.LogoutModule),
+  },
 ];

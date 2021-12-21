@@ -16,6 +16,10 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/users/current`;
   }
 
+  public getExpireTokenEndpointUrl(): string {
+    return `${this.envService.apiBaseUrl}/auth/expire`;
+  }
+
   public getGetProfileEndpointUrl(profileId: string): string {
     return `${this.envService.apiBaseUrl}/profiles/${profileId}`;
   }
