@@ -1,8 +1,9 @@
 <h1>Контакты</h1>
 <ww-dynamic-table
   class="mat-elevation-z6"
-  [dataSource]="contacts$ | async"
   [columnDefinitions]="columnDefinitions"
+  [dataSource]="contacts$ | async"
   [length]="(contactsTotal$ | async) || 0"
   (pageChange)="changePage($event)"
+  (sortChange)="changeSort($event)"
 ></ww-dynamic-table>

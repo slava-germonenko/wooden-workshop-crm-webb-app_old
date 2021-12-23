@@ -1,7 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
 
-import { IPage } from '@common/interfaces';
-import { OrderDirection } from '@common/types';
+import { IOrderByQuery, IPage } from '@common/interfaces';
 
 import { ContactsOrderField } from '../types';
 import { ContactsListStateService } from './contacts-list-state.service';
@@ -28,7 +27,7 @@ export class ContactsListComponent {
     this.contactsListStateService.setContactsPage(page);
   }
 
-  public changeSort(field: ContactsOrderField, direction: OrderDirection): void {
-
+  public changeSort(orderBy: IOrderByQuery<string> | null): void {
+    this.contactsListStateService.setContactsOrder(orderBy as IOrderByQuery<ContactsOrderField> || undefined);
   }
 }
