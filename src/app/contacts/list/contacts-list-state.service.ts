@@ -58,7 +58,7 @@ export class ContactsListStateService {
   private createContactsStream(): Observable<IPagedCollection<IContact>> {
     return combineLatest([this.contactsPage$, this.contactsOrderQuery$, this.contactsFilter$])
       .pipe(
-        switchMap(([page, order, filter]) => this.contactsListService.getContact(page, filter)),
+        switchMap(([page, order, filter]) => this.contactsListService.getContact(page, filter, order)),
         shareReplay(1),
       );
   }
