@@ -1,0 +1,46 @@
+<div class="table-container">
+  <table mat-table matSort [dataSource]="dataSource" (matSortChange)="emitSortChange($event)">
+    <ng-container
+      [matColumnDef]="column.name"
+      *ngFor="let column of columns"
+    >
+      <ng-container *ngIf="column.sortable else noSort">
+        <th
+          mat-header-cell
+          [mat-sort-header]="column.name"
+          *matHeaderCellDef
+        >
+          {{column.label}}
+        </th>
+      </ng-container>
+      <ng-template #noSort>
+        <th mat-header-cell *matHeaderCellDef> {{column.label}} </th>
+      </ng-template>
+
+      <td
+        mat-cell
+        [innerHTML]="getCellHtml(column, row)"
+        *matCellDef="let row"
+      ></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumnNames; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnNames;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td [colSpan]="displayedColumnNames.length">
+        <div class="full-width justify-center">
+          <span>{{noDataMessage}}</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<mat-paginator
+  [length]="length"
+  [pageIndex]="pageIndex"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="pageChange.emit({ size: $event.pageSize, index: $event.pageIndex })"
+  *ngIf="showPaging"
+></mat-paginator>

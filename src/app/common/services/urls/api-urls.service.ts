@@ -12,6 +12,10 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/auth`;
   }
 
+  public getContactsEndpointUrl(): string {
+    return `${this.envService.apiBaseUrl}/contacts`;
+  }
+
   public getCurrentUserEndpointUrl(): string {
     return `${this.envService.apiBaseUrl}/users/current`;
   }

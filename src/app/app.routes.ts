@@ -5,8 +5,13 @@ import { AuthorizedGuard, UnauthorizedGuard } from '@common/guards';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'profile',
     pathMatch: 'full',
+  },
+  {
+    path: 'contacts',
+    loadChildren: () => import('@app/contacts/contacts.module').then((m) => m.ContactsModule),
+    canActivate: [AuthorizedGuard],
   },
   {
     path: 'profile',

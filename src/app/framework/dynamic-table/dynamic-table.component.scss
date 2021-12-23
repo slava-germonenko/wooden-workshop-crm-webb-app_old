@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-container {
+  overflow-x: auto;
+  flex: 1 1 auto;
+}
+
+mat-paginator {
+  flex: 1 1 auto;
+}
+
+table {
+  width: 100%;
+}

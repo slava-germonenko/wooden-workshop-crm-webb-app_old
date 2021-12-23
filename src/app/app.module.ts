@@ -2,12 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 import { ToolbarModule, ToolbarService } from '@framework/toolbar';
 import { WithTokenInterceptor } from '@common/interceptors';
 import { UserService, UserSessionService } from '@common/services';
+import { RussianMatPaginatorIntl } from '@app/i18n';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
@@ -30,6 +32,10 @@ import { initApp } from './app-initializer';
       provide: HTTP_INTERCEPTORS,
       useClass: WithTokenInterceptor,
       multi: true,
+    },
+    {
+      provide: MatPaginatorIntl,
+      useClass: RussianMatPaginatorIntl,
     },
     {
       provide: APP_INITIALIZER,
