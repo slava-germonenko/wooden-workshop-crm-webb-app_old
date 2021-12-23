@@ -3,4 +3,6 @@
   class="mat-elevation-z6"
   [dataSource]="contacts$ | async"
   [columnDefinitions]="columnDefinitions"
+  [length]="(contactsTotal$ | async) || 0"
+  (pageChange)="changePage($event)"
 ></ww-dynamic-table>

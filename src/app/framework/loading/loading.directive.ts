@@ -57,6 +57,7 @@ export class LoadingDirective {
     this.loaderComponentRef.instance.loaderStrokeWidth = this.loaderStrokeWidth;
     this.loaderComponentRef.instance.loaderDiameter = this.loaderDiameter;
 
+    this.renderer.addClass(this.containerRef.element.nativeElement, 'relative');
     this.renderer.appendChild(
       this.containerRef.element.nativeElement,
       this.loaderComponentRef.location.nativeElement,
@@ -68,6 +69,7 @@ export class LoadingDirective {
       return;
     }
 
+    this.renderer.removeClass(this.containerRef.element.nativeElement, 'relative');
     this.renderer.removeChild(
       this.containerRef.element.nativeElement,
       this.loaderComponentRef.location.nativeElement,

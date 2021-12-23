@@ -4,6 +4,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 import { DynamicTableComponent } from './dynamic-table.component';
 
@@ -14,6 +15,7 @@ import { DynamicTableComponent } from './dynamic-table.component';
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSortModule,
   ],
   declarations: [
     DynamicTableComponent,

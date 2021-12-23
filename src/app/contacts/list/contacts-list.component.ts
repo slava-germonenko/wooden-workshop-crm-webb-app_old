@@ -1,5 +1,9 @@
 import { Component, HostBinding } from '@angular/core';
 
+import { IPage } from '@common/interfaces';
+import { OrderDirection } from '@common/types';
+
+import { ContactsOrderField } from '../types';
 import { ContactsListStateService } from './contacts-list-state.service';
 import { CONTACTS_TABLE_COLUMN_DEFINITIONS } from './constants';
 
@@ -16,5 +20,15 @@ export class ContactsListComponent {
 
   public readonly contacts$ = this.contactsListStateService.contacts$;
 
+  public readonly contactsTotal$ = this.contactsListStateService.contactsTotal$;
+
   public constructor(private readonly contactsListStateService: ContactsListStateService) { }
+
+  public changePage(page: IPage): void {
+    this.contactsListStateService.setContactsPage(page);
+  }
+
+  public changeSort(field: ContactsOrderField, direction: OrderDirection): void {
+
+  }
 }

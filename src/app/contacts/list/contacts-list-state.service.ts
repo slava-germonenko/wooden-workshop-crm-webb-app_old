@@ -4,41 +4,62 @@ import {
   Observable,
   combineLatest,
   switchMap,
-  map,
+  map, shareReplay,
 } from 'rxjs';
 
-import { IContact, IPage } from '@common/interfaces';
+import { IContact } from '@common/interfaces/models';
+import { IOrderByQuery, IPage, IPagedCollection } from '@common/interfaces';
 
 import { IContactsFilter } from '../interfaces';
 import { ContactsListService } from './contacts-list.service';
+import { ContactsOrderField } from '../types';
 
 @Injectable()
 export class ContactsListStateService {
-  private readonly contactsPage = new BehaviorSubject<IPage>({ index: 0, size: 25 });
+  private readonly contactsFilterSource = new BehaviorSubject<IContactsFilter | undefined>(undefined);
 
-  private readonly contactsFilter = new BehaviorSubject<IContactsFilter | undefined>(undefined);
+  private readonly contactsOrderSource = new BehaviorSubject<IOrderByQuery<ContactsOrderField> | undefined>(undefined);
 
-  public readonly contactsFilter$ = this.contactsFilter.asObservable();
+  private readonly contactsPageSource = new BehaviorSubject<IPage>({ index: 0, size: 25 });
 
-  public readonly contactsPage$ = this.contactsPage.asObservable();
+  public readonly contactsFilter$ = this.contactsFilterSource.asObservable();
 
-  public readonly contacts$ = this.createContactsStream();
+  public readonly contactsOrderQuery$ = this.contactsOrderSource.asObservable();
 
-  public constructor(private readonly contactsListService: ContactsListService) { }
+  public readonly contactsPage$ = this.contactsPageSource.asObservable();
+
+  public readonly contacts$: Observable<IContact[]>;
+
+  public readonly contactsTotal$: Observable<number>;
+
+  public constructor(private readonly contactsListService: ContactsListService) {
+    const contactsStream = this.createContactsStream();
+    this.contacts$ = contactsStream.pipe(
+      map((contactsPage) => contactsPage.items),
+    );
+
+    this.contactsTotal$ = contactsStream.pipe(
+      map((contactsPage) => contactsPage.total),
+    );
+  }
 
   public setContactsPage(page: IPage): void {
-    this.contactsPage.next(page);
+    this.contactsPageSource.next(page);
   }
 
   public setContactsFilter(filter?: IContactsFilter): void {
-    this.contactsFilter.next(filter);
+    this.contactsFilterSource.next(filter);
   }
 
-  private createContactsStream(): Observable<IContact[]> {
-    return combineLatest([this.contactsFilter$, this.contactsPage$])
+  public setContactsOrder(orderQuery?: IOrderByQuery<ContactsOrderField>): void {
+    this.contactsOrderSource.next(orderQuery);
+  }
+
+  private createContactsStream(): Observable<IPagedCollection<IContact>> {
+    return combineLatest([this.contactsPage$, this.contactsOrderQuery$, this.contactsFilter$])
       .pipe(
-        switchMap(([filter, page]) => this.contactsListService.getContact(page, filter)),
-        map((contactsPage) => contactsPage.items),
+        switchMap(([page, order, filter]) => this.contactsListService.getContact(page, filter)),
+        shareReplay(1),
       );
   }
 }

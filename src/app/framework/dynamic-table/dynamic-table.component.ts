@@ -6,8 +6,9 @@ import {
   Output,
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
+import { Sort } from '@angular/material/sort';
 
-import { IPage } from '@common/interfaces';
+import { IOrderByQuery, IPage } from '@common/interfaces';
 
 import { DEFAULT_PAGE, DEFAULT_PAGING_OPTIONS } from './constants';
 import { IDynamicTableColumnDefinition } from './interfaces';
@@ -35,7 +36,7 @@ export class DynamicTableComponent {
   public dataSource: any = [];
 
   @Input()
-  public length = 0;
+  public length = 1;
 
   @Input()
   public noDataMessage: string = 'По данному запросу ничего не найдено';
@@ -48,6 +49,9 @@ export class DynamicTableComponent {
 
   @Output()
   public pageChange = new EventEmitter<IPage>();
+
+  @Output()
+  public sortChange = new EventEmitter<IOrderByQuery<string> | null>();
 
   public columns: IDynamicTableColumnDefinition<unknown>[] = [];
 
@@ -71,5 +75,13 @@ export class DynamicTableComponent {
     }
 
     return String(row[columnDef.name]);
+  }
+
+  public emitSortChange(matSort: Sort): void {
+    if (!matSort.direction || !matSort.active) {
+      this.sortChange.emit(null);
+    } else {
+      this.sortChange.emit({ direction: matSort.direction, orderBy: matSort.active });
+    }
   }
 }

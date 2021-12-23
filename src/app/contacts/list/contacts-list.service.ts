@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { IContact, IPage, IPagedCollection } from '@common/interfaces';
+import { IContact } from '@common/interfaces/models';
+import { IOrderByQuery, IPage, IPagedCollection } from '@common/interfaces';
 import { ApiUrlsService } from '@common/services';
 
 import { IContactsFilter } from '../interfaces';
+import { ContactsOrderField } from '../types';
 
 @Injectable()
 export class ContactsListService {
@@ -14,8 +16,16 @@ export class ContactsListService {
     private readonly httpClient: HttpClient,
   ) { }
 
-  public getContact(page: IPage, filter?: IContactsFilter): Observable<IPagedCollection<IContact>> {
-    const queryParamObject = filter ? { ...page, ...filter } : { ...page };
+  public getContact(
+    page: IPage,
+    filter?: IContactsFilter,
+    order?: IOrderByQuery<ContactsOrderField>,
+  ): Observable<IPagedCollection<IContact>> {
+    const queryParamObject = {
+      ...page,
+      ...filter ?? {},
+      ...order ?? {},
+    };
     const query = new HttpParams({
       fromObject: queryParamObject,
     });

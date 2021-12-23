@@ -1,3 +1,9 @@
+$page-title-height: 48px;
+
 :host {
   display: block;
+}
+
+ww-dynamic-table {
+  max-height: calc(100% - #{$page-title-height});
 }

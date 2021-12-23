@@ -5,17 +5,21 @@ export const CONTACTS_TABLE_COLUMN_DEFINITIONS: IDynamicTableColumnDefinition<IC
   {
     name: 'firstName',
     label: 'Имя',
+    sortable: true,
   },
   {
     name: 'lastName',
     label: 'Фамилия',
+    sortable: true,
   },
   {
     name: 'emailAddress',
     label: 'Почта',
+    sortable: true,
   },
   {
     name: 'phoneNumber',
     label: 'Телефон',
+    sortable: true,
   },
 ];
