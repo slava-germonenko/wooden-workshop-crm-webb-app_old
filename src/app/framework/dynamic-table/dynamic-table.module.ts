@@ -1,0 +1,25 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CdkTableModule } from '@angular/cdk/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
+import { DynamicTableComponent } from './dynamic-table.component';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    CdkTableModule,
+    MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+  ],
+  declarations: [
+    DynamicTableComponent,
+  ],
+  exports: [
+    DynamicTableComponent,
+  ],
+})
+export class DynamicTableModule { }
