@@ -9,6 +9,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'contacts',
+    loadChildren: () => import('@app/contacts/contacts.module').then((m) => m.ContactsModule),
+    canActivate: [AuthorizedGuard],
+  },
+  {
     path: 'profile',
     loadChildren: () => import('@app/profile/profile.module').then((m) => m.ProfileModule),
     canActivate: [AuthorizedGuard],
