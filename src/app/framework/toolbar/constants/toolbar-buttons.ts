@@ -12,19 +12,19 @@ export const LEFT_SECTION_TOOLBAR_BUTTONS: IButton[] = [
     name: 'contacts',
     label: 'Контакты',
     link: '/contacts',
-    permissions: [Permissions.Contacts, Permissions.ViewContacts],
+    permissions: [Permissions.Admin, Permissions.Contacts, Permissions.ViewContacts],
   },
   {
     name: 'orders',
     label: 'Заказы',
     link: '/orders',
-    permissions: [Permissions.Orders, Permissions.ViewOrders],
+    permissions: [Permissions.Admin, Permissions.Orders, Permissions.ViewOrders],
   },
   {
     name: 'products',
     label: 'Продукты',
     link: '/products',
-    permissions: [Permissions.Products, Permissions.Products],
+    permissions: [Permissions.Admin, Permissions.Products, Permissions.Products],
   },
 ];
 
