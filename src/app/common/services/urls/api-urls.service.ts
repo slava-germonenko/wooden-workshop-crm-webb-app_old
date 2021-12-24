@@ -24,10 +24,6 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/auth/expire`;
   }
 
-  public getGetProfileEndpointUrl(userId: string): string {
-    return `${this.envService.apiBaseUrl}/profiles/${userId}`;
-  }
-
   public getRefreshTokenEndpointUrl(): string {
     return `${this.envService.apiBaseUrl}/auth/refresh`;
   }
@@ -36,7 +32,7 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/users/${userId}/permissions`;
   }
 
-  public getUpdateProfileEndpointUrl(): string {
-    return `${this.envService.apiBaseUrl}/profiles`;
+  public getUsersEndpointUrl(): string {
+    return `${this.envService.apiBaseUrl}/users`;
   }
 }

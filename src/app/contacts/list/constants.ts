@@ -22,4 +22,9 @@ export const CONTACTS_TABLE_COLUMN_DEFINITIONS: IDynamicTableColumnDefinition<IC
     label: 'Телефон',
     sortable: true,
   },
+  {
+    name: 'assignee',
+    label: 'Ответственный',
+    sortable: false,
+  },
 ];

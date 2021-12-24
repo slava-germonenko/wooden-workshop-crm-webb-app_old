@@ -1,9 +1,22 @@
-<h1>Контакты</h1>
+<div class="align-center">
+  <h1>Контакты</h1>
+  <span class="spacer"></span>
+  <ww-autocomplete
+    class="default-text-input"
+    label="Ответственный"
+    placeholder="Введите имя или фамилию"
+    [options]="(users$ | async) ?? []"
+    [selectedItems]="[selectedAssigneeFilter$ | async]"
+    (optionRemoved)="changeContactAssigneeFilter(undefined)"
+    (optionSelected)="changeContactAssigneeFilter($event?.id)"
+    (searchChanged)="changeUsersSearch($event)"
+  ></ww-autocomplete>
+</div>
 <ww-dynamic-table
   class="mat-elevation-z6"
   [columnDefinitions]="columnDefinitions"
   [dataSource]="contacts$ | async"
   [length]="(contactsTotal$ | async) || 0"
-  (pageChange)="changePage($event)"
-  (sortChange)="changeSort($event)"
+  (pageChange)="changeContactsPage($event)"
+  (sortChange)="changeContactsSort($event)"
 ></ww-dynamic-table>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { IProfile } from '@common/interfaces';
+import { IUser } from '@common/interfaces/models';
 
 import { PROFILE_FORM_FIELDS } from './constants';
 import { ProfileService } from './profile.service';
@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
 
   public loading = false;
 
-  public profile: IProfile | null = null;
+  public user: IUser | null = null;
 
   public constructor(private readonly profileService: ProfileService) { }
 
@@ -22,21 +22,21 @@ export class ProfileComponent implements OnInit {
     this.profileService
       .getCurrentUserProfile()
       .subscribe((profile) => {
-        this.profile = profile;
+        this.user = profile;
       });
   }
 
   public updateProfile(profileObj: Record<string, string>): void {
-    if (!this.profile) {
+    if (!this.user) {
       return;
     }
 
     this.loading = true;
     const profile = profileObj as { firstName: string, lastName: string, emailAddress: string };
     this.profileService
-      .updateProfile({ ...profile, userId: this.profile.userId })
+      .updateProfile({ ...profile, id: this.user.id })
       .subscribe((updatedProfile) => {
-        this.profile = updatedProfile;
+        this.user = updatedProfile;
         this.loading = false;
       });
   }

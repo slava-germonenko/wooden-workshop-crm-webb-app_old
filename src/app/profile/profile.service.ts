@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { ToastrService } from '@framework/toastr';
 import { DEFAULT_ERROR_MESSAGE } from '@common/constants';
 import { ApiUrlsService, UserStateService } from '@common/services';
-import { IProfile } from '@common/interfaces';
+import { IUser } from '@common/interfaces/models';
 
 @Injectable()
 export class ProfileService {
@@ -16,16 +16,13 @@ export class ProfileService {
     private readonly userStateService: UserStateService,
   ) { }
 
-  public getCurrentUserProfile(): Observable<IProfile> {
-    return this.userStateService.currentUser$
-      .pipe(
-        switchMap(({ id }) => this.getUserProfile(id)),
-      );
+  public getCurrentUserProfile(): Observable<IUser> {
+    return this.userStateService.currentUser$;
   }
 
-  public updateProfile(profile: IProfile): Observable<IProfile> {
-    return this.httpClient.patch<IProfile>(
-      this.apiUrlsService.getUpdateProfileEndpointUrl(),
+  public updateProfile(profile: IUser): Observable<IUser> {
+    return this.httpClient.patch<IUser>(
+      this.apiUrlsService.getUsersEndpointUrl(),
       profile,
     )
       .pipe(
@@ -34,11 +31,5 @@ export class ProfileService {
           error: (err: HttpErrorResponse) => this.toastrService.error(err.error?.message ?? DEFAULT_ERROR_MESSAGE),
         }),
       );
-  }
-
-  private getUserProfile(userId: string): Observable<IProfile> {
-    return this.httpClient.get<IProfile>(
-      this.apiUrlsService.getGetProfileEndpointUrl(userId),
-    );
   }
 }

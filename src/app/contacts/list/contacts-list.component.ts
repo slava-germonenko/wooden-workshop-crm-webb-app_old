@@ -1,6 +1,8 @@
 import { Component, HostBinding } from '@angular/core';
+import { map } from 'rxjs';
 
 import { IOrderByQuery, IPage } from '@common/interfaces';
+import { UsersListStateService } from '@common/services/user';
 
 import { ContactsOrderField } from '../types';
 import { ContactsListStateService } from './contacts-list-state.service';
@@ -10,6 +12,7 @@ import { CONTACTS_TABLE_COLUMN_DEFINITIONS } from './constants';
   selector: 'ww-contacts-list',
   templateUrl: 'contacts-list.component.html',
   styleUrls: ['contacts-list.component.scss'],
+  providers: [UsersListStateService],
 })
 export class ContactsListComponent {
   @HostBinding('class')
@@ -21,13 +24,31 @@ export class ContactsListComponent {
 
   public readonly contactsTotal$ = this.contactsListStateService.contactsTotal$;
 
-  public constructor(private readonly contactsListStateService: ContactsListStateService) { }
+  public readonly selectedAssigneeFilter$ = this.contactsListStateService.contactsFilter$
+    .pipe(
+      map((filter) => (filter ? filter.assigneeId : undefined)),
+    );
 
-  public changePage(page: IPage): void {
+  public readonly users$ = this.usersListStateService.users$;
+
+  public constructor(
+    private readonly contactsListStateService: ContactsListStateService,
+    private readonly usersListStateService: UsersListStateService,
+  ) { }
+
+  public changeContactsPage(page: IPage): void {
     this.contactsListStateService.setContactsPage(page);
   }
 
-  public changeSort(orderBy: IOrderByQuery<string> | null): void {
+  public changeContactsSort(orderBy: IOrderByQuery<string> | null): void {
     this.contactsListStateService.setContactsOrder(orderBy as IOrderByQuery<ContactsOrderField> || undefined);
+  }
+
+  public changeContactAssigneeFilter(assigneeId: string | undefined): void {
+    this.contactsListStateService.setContactsFilter(assigneeId ? { assigneeId } : undefined);
+  }
+
+  public changeUsersSearch(search?: string): void {
+    this.usersListStateService.setUsersFilter(search ? { search } : undefined);
   }
 }

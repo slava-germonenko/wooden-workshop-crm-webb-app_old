@@ -1,4 +1,5 @@
 export interface IContactsFilter {
+  assigneeId?: string;
   email?: string;
   firstName?: string;
   lastName?: string;

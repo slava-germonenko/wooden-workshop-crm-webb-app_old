@@ -1,0 +1,27 @@
+<mat-form-field [appearance]="appearance">
+  <mat-label *ngIf="label">{{label}}</mat-label>
+
+  <mat-chip-list #chipList>
+    <mat-chip (removed)="optionRemoved.emit(item)" *ngFor="let item of selectedItems">
+      {{displayWith ? displayWith(item) : item}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+  </mat-chip-list>
+
+  <input
+    matInput
+    [formControl]="controlInner"
+    [matAutocomplete]="autocomplete"
+    [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKey"
+    [placeholder]="currentPlaceholder"
+  />
+
+  <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="optionSelected.emit($event)">
+    <mat-option [value]="option" *ngFor="let option of availableOptions">
+      {{displayWith ? displayWith(option) : option}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

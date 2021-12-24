@@ -6,7 +6,7 @@
       submitButtonText="Сохранить"
       [fields]="profileFormFields"
       [submitButtonState]="loading ? 'loading' : null"
-      [value]="profile"
+      [value]="user"
       (formSubmit)="updateProfile($event)"
     ></ww-dynamic-form>
   </mat-card>
