@@ -51,9 +51,10 @@ export class ContactsListComponent {
     this.contactsListStateService.setContactsOrder(orderBy as IOrderByQuery<ContactsOrderField> || undefined);
   }
 
-  public changeContactAssigneeFilter(assigneeId: string | undefined): void {
+  public changeContactAssigneeFilter(assignee: IUser | undefined): void {
+    this.selectedAssignee = assignee;
     const contactsFilter = this.contactsListStateService.contactsFilter ?? {};
-    contactsFilter.assigneeId = assigneeId;
+    contactsFilter.assigneeId = assignee?.id;
     this.contactsListStateService.setContactsFilter(contactsFilter);
   }
 

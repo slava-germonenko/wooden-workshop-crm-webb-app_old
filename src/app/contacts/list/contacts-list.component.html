@@ -15,8 +15,8 @@
     [displayWith]="displayUser"
     [options]="(users$ | async) ?? []"
     [selectedItems]="selectedAssignee ? [selectedAssignee] : []"
-    (optionRemoved)="changeContactAssigneeFilter(undefined); selectedAssignee = undefined"
-    (optionSelected)="changeContactAssigneeFilter($event?.id); selectedAssignee = $event"
+    (optionRemoved)="changeContactAssigneeFilter(undefined)"
+    (optionSelected)="changeContactAssigneeFilter($event)"
     (searchChanged)="changeUsersSearch($event)"
   ></ww-autocomplete>
 </div>
