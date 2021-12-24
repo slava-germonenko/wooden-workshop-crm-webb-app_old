@@ -22,4 +22,12 @@ export const CONTACTS_TABLE_COLUMN_DEFINITIONS: IDynamicTableColumnDefinition<IC
     label: 'Телефон',
     sortable: true,
   },
+  {
+    name: 'assignee',
+    label: 'Ответственный',
+    sortable: false,
+    getValue(contact: IContact): string {
+      return contact.assignee ? `${contact.assignee.firstName} ${contact.assignee.lastName}` : '--- ---';
+    },
+  },
 ];

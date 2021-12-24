@@ -22,15 +22,31 @@ export class ContactsListStateService {
 
   private readonly contactsPageSource = new BehaviorSubject<IPage>({ index: 0, size: 25 });
 
-  public readonly contactsFilter$ = this.contactsFilterSource.asObservable();
+  public readonly contactsFilter$ = this.contactsFilterSource
+    .asObservable()
+    .pipe(
+      shareReplay(1),
+    );
 
-  public readonly contactsOrderQuery$ = this.contactsOrderSource.asObservable();
+  public readonly contactsOrderQuery$ = this.contactsOrderSource
+    .asObservable()
+    .pipe(
+      shareReplay(1),
+    );
 
-  public readonly contactsPage$ = this.contactsPageSource.asObservable();
+  public readonly contactsPage$ = this.contactsPageSource
+    .asObservable()
+    .pipe(
+      shareReplay(1),
+    );
 
   public readonly contacts$: Observable<IContact[]>;
 
   public readonly contactsTotal$: Observable<number>;
+
+  public get contactsFilter(): IContactsFilter | undefined {
+    return this.contactsFilterSource.value;
+  }
 
   public constructor(private readonly contactsListService: ContactsListService) {
     const contactsStream = this.createContactsStream();
@@ -58,7 +74,7 @@ export class ContactsListStateService {
   private createContactsStream(): Observable<IPagedCollection<IContact>> {
     return combineLatest([this.contactsPage$, this.contactsOrderQuery$, this.contactsFilter$])
       .pipe(
-        switchMap(([page, order, filter]) => this.contactsListService.getContact(page, filter)),
+        switchMap(([page, order, filter]) => this.contactsListService.getContact(page, filter, order)),
         shareReplay(1),
       );
   }

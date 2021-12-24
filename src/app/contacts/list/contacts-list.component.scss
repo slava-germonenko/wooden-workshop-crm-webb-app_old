@@ -1,7 +1,11 @@
-$page-title-height: 48px;
+$page-title-height: 72px;
 
 :host {
   display: block;
+}
+
+ww-autocomplete {
+  margin-left: 20px;
 }
 
 ww-dynamic-table {

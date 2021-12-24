@@ -1,5 +1,8 @@
+import { IUser } from '@app/common';
+
 export interface IContact {
-  assigneeId: string;
+  assigneeId?: string;
+  assignee?: IUser;
   firstName: string;
   lastName: string;
   emailAddress: string;
