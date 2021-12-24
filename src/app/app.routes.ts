@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { AuthorizedGuard, UnauthorizedGuard } from '@common/guards';
+import { Permissions } from '@common/enums';
+import { AuthorizedGuard, PermissionsGuard, UnauthorizedGuard } from '@common/guards';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,12 @@ export const routes: Routes = [
     path: 'profile',
     loadChildren: () => import('@app/profile/profile.module').then((m) => m.ProfileModule),
     canActivate: [AuthorizedGuard],
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('@app/users/users.module').then((m) => m.UsersModule),
+    canActivate: [AuthorizedGuard, PermissionsGuard],
+    data: { permissions: [Permissions.Admin] },
   },
   {
     path: 'login',

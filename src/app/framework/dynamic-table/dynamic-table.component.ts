@@ -51,6 +51,9 @@ export class DynamicTableComponent {
   public pageChange = new EventEmitter<IPage>();
 
   @Output()
+  public rowClick = new EventEmitter<unknown>();
+
+  @Output()
   public sortChange = new EventEmitter<IOrderByQuery<string> | null>();
 
   public columns: IDynamicTableColumnDefinition<unknown>[] = [];

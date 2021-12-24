@@ -35,6 +35,11 @@ export const PROFILE_MENU_ACTIONS: IButton[] = [
     link: '/profile',
   },
   {
+    name: 'users',
+    label: 'Пользователи',
+    link: '/users',
+  },
+  {
     name: 'sign-out',
     label: 'Выход',
     link: '/logout',
