@@ -1,4 +1,4 @@
-import { IPage } from '@app/common';
+import { IPage } from '@common/interfaces';
 
 export const DEFAULT_PAGE: IPage = {
   index: 0,

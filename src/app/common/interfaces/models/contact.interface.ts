@@ -1,4 +1,4 @@
-import { IUser } from '@app/common';
+import { IUser } from '@common/interfaces/models';
 
 export interface IContact {
   assigneeId?: string;

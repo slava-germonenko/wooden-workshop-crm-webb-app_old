@@ -1,4 +1,4 @@
-import { OrderDirection } from '@app/common';
+import { OrderDirection } from '@common/types';
 
 export interface IOrderByQuery<TOrderByFields extends string> {
   direction: OrderDirection;

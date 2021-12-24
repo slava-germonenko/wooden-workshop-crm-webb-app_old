@@ -25,7 +25,10 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumnNames; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumnNames;"></tr>
+    <tr
+      mat-row (click)="rowClick.emit(row)"
+      *matRowDef="let row; columns: displayedColumnNames;"
+    ></tr>
 
     <tr class="mat-row" *matNoDataRow>
       <td [colSpan]="displayedColumnNames.length">
