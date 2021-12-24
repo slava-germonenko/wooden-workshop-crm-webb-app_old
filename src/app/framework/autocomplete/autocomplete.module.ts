@@ -26,6 +26,7 @@ import { AutocompleteComponent } from './autocomplete.component';
   ],
   exports: [
     AutocompleteComponent,
+    ReactiveFormsModule,
   ],
 })
 export class AutocompleteModule { }

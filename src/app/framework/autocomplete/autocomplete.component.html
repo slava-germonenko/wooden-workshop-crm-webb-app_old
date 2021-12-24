@@ -8,18 +8,18 @@
         <mat-icon>cancel</mat-icon>
       </button>
     </mat-chip>
+
+    <input
+      matInput
+      [formControl]="controlInner"
+      [matAutocomplete]="autocomplete"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKey"
+      [placeholder]="currentPlaceholder"
+    />
   </mat-chip-list>
 
-  <input
-    matInput
-    [formControl]="controlInner"
-    [matAutocomplete]="autocomplete"
-    [matChipInputFor]="chipList"
-    [matChipInputSeparatorKeyCodes]="separatorKey"
-    [placeholder]="currentPlaceholder"
-  />
-
-  <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="optionSelected.emit($event)">
+  <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="optionSelected.emit($event.option.value)">
     <mat-option [value]="option" *ngFor="let option of availableOptions">
       {{displayWith ? displayWith(option) : option}}
     </mat-option>

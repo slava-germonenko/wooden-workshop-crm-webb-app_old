@@ -9,7 +9,14 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
-import { filter, startWith, Subscription } from 'rxjs';
+import {
+  Subscription,
+  debounceTime,
+  filter,
+  startWith,
+} from 'rxjs';
+
+import { DEFAULT_DEBOUNCE_TIME } from './constants';
 
 @Component({
   selector: 'ww-autocomplete',
@@ -26,19 +33,17 @@ export class AutocompleteComponent implements OnDestroy {
   public set control(control: FormControl) {
     this.controlInner = control;
     this.destroySubscription();
-    this.formControlValueChangeSubscription = control.valueChanges
-      .pipe(
-        startWith(''),
-        filter((value) => typeof value === 'string'),
-      )
-      .subscribe((value) => this.searchChanged.emit(value));
+    this.createSearchChangeSubscription();
   }
 
   @Input()
   public appearance: MatFormFieldAppearance = 'standard';
 
   @Input()
-  public displayWith?: (item: any) => string;
+  public debounceTime = DEFAULT_DEBOUNCE_TIME;
+
+  @Input()
+  public displayWith?: (item: any) => string | null;
 
   @Input()
   public label?: string;
@@ -67,6 +72,10 @@ export class AutocompleteComponent implements OnDestroy {
   @Output()
   public searchChanged = new EventEmitter<string>();
 
+  public constructor() {
+    this.createSearchChangeSubscription();
+  }
+
   public get availableOptions(): any[] {
     if (!this.selectedItems.length) {
       return this.options;
@@ -85,6 +94,16 @@ export class AutocompleteComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.destroySubscription();
+  }
+
+  private createSearchChangeSubscription(): void {
+    this.formControlValueChangeSubscription = this.controlInner.valueChanges
+      .pipe(
+        startWith(''),
+        filter((value) => typeof value === 'string'),
+        debounceTime(this.debounceTime),
+      )
+      .subscribe((value) => this.searchChanged.emit(value));
   }
 
   private destroySubscription(): void {
