@@ -3,12 +3,20 @@
   <span class="spacer"></span>
   <ww-autocomplete
     class="default-text-input"
+    label="Поиск по контактам"
+    placeholder="Начните вводить"
+    (searchChanged)="changeContactsSearch($event)"
+  ></ww-autocomplete>
+  <ww-autocomplete
+    class="default-text-input"
+    appearance="fill"
     label="Ответственный"
     placeholder="Введите имя или фамилию"
+    [displayWith]="displayUser"
     [options]="(users$ | async) ?? []"
-    [selectedItems]="[selectedAssigneeFilter$ | async]"
-    (optionRemoved)="changeContactAssigneeFilter(undefined)"
-    (optionSelected)="changeContactAssigneeFilter($event?.id)"
+    [selectedItems]="selectedAssignee ? [selectedAssignee] : []"
+    (optionRemoved)="changeContactAssigneeFilter(undefined); selectedAssignee = undefined"
+    (optionSelected)="changeContactAssigneeFilter($event?.id); selectedAssignee = $event"
     (searchChanged)="changeUsersSearch($event)"
   ></ww-autocomplete>
 </div>

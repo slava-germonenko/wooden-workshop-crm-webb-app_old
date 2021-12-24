@@ -4,6 +4,10 @@ $page-title-height: 72px;
   display: block;
 }
 
+ww-autocomplete {
+  margin-left: 20px;
+}
+
 ww-dynamic-table {
   max-height: calc(100% - #{$page-title-height});
 }

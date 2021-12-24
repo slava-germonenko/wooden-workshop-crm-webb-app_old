@@ -8,6 +8,7 @@ import { ApiUrlsService } from '@common/services';
 
 import { IContactsFilter } from '../interfaces';
 import { ContactsOrderField } from '../types';
+import { ObjectsHelper } from '@app/common';
 
 @Injectable()
 export class ContactsListService {
@@ -27,7 +28,7 @@ export class ContactsListService {
       ...order ?? {},
     };
     const query = new HttpParams({
-      fromObject: queryParamObject,
+      fromObject: ObjectsHelper.createClean(queryParamObject),
     });
 
     return this.httpClient.get<IPagedCollection<IContact>>(

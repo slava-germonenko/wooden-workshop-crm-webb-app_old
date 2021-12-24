@@ -4,4 +4,5 @@ export interface IContactsFilter {
   firstName?: string;
   lastName?: string;
   phoneNumber?: string;
+  search?: string;
 }

@@ -1,7 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
-import { map } from 'rxjs';
 
-import { IOrderByQuery, IPage } from '@common/interfaces';
+import { FullNamePipe } from '@framework/full-name';
+import { IOrderByQuery, IPage, IUser } from '@common/interfaces';
 import { UsersListStateService } from '@common/services/user';
 
 import { ContactsOrderField } from '../types';
@@ -15,8 +15,12 @@ import { CONTACTS_TABLE_COLUMN_DEFINITIONS } from './constants';
   providers: [UsersListStateService],
 })
 export class ContactsListComponent {
+  private readonly fullNamePipe = new FullNamePipe();
+
   @HostBinding('class')
   public hostClasses = ['pad-page-content', 'full-size'];
+
+  public readonly displayUser = (user: IUser) => this.fullNamePipe.transform(user);
 
   public readonly columnDefinitions = [...CONTACTS_TABLE_COLUMN_DEFINITIONS];
 
@@ -24,12 +28,9 @@ export class ContactsListComponent {
 
   public readonly contactsTotal$ = this.contactsListStateService.contactsTotal$;
 
-  public readonly selectedAssigneeFilter$ = this.contactsListStateService.contactsFilter$
-    .pipe(
-      map((filter) => (filter ? filter.assigneeId : undefined)),
-    );
-
   public readonly users$ = this.usersListStateService.users$;
+
+  public selectedAssignee?: IUser;
 
   public constructor(
     private readonly contactsListStateService: ContactsListStateService,
@@ -40,12 +41,20 @@ export class ContactsListComponent {
     this.contactsListStateService.setContactsPage(page);
   }
 
+  public changeContactsSearch(search: string): void {
+    const contactsFilter = this.contactsListStateService.contactsFilter ?? {};
+    contactsFilter.search = search;
+    this.contactsListStateService.setContactsFilter(contactsFilter);
+  }
+
   public changeContactsSort(orderBy: IOrderByQuery<string> | null): void {
     this.contactsListStateService.setContactsOrder(orderBy as IOrderByQuery<ContactsOrderField> || undefined);
   }
 
   public changeContactAssigneeFilter(assigneeId: string | undefined): void {
-    this.contactsListStateService.setContactsFilter(assigneeId ? { assigneeId } : undefined);
+    const contactsFilter = this.contactsListStateService.contactsFilter ?? {};
+    contactsFilter.assigneeId = assigneeId;
+    this.contactsListStateService.setContactsFilter(contactsFilter);
   }
 
   public changeUsersSearch(search?: string): void {
