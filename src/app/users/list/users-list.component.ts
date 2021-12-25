@@ -38,7 +38,6 @@ export class UsersListComponent {
     })
       .afterClosed()
       .pipe(
-        tap((user) => console.log(user)),
         filter((user) => !!user),
         switchMap((user: Omit<IUser, 'id'> & { password: string }) => this.usersManagementService.createUser(user)),
         tap(() => this.goToFirstPage()),
