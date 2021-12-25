@@ -7,16 +7,16 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { AppRoutesService, UserService } from '@common/services';
 import { Permissions } from '@common/enums';
-import { IUser } from '@common/interfaces';
 import { ArrayHelper } from '@common/helpers';
-import { ToolbarService } from '@framework/toolbar/toolbar.service';
+import { IUser } from '@common/interfaces';
+import { AppRoutesService, UserService, UserSessionService } from '@common/services';
 
 @Injectable({ providedIn: 'root' })
 export class UserStateService {
-  public readonly currentUser$: Observable<IUser> = this.userService.getCurrentUser()
+  public readonly currentUser$: Observable<IUser> = this.userSessionService.userSessionIsAlive$
     .pipe(
+      switchMap(() => this.userService.getCurrentUser()),
       shareReplay(1),
     );
 
@@ -29,8 +29,8 @@ export class UserStateService {
   public constructor(
     private readonly appRoutesService: AppRoutesService,
     private readonly router: Router,
-    private readonly toolbarService: ToolbarService,
     private readonly userService: UserService,
+    private readonly userSessionService: UserSessionService,
   ) { }
 
   public userHasPermissionAsync(permission: Permissions): Observable<boolean> {

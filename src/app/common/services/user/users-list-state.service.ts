@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   BehaviorSubject,
   Observable,
@@ -33,7 +34,14 @@ export class UsersListStateService {
 
   public readonly usersCount$: Observable<number>;
 
-  public constructor(private readonly usersListService: UsersListService) {
+  public get usersPage(): IPage {
+    return this.usersPageSource.value;
+  }
+
+  public constructor(
+    private readonly router: Router,
+    private readonly usersListService: UsersListService,
+  ) {
     const usersPage$ = combineLatest([this.usersFilter$, this.usersPage$, this.usersOrder$])
       .pipe(
         switchMap(([filter, page, order]) => this.usersListService.getUsersList(page, filter, order)),

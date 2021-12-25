@@ -1,10 +1,13 @@
 import { Component, HostBinding } from '@angular/core';
+import { filter, switchMap, tap } from 'rxjs';
 
-import { IPage, IOrderByQuery } from '@common/interfaces';
-import { UserOrderField } from '@common/types';
+import { DynamicFormDialogService } from '@framework/dynamic-form-dialog';
+import { IPage, IOrderByQuery, IUser } from '@common/interfaces';
 import { UsersListStateService } from '@common/services/user';
+import { UserOrderField } from '@common/types';
 
-import { USERS_TABLE_COLUMNS_DEFINITIONS } from './constants';
+import { UsersManagementService } from '../services';
+import { ADD_USER_FORM_FIELDS, USERS_TABLE_COLUMNS_DEFINITIONS } from './constants';
 
 @Component({
   selector: 'ww-users-list',
@@ -22,7 +25,26 @@ export class UsersListComponent {
 
   public readonly usersTotal$ = this.usersListStateService.usersCount$;
 
-  public constructor(private readonly usersListStateService: UsersListStateService) { }
+  public constructor(
+    private readonly dialogFormService: DynamicFormDialogService,
+    private readonly usersListStateService: UsersListStateService,
+    private readonly usersManagementService: UsersManagementService,
+  ) { }
+
+  public openAddUserDialog(): void {
+    this.dialogFormService.openFormDialog({
+      title: 'Добавление пользователя',
+      formControls: [...ADD_USER_FORM_FIELDS],
+    })
+      .afterClosed()
+      .pipe(
+        tap((user) => console.log(user)),
+        filter((user) => !!user),
+        switchMap((user: Omit<IUser, 'id'> & { password: string }) => this.usersManagementService.createUser(user)),
+        tap(() => this.goToFirstPage()),
+      )
+      .subscribe();
+  }
 
   public setUsersOrder(orderBy: IOrderByQuery<string> | null): void {
     this.usersListStateService.setUsersOrder(orderBy as IOrderByQuery<UserOrderField> ?? undefined);
@@ -34,5 +56,11 @@ export class UsersListComponent {
 
   public setUsersSearch(search: string): void {
     this.usersListStateService.setUsersFilter(search ? { search } : undefined);
+  }
+
+  private goToFirstPage(): void {
+    const page = this.usersListStateService.usersPage;
+    page.index = 0;
+    this.usersListStateService.setUsersPage(page);
   }
 }
