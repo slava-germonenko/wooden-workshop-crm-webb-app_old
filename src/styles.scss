@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@use "variables" as *;
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -56,21 +56,53 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .error-alert {
-  color: rgb(97, 26, 21);
-  background-color: rgb(253, 236, 234);
+  color: $alert-red-text-color;
+  background-color: $alert-red-background-color;
 }
 
 .warning-alert {
-  color: rgb(102, 60, 0);
-  background-color: rgb(255, 244, 229);
+  color: $alert-orange-text-color;
+  background-color: $alert-orange-background-color;
 }
 
 .info-alert {
-  color: rgb(13, 60, 97);
-  background-color: rgb(232, 244, 253);
+  color: $alert-blue-text-color;
+  background-color: $alert-blue-background-color;
 }
 
 .success-alert {
-  color: rgb(30, 70, 32);
-  background-color: rgb(237, 247, 237);
+  color: $alert-green-text-color;
+  background-color: $alert-green-background-color;
+}
+
+.pill {
+  border-radius: 2px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 4px 8px;
+  text-transform: uppercase;
+
+  &--light {
+    opacity: 0.6;
+  }
+
+  &--orange {
+    color: $alert-orange-text-color;
+    background-color: $alert-orange-background-color;
+  }
+
+  &--green {
+    color: $alert-green-text-color;
+    background-color: $alert-green-background-color;
+  }
+
+  &--red {
+    color: $alert-red-text-color;
+    background-color: $alert-red-background-color;
+  }
+
+  &--blue {
+    color: $alert-blue-text-color;
+    background-color: $alert-blue-background-color;
+  }
 }

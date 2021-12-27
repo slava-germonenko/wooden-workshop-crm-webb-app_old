@@ -28,6 +28,10 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/auth/refresh`;
   }
 
+  public getRolesEndpointUrl(): string {
+    return `${this.envService.apiBaseUrl}/roles`;
+  }
+
   public getUserPermissionsEndpointUrl(userId: string): string {
     return `${this.envService.apiBaseUrl}/users/${userId}/permissions`;
   }

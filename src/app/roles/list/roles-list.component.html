@@ -1,0 +1,22 @@
+<div class="align-center">
+  <h1>Роли</h1>
+  <span class="spacer"></span>
+
+  <ww-autocomplete
+    class="default-text-input"
+    label="Поиск по ролям"
+    placeholder="Начните воодить"
+    (searchChanged)="setRolesSearch($event)"
+  ></ww-autocomplete>
+  <button mat-raised-button>
+    Добавить
+  </button>
+</div>
+<ww-dynamic-table
+  class="mat-elevation-z6"
+  [columnDefinitions]="tableColumns"
+  [dataSource]="(contacts$ | async) || []"
+  [length]="(totalRoles$ | async) || 0"
+  (sortChange)="setRolesOrder($event)"
+  (pageChange)="setRolesPage($event)"
+></ww-dynamic-table>
