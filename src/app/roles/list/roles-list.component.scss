@@ -1,0 +1,13 @@
+$page-title-height: 72px;
+
+:host {
+  display: block;
+}
+
+ww-autocomplete {
+  margin-right: 20px;
+}
+
+ww-dynamic-table {
+  max-height: calc(100% - #{$page-title-height});
+}

@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  Sanitizer,
   EventEmitter,
   Component,
   Input,
@@ -65,19 +66,9 @@ export class DynamicTableComponent {
     columnDef: IDynamicTableColumnDefinition<unknown>,
     row: any,
   ): SafeHtml | null {
-    if (columnDef.format && columnDef.getValue) {
-      return columnDef.format(columnDef.getValue(row));
-    }
-
-    if (columnDef.format) {
-      return columnDef.format(row[columnDef.name]);
-    }
-
-    if (columnDef.getValue) {
-      return columnDef.getValue(row);
-    }
-
-    return String(row[columnDef.name]);
+    const value = columnDef.getValue ? columnDef.getValue(row) : row[columnDef.name];
+    const formatter = columnDef.getDynamicFormatter ? columnDef.getDynamicFormatter(row) : columnDef.format;
+    return formatter ? formatter(value) : value;
   }
 
   public emitSortChange(matSort: Sort): void {
