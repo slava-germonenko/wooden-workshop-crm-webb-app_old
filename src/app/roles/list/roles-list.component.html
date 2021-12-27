@@ -8,7 +8,7 @@
     placeholder="Начните воодить"
     (searchChanged)="setRolesSearch($event)"
   ></ww-autocomplete>
-  <button mat-raised-button>
+  <button mat-raised-button (click)="openAddRoleDialog()">
     Добавить
   </button>
 </div>

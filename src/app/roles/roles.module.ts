@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AutocompleteModule } from '@framework/autocomplete';
 import { DynamicFormDialogModule } from '@framework/dynamic-form-dialog';
 import { DynamicTableModule } from '@framework/dynamic-table';
+import { ToastrModule } from '@framework/toastr';
 
 import { routes } from './roles.routes';
 import { RolesListComponent, RolesListService, RolesListStateService } from './list';
@@ -18,6 +19,7 @@ import { RolesListComponent, RolesListService, RolesListStateService } from './l
     DynamicTableModule,
     MatButtonModule,
     RouterModule.forChild(routes),
+    ToastrModule,
   ],
   declarations: [
     RolesListComponent,

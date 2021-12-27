@@ -22,7 +22,7 @@ import { IDynamicTableColumnDefinition } from './interfaces';
 })
 export class DynamicTableComponent {
   @Input()
-  public set columnDefinitions(columns: IDynamicTableColumnDefinition<unknown>[]) {
+  public set columnDefinitions(columns: IDynamicTableColumnDefinition<any>[]) {
     this.columns = columns;
     this.displayedColumnNames = columns.map((column) => column.name);
   }

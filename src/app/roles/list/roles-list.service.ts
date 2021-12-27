@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
 
+import { ToastrService } from '@framework/toastr';
 import {
   IOrderByQuery,
   IPage,
@@ -12,12 +13,14 @@ import {
 import { ObjectsHelper } from '@common/helpers';
 import { ApiUrlsService } from '@common/services';
 import { RolesOrderField } from '@app/roles/types';
+import { DEFAULT_ERROR_MESSAGE } from '@common/constants';
 
 @Injectable()
 export class RolesListService {
   public constructor(
     private readonly apiUrlsService: ApiUrlsService,
     private readonly httpClient: HttpClient,
+    private readonly toastrService: ToastrService,
   ) { }
 
   public getRolesList(
@@ -39,5 +42,20 @@ export class RolesListService {
       this.apiUrlsService.getRolesEndpointUrl(),
       { params: queryParams },
     );
+  }
+
+  public createRole(role: Pick<IRole, 'name' | 'permissions'>): Observable<IRole> {
+    return this.httpClient.post<IRole>(
+      this.apiUrlsService.getRolesEndpointUrl(),
+      role,
+    )
+      .pipe(
+        tap({
+          error: (err: HttpErrorResponse) => this.toastrService.error(
+            err.error?.message ?? DEFAULT_ERROR_MESSAGE,
+          ),
+          next: () => this.toastrService.success('Роль была успешно создана.'),
+        }),
+      );
   }
 }

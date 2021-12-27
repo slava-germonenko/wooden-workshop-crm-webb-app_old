@@ -1,5 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
 
+import { DynamicFormDialogService } from '@framework/dynamic-form-dialog';
 import { IOrderByQuery, IPage } from '@common/interfaces';
 
 import { RolesOrderField } from '../types';
@@ -22,8 +23,13 @@ export class RolesListComponent {
   public tableColumns = [...ROLES_TABLE_COLUMNS_DEFINITIONS];
 
   public constructor(
+    private readonly dialogService: DynamicFormDialogService,
     private readonly rolesListStateService: RolesListStateService,
   ) { }
+
+  public openAddRoleDialog(): void {
+    this.rolesListStateService.addRole().subscribe();
+  }
 
   public setRolesSearch(search: string): void {
     this.rolesListStateService.setRolesFilet(search ? { name: search } : undefined);
