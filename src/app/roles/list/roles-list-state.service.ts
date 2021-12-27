@@ -6,12 +6,15 @@ import {
   switchMap,
   shareReplay,
   map,
+  filter, tap,
 } from 'rxjs';
 
+import { DynamicFormDialogService } from '@framework/dynamic-form-dialog';
 import { IRole } from '@common/interfaces/models';
 import { IOrderByQuery, IPage, IRolesFilter } from '@common/interfaces';
 
 import { RolesOrderField } from '../types';
+import { ADD_ROLE_FORM_FIELDS } from './constants';
 import { RolesListService } from './roles-list.service';
 
 @Injectable()
@@ -32,10 +35,13 @@ export class RolesListStateService {
 
   public readonly rolesCount$: Observable<number>;
 
-  public constructor(private readonly rolesListService: RolesListService) {
+  public constructor(
+    private readonly dialogsService: DynamicFormDialogService,
+    private readonly rolesListService: RolesListService,
+  ) {
     const roles$ = combineLatest([this.rolesFilter$, this.rolesOrder$, this.rolesPage$])
       .pipe(
-        switchMap(([filter, order, page]) => this.rolesListService.getRolesList(page, filter, order)),
+        switchMap(([roleFilter, order, page]) => this.rolesListService.getRolesList(page, roleFilter, order)),
         shareReplay(1),
       );
 
@@ -48,8 +54,21 @@ export class RolesListStateService {
     );
   }
 
-  public setRolesFilet(filter: IRolesFilter | undefined): void {
-    this.rolesFilterSource.next(filter);
+  public addRole(): Observable<IRole> {
+    return this.dialogsService.openFormDialog({
+      title: 'Добавление роли',
+      formControls: [...ADD_ROLE_FORM_FIELDS],
+    })
+      .afterClosed()
+      .pipe(
+        filter((role) => !!role),
+        switchMap((role) => this.rolesListService.createRole({ ...role, permissions: [] })),
+        tap(() => this.goToFirstPage()),
+      );
+  }
+
+  public setRolesFilet(roleFilter: IRolesFilter | undefined): void {
+    this.rolesFilterSource.next(roleFilter);
   }
 
   public setRolesOrder(order: IOrderByQuery<RolesOrderField> | undefined): void {
@@ -57,6 +76,12 @@ export class RolesListStateService {
   }
 
   public setRolesPage(page: IPage): void {
+    this.rolesPageSource.next(page);
+  }
+
+  private goToFirstPage(): void {
+    const page = this.rolesPageSource.value;
+    page.index = 0;
     this.rolesPageSource.next(page);
   }
 }

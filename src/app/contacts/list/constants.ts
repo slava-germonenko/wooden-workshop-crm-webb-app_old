@@ -1,4 +1,4 @@
-import { IDynamicTableColumnDefinition } from '@framework/dynamic-table';
+import { IDynamicTableColumnDefinition, TableCellFormatters } from '@framework/dynamic-table';
 import { IContact } from '@app/common/interfaces';
 
 export const CONTACTS_TABLE_COLUMN_DEFINITIONS: IDynamicTableColumnDefinition<IContact>[] = [
@@ -6,11 +6,13 @@ export const CONTACTS_TABLE_COLUMN_DEFINITIONS: IDynamicTableColumnDefinition<IC
     name: 'firstName',
     label: 'Имя',
     sortable: true,
+    format: TableCellFormatters.defaultValue('---'),
   },
   {
     name: 'lastName',
     label: 'Фамилия',
     sortable: true,
+    format: TableCellFormatters.defaultValue('---'),
   },
   {
     name: 'emailAddress',
