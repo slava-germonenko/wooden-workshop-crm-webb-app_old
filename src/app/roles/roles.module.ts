@@ -8,8 +8,9 @@ import { DynamicFormDialogModule } from '@framework/dynamic-form-dialog';
 import { DynamicTableModule } from '@framework/dynamic-table';
 import { ToastrModule } from '@framework/toastr';
 
-import { routes } from './roles.routes';
+import { RoleDetailsComponent } from './details';
 import { RolesListComponent, RolesListService, RolesListStateService } from './list';
+import { routes } from './roles.routes';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { RolesListComponent, RolesListService, RolesListStateService } from './l
     ToastrModule,
   ],
   declarations: [
+    RoleDetailsComponent,
     RolesListComponent,
   ],
   providers: [

@@ -11,6 +11,15 @@ export class TableCellFormatters {
     return (value: Date) => datePipe.transform(value, format);
   }
 
+  public static defaultValue(defaultValue: string): DynamicTableCellFormatter<any> {
+    return (value: any | undefined | null) => (value === undefined || value === null ? defaultValue : value);
+  }
+
+  public static link(url: string, openInNewTab: boolean = true): DynamicTableCellFormatter<string> {
+    const target = openInNewTab ? 'target="_blank"' : '';
+    return (value: string) => `<a href="${url}" ${target}>${value}</a>`;
+  }
+
   public static number(precision: number): DynamicTableCellFormatter<number> {
     return (value: number) => (Number.isNaN(value) ? null : value.toFixed(precision));
   }
@@ -18,9 +27,5 @@ export class TableCellFormatters {
   public static pill(pillType: PillType): DynamicTableCellFormatter<any> {
     const pillClasses = `pill ${PILL_COLOR_CLASSES[pillType]}`;
     return (value: any) => `<span class="${pillClasses}">${value}</span>`;
-  }
-
-  public static defaultValue(defaultValue: string): DynamicTableCellFormatter<any> {
-    return (value: any | undefined | null) => (value === undefined || value === null ? defaultValue : value);
   }
 }
