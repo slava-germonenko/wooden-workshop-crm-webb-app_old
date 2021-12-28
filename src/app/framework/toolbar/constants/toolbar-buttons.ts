@@ -43,6 +43,7 @@ export const PROFILE_MENU_ACTIONS: IButton[] = [
     name: 'roles',
     label: 'Роли',
     link: '/roles',
+    permissions: [Permissions.Admin],
   },
   {
     name: 'sign-out',

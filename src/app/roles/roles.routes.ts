@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { RoleDetailsComponent } from './details';
+import { RoleDetailsComponent, RoleDetailsResolver } from './details';
 import { RolesListComponent } from './list';
 
 export const routes: Routes = [
@@ -11,5 +11,8 @@ export const routes: Routes = [
   {
     path: ':id',
     component: RoleDetailsComponent,
+    resolve: {
+      role: RoleDetailsResolver,
+    },
   },
 ];
