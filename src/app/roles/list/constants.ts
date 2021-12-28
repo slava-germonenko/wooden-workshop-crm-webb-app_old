@@ -15,6 +15,9 @@ export const ROLES_TABLE_COLUMNS_DEFINITIONS: IDynamicTableColumnDefinition<IRol
     name: 'name',
     label: 'Название',
     sortable: true,
+    getDynamicFormatter(role: IRole): DynamicTableCellFormatter<string> {
+      return TableCellFormatters.link(`/roles/${role.id}`);
+    },
   },
   {
     name: 'assigneeCount',
@@ -25,10 +28,9 @@ export const ROLES_TABLE_COLUMNS_DEFINITIONS: IDynamicTableColumnDefinition<IRol
     name: 'labels',
     label: 'Лейблы',
     getValue(role: IRole): string | null {
-      console.log(role);
       return role.permissions.includes(Permissions.Admin) ? PERMISSION_LABELS[Permissions.Admin] : null;
     },
-    getDynamicFormatter(role: IRole): DynamicTableCellFormatter<IRole> {
+    getDynamicFormatter(role: IRole): DynamicTableCellFormatter<any> {
       return role.permissions?.length
         ? TableCellFormatters.pill('green')
         : TableCellFormatters.defaultValue('--- ---');

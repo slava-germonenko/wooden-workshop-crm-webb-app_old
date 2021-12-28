@@ -1,0 +1,53 @@
+<section class="align-center actions-section">
+  <h1>Редактирование роли</h1>
+  <span class="spacer"></span>
+  <button [routerLink]="['..']" mat-button color="primary">Выйти</button>
+  <button mat-button color="primary" (click)="save()">Сохранить</button>
+  <button mat-raised-button color="primary" (click)="save(true)">Сохранить и выйти</button>
+</section>
+
+<mat-form-field class="default-text-input">
+  <mat-label>Название</mat-label>
+  <input
+    matInput
+    placeholder="Введите название роли"
+    [formControl]="roleNameControl"
+  д/>
+</mat-form-field>
+
+<h2>Права доступа</h2>
+<section class="full-width flex-row permissions-section">
+  <div class="drop-container-block">
+    <h3>Доступные права доступа</h3>
+    <mat-list
+      #availablePermissions="cdkDropList"
+      class="drop-list mat-border"
+      cdkDropList
+      [cdkDropListData]="(availablePermissions$ | async) || []"
+      [cdkDropListConnectedTo]="[rolePermissions]"
+      (cdkDropListDropped)="removePermissions($event.previousContainer.data[$event.previousIndex])"
+    >
+      <mat-list-item cdkDrag *ngFor="let permission of availablePermissions$ | async">
+        {{permissionLabels[permission]}}
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <span class="spacer"></span>
+
+  <div class="drop-container-block">
+    <h3>Права доступа у роли</h3>
+    <mat-list
+      #rolePermissions="cdkDropList"
+      class="drop-list mat-border"
+      cdkDropList
+      [cdkDropListData]="(rolePermissions$ | async) || []"
+      [cdkDropListConnectedTo]="[availablePermissions]"
+      (cdkDropListDropped)="addPermission($event.previousContainer.data[$event.previousIndex])"
+    >
+      <mat-list-item cdkDrag *ngFor="let permission of rolePermissions$ | async">
+        {{permissionLabels[permission]}}
+      </mat-list-item>
+    </mat-list>
+  </div>
+</section>

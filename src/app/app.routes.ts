@@ -28,8 +28,7 @@ export const routes: Routes = [
   {
     path: 'users',
     loadChildren: () => import('@app/users/users.module').then((m) => m.UsersModule),
-    canActivate: [AuthorizedGuard, PermissionsGuard],
-    data: { permissions: [Permissions.Admin] },
+    canActivate: [AuthorizedGuard],
   },
   {
     path: 'login',
