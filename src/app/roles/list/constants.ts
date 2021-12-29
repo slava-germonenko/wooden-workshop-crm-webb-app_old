@@ -15,8 +15,8 @@ export const ROLES_TABLE_COLUMNS_DEFINITIONS: IDynamicTableColumnDefinition<IRol
     name: 'name',
     label: 'Название',
     sortable: true,
-    getDynamicFormatter(role: IRole): DynamicTableCellFormatter<string> {
-      return TableCellFormatters.link(`/roles/${role.id}`);
+    getLink(role: IRole): string | string[] {
+      return [role.id];
     },
   },
   {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
 import { Permissions } from '@common/enums';
@@ -31,14 +31,11 @@ export class UserService {
       );
   }
 
-  public refreshUserSession(): Observable<IAuthorizationResult> {
+  public refreshToken(): Observable<IAuthorizationResult> {
     return this.httpClient.put<IAuthorizationResult>(
       this.apiUrlsService.getRefreshTokenEndpointUrl(),
       {},
-    )
-      .pipe(
-        tap((result: IAuthorizationResult) => this.setAuthorizationTokenCookie(result.accessToken, result.expiresIn)),
-      );
+    );
   }
 
   public getAuthorizationTokenFromCookie(): string | undefined {

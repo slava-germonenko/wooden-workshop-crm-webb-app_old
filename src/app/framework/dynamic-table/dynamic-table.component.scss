@@ -3,6 +3,11 @@
   flex-direction: column;
 }
 
+.router-link {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .table-container {
   overflow-x: auto;
   flex: 1 1 auto;

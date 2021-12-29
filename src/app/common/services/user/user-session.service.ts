@@ -2,13 +2,17 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   BehaviorSubject,
   Subscription,
+  Observable,
   combineLatest,
   interval,
   filter,
-  switchMap, tap,
+  switchMap,
+  tap,
 } from 'rxjs';
 
-import { REFRESH_TOKEN_INTERVAL } from '@app/common/constants';
+import { REFRESH_TOKEN_INTERVAL } from '@common/constants';
+import { IAuthorizationResult } from '@common/interfaces';
+
 import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +27,7 @@ export class UserSessionService implements OnDestroy {
 
   public startUserSession(): void {
     this.userSessionIsAliveSource.next(true);
-    this.refreshTokenSubscription = this.createRefreshTokenStream();
+    this.refreshTokenSubscription = this.createRefreshSessionStream();
   }
 
   public destroyUserSession(): void {
@@ -31,15 +35,24 @@ export class UserSessionService implements OnDestroy {
     this.destroyRefreshTokenSubscription();
   }
 
+  public refreshUserSession(): Observable<IAuthorizationResult> {
+    return this.userService.refreshToken()
+      .pipe(
+        tap((result: IAuthorizationResult) => {
+          this.userService.setAuthorizationTokenCookie(result.accessToken, result.expiresIn);
+        }),
+      );
+  }
+
   public ngOnDestroy(): void {
     this.destroyRefreshTokenSubscription();
   }
 
-  private createRefreshTokenStream(): Subscription {
+  private createRefreshSessionStream(): Subscription {
     return combineLatest([this.userSessionIsAlive$, interval(REFRESH_TOKEN_INTERVAL)])
       .pipe(
         filter(([sessionIsAlive]) => sessionIsAlive),
-        switchMap(() => this.userService.refreshUserSession()),
+        switchMap(() => this.refreshUserSession()),
         tap({
           error: () => this.destroyUserSession(),
         }),

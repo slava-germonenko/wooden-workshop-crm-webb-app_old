@@ -5,6 +5,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 
 import { AutocompleteModule } from '@framework/autocomplete';
 import { DynamicFormDialogModule } from '@framework/dynamic-form-dialog';
@@ -18,7 +19,6 @@ import {
 } from './details';
 import { RolesListComponent, RolesListService, RolesListStateService } from './list';
 import { routes } from './roles.routes';
-import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [

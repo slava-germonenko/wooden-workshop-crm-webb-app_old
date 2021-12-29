@@ -14,4 +14,12 @@ export class ToolbarService {
   public set toolbarVisible(visible: boolean) {
     this.toolbarVisibleSource.next(visible);
   }
+
+  public showToolbar(): void {
+    this.toolbarVisible = true;
+  }
+
+  public hideToolbar(): void {
+    this.toolbarVisible = false;
+  }
 }

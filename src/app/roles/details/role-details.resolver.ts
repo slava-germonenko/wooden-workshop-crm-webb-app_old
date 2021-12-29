@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
-import { catchError, EMPTY, Observable, tap } from 'rxjs';
+import { catchError, EMPTY, Observable } from 'rxjs';
 
 import { ToastrService } from '@framework/toastr';
 import { DEFAULT_ERROR_MESSAGE } from '@common/constants';

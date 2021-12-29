@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   Observable,
   map,
   shareReplay,
   switchMap,
+  filter,
 } from 'rxjs';
 
 import { Permissions } from '@common/enums';
 import { ArrayHelper } from '@common/helpers';
 import { IUser } from '@common/interfaces';
-import { AppRoutesService, UserService, UserSessionService } from '@common/services';
+import { UserService, UserSessionService } from '@common/services';
 
 @Injectable({ providedIn: 'root' })
 export class UserStateService {
   public readonly currentUser$: Observable<IUser> = this.userSessionService.userSessionIsAlive$
     .pipe(
+      filter((isLoggedIn) => isLoggedIn),
       switchMap(() => this.userService.getCurrentUser()),
       shareReplay(1),
     );
@@ -27,8 +28,6 @@ export class UserStateService {
     );
 
   public constructor(
-    private readonly appRoutesService: AppRoutesService,
-    private readonly router: Router,
     private readonly userService: UserService,
     private readonly userSessionService: UserSessionService,
   ) { }

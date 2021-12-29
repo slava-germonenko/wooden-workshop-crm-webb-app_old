@@ -1,15 +1,16 @@
 :host {
   display: block;
-}
-
-.permissions-section {
+  position: relative;
 }
 
 .drop-container-block {
   width: max(48%, 400px);
-  overflow-x: auto;
-  max-height: 400px;
-  min-height: 200px;
+
+  .drop-list {
+    overflow-x: auto;
+    max-height: 400px;
+    min-height: 200px;
+  }
 }
 
 .actions-section {

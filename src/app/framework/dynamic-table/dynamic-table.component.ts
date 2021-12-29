@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  Sanitizer,
   EventEmitter,
   Component,
   Input,
