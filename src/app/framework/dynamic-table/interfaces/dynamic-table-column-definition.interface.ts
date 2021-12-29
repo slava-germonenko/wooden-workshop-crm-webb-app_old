@@ -5,6 +5,7 @@ export interface IDynamicTableColumnDefinition<TRow> {
   label: string;
   format?: DynamicTableCellFormatter<any>;
   sortable?: boolean;
-  getValue?(row: TRow): any;
   getDynamicFormatter?(row: TRow): DynamicTableCellFormatter<any>;
+  getLink?(row: TRow): string | string[];
+  getValue?(row: TRow): any;
 }

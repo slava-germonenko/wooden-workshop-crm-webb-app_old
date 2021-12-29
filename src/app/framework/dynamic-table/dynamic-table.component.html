@@ -19,7 +19,9 @@
 
       <td
         mat-cell
+        [class.router-link]="!!column.getLink"
         [innerHTML]="getCellHtml(column, row)"
+        [routerLink]="column.getLink ? column.getLink(row) : undefined"
         *matCellDef="let row"
       ></td>
     </ng-container>

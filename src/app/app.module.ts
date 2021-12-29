@@ -8,12 +8,12 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { ToolbarModule, ToolbarService } from '@framework/toolbar';
 import { WithTokenInterceptor } from '@common/interceptors';
-import { UserService, UserSessionService } from '@common/services';
-import { RussianMatPaginatorIntl } from '@app/i18n';
+import { UserSessionService } from '@common/services';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { initApp } from './app-initializer';
+import { RussianMatPaginatorIntl } from './i18n';
 
 @NgModule({
   declarations: [
@@ -41,11 +41,10 @@ import { initApp } from './app-initializer';
       provide: APP_INITIALIZER,
       useFactory: (
         toolbarService: ToolbarService,
-        userService: UserService,
         userSessionService: UserSessionService,
-      ) => () => initApp(toolbarService, userService, userSessionService),
+      ) => () => initApp(toolbarService, userSessionService),
       multi: true,
-      deps: [ToolbarService, UserService, UserSessionService],
+      deps: [ToolbarService, UserSessionService],
     },
   ],
   bootstrap: [AppComponent],

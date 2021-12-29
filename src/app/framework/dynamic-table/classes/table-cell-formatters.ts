@@ -15,11 +15,6 @@ export class TableCellFormatters {
     return (value: any | undefined | null) => (value === undefined || value === null ? defaultValue : value);
   }
 
-  public static link(url: string, openInNewTab: boolean = true): DynamicTableCellFormatter<string> {
-    const target = openInNewTab ? 'target="_blank"' : '';
-    return (value: string) => `<a href="${url}" ${target}>${value}</a>`;
-  }
-
   public static number(precision: number): DynamicTableCellFormatter<number> {
     return (value: number) => (Number.isNaN(value) ? null : value.toFixed(precision));
   }

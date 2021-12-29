@@ -8,6 +8,14 @@ export class AppRoutesService {
     private readonly urlSerializer: UrlSerializer,
   ) { }
 
+  public getContactsPageRouter(): string {
+    return this.serializeRoute(['contacts']);
+  }
+
+  public getDashboardPageRoute(): string {
+    return this.serializeRoute(['dashboard']);
+  }
+
   public getLoginPageRoute(redirectUrl?: string): string {
     const queryParams = redirectUrl ? { redirectUrl } : undefined;
     return this.urlSerializer.serialize(
@@ -16,14 +24,16 @@ export class AppRoutesService {
   }
 
   public getLogoutPageRoute(): string {
-    return this.urlSerializer.serialize(
-      this.router.createUrlTree(['logout']),
-    );
+    return this.serializeRoute(['logout']);
   }
 
-  public getDashboardPageRoute(): string {
+  public getProfilePageRoute(): string {
+    return this.serializeRoute(['profile']);
+  }
+
+  private serializeRoute(commands: (string | number)[]): string {
     return this.urlSerializer.serialize(
-      this.router.createUrlTree(['dashboard']),
+      this.router.createUrlTree(commands),
     );
   }
 }

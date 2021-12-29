@@ -19,6 +19,6 @@ export class UnauthorizedGuard implements CanActivate {
   }
 
   private buildRedirectRoute(): UrlTree {
-    return this.router.createUrlTree(['']);
+    return this.router.createUrlTree(['profile']);
   }
 }
