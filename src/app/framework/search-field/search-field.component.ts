@@ -16,15 +16,17 @@ import {
   startWith,
 } from 'rxjs';
 
+import { EMPTY_ARRAY } from '@common/constants/objects';
+
 import { DEFAULT_DEBOUNCE_TIME } from './constants';
 
 @Component({
-  selector: 'ww-autocomplete',
-  templateUrl: 'autocomplete.component.html',
-  styleUrls: ['autocomplete.component.scss'],
+  selector: 'ww-search-field',
+  templateUrl: 'search-field.component.html',
+  styleUrls: ['search-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AutocompleteComponent implements OnDestroy {
+export class SearchFieldComponent implements OnDestroy {
   private formControlValueChangeSubscription: Subscription | null = null;
 
   public controlInner: FormControl = new FormControl();
@@ -40,10 +42,14 @@ export class AutocompleteComponent implements OnDestroy {
   public appearance: MatFormFieldAppearance = 'standard';
 
   @Input()
-  public debounceTime = DEFAULT_DEBOUNCE_TIME;
+  public autocompleteEnabled = false;
 
   @Input()
-  public displayWith?: (item: any) => string | null;
+  public debounceTime = DEFAULT_DEBOUNCE_TIME;
+
+  // eslint-disable-next-line class-methods-use-this
+  @Input()
+  public displayWith: (item: any) => string | null = (item: any) => item.toString();
 
   @Input()
   public label?: string;
@@ -52,13 +58,13 @@ export class AutocompleteComponent implements OnDestroy {
   public multiple = false;
 
   @Input()
-  public options: any[] = [];
+  public options: unknown[] = [];
 
   @Input()
   public placeholder = '';
 
   @Input()
-  public selectedItems: any[] = [];
+  public selectedItems: unknown[] = [];
 
   @Input()
   public separatorKey = [ENTER, COMMA];
@@ -76,12 +82,16 @@ export class AutocompleteComponent implements OnDestroy {
     this.createSearchChangeSubscription();
   }
 
-  public get availableOptions(): any[] {
+  public get availableOptions(): unknown[] {
+    if (!this.autocompleteEnabled) {
+      return EMPTY_ARRAY;
+    }
+
     if (!this.selectedItems.length) {
       return this.options;
     }
 
-    return this.multiple ? this.options : [];
+    return this.multiple ? this.options : EMPTY_ARRAY;
   }
 
   public get currentPlaceholder(): string {

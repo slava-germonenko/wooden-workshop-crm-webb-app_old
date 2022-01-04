@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
-import { AutocompleteModule } from '@framework/autocomplete';
+import { SearchFieldModule } from '@framework/search-field';
 import { DynamicFormDialogModule } from '@framework/dynamic-form-dialog';
 import { DynamicTableModule } from '@framework/dynamic-table';
 import { ToastrModule } from '@framework/toastr';
@@ -14,7 +14,7 @@ import { routes } from './users.routes';
 
 @NgModule({
   imports: [
-    AutocompleteModule,
+    SearchFieldModule,
     CommonModule,
     DynamicFormDialogModule,
     DynamicTableModule,

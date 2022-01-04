@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
-import { AutocompleteModule } from '@framework/autocomplete';
+import { SearchFieldModule } from '@framework/search-field';
 import { DynamicTableModule } from '@framework/dynamic-table';
 import { WithTokenInterceptor } from '@common/interceptors';
 
@@ -12,7 +12,7 @@ import { routes } from './contacts.routes';
 
 @NgModule({
   imports: [
-    AutocompleteModule,
+    SearchFieldModule,
     CommonModule,
     DynamicTableModule,
     HttpClientModule,

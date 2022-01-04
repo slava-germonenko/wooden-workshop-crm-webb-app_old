@@ -3,12 +3,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
-import { IAuthorizationResult } from '@common/interfaces';
 import { ToolbarService } from '@framework/toolbar';
 import { ToastrService } from '@framework/toastr';
+import { DEFAULT_ERROR_MESSAGE } from '@common/constants';
+import { IAuthorizationResult } from '@common/interfaces';
 import { ApiUrlsService, AppRoutesService } from '@common/services/urls';
 import { UserService, UserSessionService } from '@common/services/user';
-import { DEFAULT_ERROR_MESSAGE } from '@common/constants';
 
 @Injectable()
 export class LoginService {

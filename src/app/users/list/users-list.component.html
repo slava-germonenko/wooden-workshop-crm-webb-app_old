@@ -2,12 +2,12 @@
   <h1>Пользователи</h1>
   <span class="spacer"></span>
 
-  <ww-autocomplete
+  <ww-search-field
     class="default-text-input"
     label="Поиск по пользователям"
     placeholder="Начните вводить"
     (searchChanged)="setUsersSearch($event)"
-  ></ww-autocomplete>
+  ></ww-search-field>
 
   <button mat-raised-button (click)="openAddUserDialog()">
     Добавить

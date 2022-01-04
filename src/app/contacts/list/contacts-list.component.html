@@ -1,13 +1,13 @@
 <div class="align-center">
   <h1>Контакты</h1>
   <span class="spacer"></span>
-  <ww-autocomplete
+  <ww-search-field
     class="default-text-input"
     label="Поиск по контактам"
     placeholder="Начните вводить"
     (searchChanged)="changeContactsSearch($event)"
-  ></ww-autocomplete>
-  <ww-autocomplete
+  ></ww-search-field>
+  <ww-search-field
     class="default-text-input"
     appearance="fill"
     label="Ответственный"
@@ -18,7 +18,7 @@
     (optionRemoved)="changeContactAssigneeFilter(undefined)"
     (optionSelected)="changeContactAssigneeFilter($event)"
     (searchChanged)="changeUsersSearch($event)"
-  ></ww-autocomplete>
+  ></ww-search-field>
 </div>
 <ww-dynamic-table
   class="mat-elevation-z6"

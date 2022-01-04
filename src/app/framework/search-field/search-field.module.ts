@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
-import { AutocompleteComponent } from './autocomplete.component';
+import { SearchFieldComponent } from './search-field.component';
 
 @NgModule({
   imports: [
@@ -22,11 +22,11 @@ import { AutocompleteComponent } from './autocomplete.component';
     ReactiveFormsModule,
   ],
   declarations: [
-    AutocompleteComponent,
+    SearchFieldComponent,
   ],
   exports: [
-    AutocompleteComponent,
+    SearchFieldComponent,
     ReactiveFormsModule,
   ],
 })
-export class AutocompleteModule { }
+export class SearchFieldModule { }

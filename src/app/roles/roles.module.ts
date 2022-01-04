@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 
-import { AutocompleteModule } from '@framework/autocomplete';
+import { SearchFieldModule } from '@framework/search-field';
 import { DynamicFormDialogModule } from '@framework/dynamic-form-dialog';
 import { DynamicTableModule } from '@framework/dynamic-table';
 import { ToastrModule } from '@framework/toastr';
@@ -22,7 +22,7 @@ import { routes } from './roles.routes';
 
 @NgModule({
   imports: [
-    AutocompleteModule,
+    SearchFieldModule,
     CommonModule,
     DragDropModule,
     DynamicFormDialogModule,
