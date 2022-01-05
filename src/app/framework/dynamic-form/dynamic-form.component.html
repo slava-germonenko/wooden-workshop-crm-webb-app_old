@@ -7,6 +7,7 @@
           <mat-label *ngIf="field.label">{{field.label}}</mat-label>
           <input
             matInput
+            [name]="field.name"
             [type]="field.type"
             [formControlName]="field.name"
             [placeholder]="field.placeholder ?? ''"
@@ -25,6 +26,7 @@
             #inputElement
             matInput
             type="password"
+            [name]="field.name"
             [formControlName]="field.name"
             [placeholder]="field.placeholder ?? ''"
           />
