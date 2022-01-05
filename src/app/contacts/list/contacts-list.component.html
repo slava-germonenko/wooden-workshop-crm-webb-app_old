@@ -23,7 +23,7 @@
 <ww-dynamic-table
   class="mat-elevation-z6"
   [columnDefinitions]="columnDefinitions"
-  [dataSource]="contacts$ | async"
+  [dataSource]="contacts$"
   [length]="(contactsTotal$ | async) || 0"
   (pageChange)="changeContactsPage($event)"
   (sortChange)="changeContactsSort($event)"

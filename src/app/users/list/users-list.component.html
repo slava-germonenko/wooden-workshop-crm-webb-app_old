@@ -17,7 +17,7 @@
 <ww-dynamic-table
   class="mat-elevation-z6"
   [columnDefinitions]="tableColumns"
-  [dataSource]="(users$ | async) ?? []"
+  [dataSource]="users$"
   [length]="(usersTotal$ | async) ?? 0"
   (pageChange)="setUsersPage($event)"
   (sortChange)="setUsersOrder($event)"

@@ -8,7 +8,7 @@ import { DynamicTableCellFormatter } from '../types';
 export class TableCellFormatters {
   public static date(format: string): DynamicTableCellFormatter<Date> {
     const datePipe = new DatePipe(navigator.language);
-    return (value: Date) => datePipe.transform(value, format);
+    return (value: Date) => `<time datetime="${value.toString()}">${datePipe.transform(value, format)}</time>`;
   }
 
   public static defaultValue(defaultValue: string): DynamicTableCellFormatter<any> {

@@ -16,7 +16,7 @@ export class RolesListComponent {
   @HostBinding('class')
   public hostClasses = ['pad-page-content', 'full-size'];
 
-  public readonly contacts$ = this.rolesListStateService.roles$;
+  public readonly roles$ = this.rolesListStateService.roles$;
 
   public totalRoles$ = this.rolesListStateService.rolesCount$;
 
