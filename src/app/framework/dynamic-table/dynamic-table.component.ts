@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { Sort } from '@angular/material/sort';
+import { Observable } from 'rxjs';
 
 import { IOrderByQuery, IPage } from '@common/interfaces';
 
@@ -19,9 +20,9 @@ import { IDynamicTableColumnDefinition } from './interfaces';
   styleUrls: ['dynamic-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DynamicTableComponent {
+export class DynamicTableComponent<TRow extends Record<string, any>> {
   @Input()
-  public set columnDefinitions(columns: IDynamicTableColumnDefinition<any>[]) {
+  public set columnDefinitions(columns: IDynamicTableColumnDefinition<TRow>[]) {
     this.columns = columns;
     this.displayedColumnNames = columns.map((column) => column.name);
   }
@@ -33,13 +34,13 @@ export class DynamicTableComponent {
   public pageSize = DEFAULT_PAGE.size;
 
   @Input()
-  public dataSource: any = [];
+  public dataSource: TRow[] | Observable<TRow[]> = [];
 
   @Input()
-  public length = 1;
+  public length = 0;
 
   @Input()
-  public noDataMessage: string = 'По данному запросу ничего не найдено';
+  public noDataMessage: string = 'По данному запросу ничего не найдено.';
 
   @Input()
   public pageSizeOptions = [...DEFAULT_PAGING_OPTIONS];
@@ -62,12 +63,12 @@ export class DynamicTableComponent {
 
   // eslint-disable-next-line class-methods-use-this
   public getCellHtml(
-    columnDef: IDynamicTableColumnDefinition<unknown>,
-    row: any,
+    columnDef: IDynamicTableColumnDefinition<TRow>,
+    row: TRow,
   ): SafeHtml | null {
     const value = columnDef.getValue ? columnDef.getValue(row) : row[columnDef.name];
     const formatter = columnDef.getDynamicFormatter ? columnDef.getDynamicFormatter(row) : columnDef.format;
-    return formatter ? formatter(value) : value;
+    return formatter ? formatter(value) : String(value);
   }
 
   public emitSortChange(matSort: Sort): void {

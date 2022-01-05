@@ -1,15 +1,14 @@
-<div class="table-container">
-  <table mat-table matSort [dataSource]="dataSource" (matSortChange)="emitSortChange($event)">
-    <ng-container
-      [matColumnDef]="column.name"
-      *ngFor="let column of columns"
-    >
+<div class="spacer x-scrollable">
+  <table
+    class="full-width"
+    mat-table
+    matSort
+    [dataSource]="dataSource"
+    (matSortChange)="emitSortChange($event)"
+  >
+    <ng-container [matColumnDef]="column.name" *ngFor="let column of columns">
       <ng-container *ngIf="column.sortable else noSort">
-        <th
-          mat-header-cell
-          [mat-sort-header]="column.name"
-          *matHeaderCellDef
-        >
+        <th mat-header-cell [mat-sort-header]="column.name" *matHeaderCellDef>
           {{column.label}}
         </th>
       </ng-container>
@@ -28,7 +27,8 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumnNames; sticky: true"></tr>
     <tr
-      mat-row (click)="rowClick.emit(row)"
+      mat-row
+      (click)="rowClick.emit(row)"
       *matRowDef="let row; columns: displayedColumnNames;"
     ></tr>
 
@@ -42,6 +42,7 @@
   </table>
 </div>
 <mat-paginator
+  class="spacer"
   [length]="length"
   [pageIndex]="pageIndex"
   [pageSize]="pageSize"

@@ -15,7 +15,7 @@
 <ww-dynamic-table
   class="mat-elevation-z6"
   [columnDefinitions]="tableColumns"
-  [dataSource]="(contacts$ | async) || []"
+  [dataSource]="roles$"
   [length]="(totalRoles$ | async) || 0"
   (sortChange)="setRolesOrder($event)"
   (pageChange)="setRolesPage($event)"
