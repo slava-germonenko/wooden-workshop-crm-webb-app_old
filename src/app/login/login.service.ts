@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 import { ToolbarService } from '@framework/toolbar';
 import { ToastrService } from '@framework/toastr';
 import { DEFAULT_ERROR_MESSAGE } from '@common/constants';
+import { BrowserHelper } from '@common/helpers';
 import { IAuthorizationResult } from '@common/interfaces';
 import { ApiUrlsService, AppRoutesService } from '@common/services/urls';
 import { UserService, UserSessionService } from '@common/services/user';
@@ -24,9 +25,10 @@ export class LoginService {
   ) { }
 
   public login(username: string, password: string): Observable<IAuthorizationResult> {
+    const deviceInformation = BrowserHelper.getDeviceAndBrowserInformation();
     return this.httpClient.post<IAuthorizationResult>(
       this.apiUrlsService.getAuthorizationEndpointUrl(),
-      { username, password },
+      { username, password, device: deviceInformation },
     ).pipe(
       tap({
         next: (result) => {
