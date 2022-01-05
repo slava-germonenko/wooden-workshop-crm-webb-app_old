@@ -25,10 +25,11 @@ export class LoginService {
   ) { }
 
   public login(username: string, password: string): Observable<IAuthorizationResult> {
-    const deviceInformation = BrowserHelper.getDeviceAndBrowserInformation();
+    const { browserName, browserVersion, osName } = BrowserHelper.getDeviceAndBrowserInformation();
+    const deviceName = `${browserName} ${browserVersion} на ${osName}`;
     return this.httpClient.post<IAuthorizationResult>(
       this.apiUrlsService.getAuthorizationEndpointUrl(),
-      { username, password, device: deviceInformation },
+      { username, password, deviceName },
     ).pipe(
       tap({
         next: (result) => {
