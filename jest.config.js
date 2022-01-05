@@ -5,7 +5,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  collectCoverageFrom: ['<rootDir>/src/**/*.{ts,js}', '!<rootDir>/src/environments/*', '!<rootDir>/src/assets/**/*'],
+  collectCoverageFrom: ['<rootDir>/src/app/**/*.{ts,js}', '!<rootDir>/src/environments/*', '!<rootDir>/src/assets/**/*'],
   coverageReporters: ['html'],
   coverageDirectory: 'coverage',
   moduleFileExtensions: ['ts', 'js', 'html'],
