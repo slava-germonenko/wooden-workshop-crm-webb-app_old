@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import localeRu from '@angular/common/locales/ru';
 
 import { ToolbarModule, ToolbarService } from '@framework/toolbar';
 import { WithTokenInterceptor } from '@common/interceptors';
@@ -14,6 +16,8 @@ import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { initApp } from './app-initializer';
 import { RussianMatPaginatorIntl } from './i18n';
+
+registerLocaleData(localeRu);
 
 @NgModule({
   declarations: [
@@ -28,6 +32,10 @@ import { RussianMatPaginatorIntl } from './i18n';
   ],
   providers: [
     CookieService,
+    {
+      provide: LOCALE_ID,
+      useValue: 'ru',
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: WithTokenInterceptor,

@@ -45,8 +45,7 @@ export class RoleDetailsStateService {
     private readonly roleDetailsService: RoleDetailsService,
     private readonly route: ActivatedRoute,
     private readonly toastrService: ToastrService,
-  ) {
-  }
+  ) { }
 
   public addPermissionToRole(permission: Permissions): void {
     const role = this.roleSnapshot;

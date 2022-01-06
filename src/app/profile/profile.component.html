@@ -1,13 +1,29 @@
-<div class="pad-page-content justify-center">
-  <mat-card>
-    <h1 mat-card-title>Профиль</h1>
+<div class="place-center">
+  <mat-expansion-panel class="mat-elevation-z6" [expanded]="true">
+    <mat-expansion-panel-header>Профиль</mat-expansion-panel-header>
     <ww-dynamic-form
-      mat-card-content
       submitButtonText="Сохранить"
       [fields]="profileFormFields"
-      [submitButtonState]="loading ? 'loading' : null"
-      [value]="user"
+      [value]="profile$ | async"
       (formSubmit)="updateProfile($event)"
     ></ww-dynamic-form>
-  </mat-card>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel class="mat-elevation-z6">
+    <mat-expansion-panel-header>Сессии</mat-expansion-panel-header>
+    <mat-list>
+      <ng-container *ngFor="let session of activeSessions$ | async">
+        <mat-list-item>
+          <mat-icon mat-list-icon>devices</mat-icon>
+          <span mat-line>{{session.deviceName ?? 'Невозможно определить название устройства!'}}</span>
+          <span mat-line>
+          IP Адрес: {{session.ipAddress}}. Действительна до {{session.expireDate | date:'medium'}}
+        </span>
+          <button mat-icon-button [disabled]="currentSession.id === session.id" (click)="expireSession(session)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </ng-container>
+    </mat-list>
+  </mat-expansion-panel>
 </div>

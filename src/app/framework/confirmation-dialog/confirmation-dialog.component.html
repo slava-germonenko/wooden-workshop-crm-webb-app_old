@@ -1,0 +1,15 @@
+<span mat-dialog-title>{{config.title}}</span>
+
+<mat-dialog-content class="description">
+  {{config.description}}
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex-row" *ngIf="config.showCancelButton">
+  <button mat-button color="primary" [mat-dialog-close]="false">
+    {{config.cancelButtonText}}
+  </button>
+  <span class="spacer"></span>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">
+    {{config.confirmButtonText}}
+  </button>
+</mat-dialog-actions>

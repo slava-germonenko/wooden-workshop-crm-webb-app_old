@@ -16,6 +16,10 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/contacts`;
   }
 
+  public getCurrentSessionEndpointUrl(): string {
+    return `${this.envService.apiBaseUrl}/auth/sessions/current`;
+  }
+
   public getCurrentUserEndpointUrl(): string {
     return `${this.envService.apiBaseUrl}/users/current`;
   }
@@ -40,8 +44,16 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/roles`;
   }
 
+  public getSessionEndpointUrl(sessionId: string): string {
+    return `${this.envService.apiBaseUrl}/auth/sessions/${sessionId}`;
+  }
+
   public getUserPermissionsEndpointUrl(userId: string): string {
     return `${this.envService.apiBaseUrl}/users/${userId}/permissions`;
+  }
+
+  public getUserSessionsEndpointUrl(userId: string): string {
+    return `${this.envService.apiBaseUrl}/users/${userId}/sessions`;
   }
 
   public getUsersEndpointUrl(): string {
