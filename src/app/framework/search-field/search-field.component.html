@@ -1,13 +1,15 @@
 <mat-form-field [appearance]="appearance">
   <mat-label *ngIf="label">{{label}}</mat-label>
 
-  <mat-chip-list #chipList *ngIf="autocompleteEnabled">
-    <mat-chip (removed)="optionRemoved.emit(item)" *ngFor="let item of selectedItems">
-      {{displayWith(item)}}
-      <button matChipRemove>
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip>
+  <mat-chip-list #chipList>
+    <ng-container *ngIf="autocompleteEnabled">
+      <mat-chip (removed)="optionRemoved.emit(item)" *ngFor="let item of selectedItems">
+        {{displayWith(item)}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+    </ng-container>
 
     <input
       matInput

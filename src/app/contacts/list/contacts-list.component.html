@@ -12,6 +12,7 @@
     appearance="fill"
     label="Ответственный"
     placeholder="Введите имя или фамилию"
+    [autocompleteEnabled]="true"
     [displayWith]="displayUser"
     [options]="(users$ | async) ?? []"
     [selectedItems]="selectedAssignee ? [selectedAssignee] : []"
