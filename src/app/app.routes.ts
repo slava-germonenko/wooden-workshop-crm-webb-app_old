@@ -10,6 +10,12 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'assets',
+    loadChildren: () => import('@app/assets/assets.module').then((m) => m.AssetsModule),
+    canActivate: [AuthorizedGuard, PermissionsGuard],
+    data: { permissions: [Permissions.Admin, Permissions.Assets, Permissions.ViewAssets] },
+  },
+  {
     path: 'contacts',
     loadChildren: () => import('@app/contacts/contacts.module').then((m) => m.ContactsModule),
     canActivate: [AuthorizedGuard],

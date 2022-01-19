@@ -1,3 +1,4 @@
+export * from './asset-file-extensions';
 export * from './cookie-names';
 export * from './messages';
 export * from './objects';

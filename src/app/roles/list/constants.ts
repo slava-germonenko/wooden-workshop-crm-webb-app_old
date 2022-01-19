@@ -20,11 +20,6 @@ export const ROLES_TABLE_COLUMNS_DEFINITIONS: IDynamicTableColumnDefinition<IRol
     },
   },
   {
-    name: 'assigneeCount',
-    label: 'Кол-во пользователей с ролью',
-    sortable: true,
-  },
-  {
     name: 'labels',
     label: 'Лейблы',
     getValue(role: IRole): string | null {

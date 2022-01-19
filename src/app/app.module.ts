@@ -10,6 +10,7 @@ import localeRu from '@angular/common/locales/ru';
 
 import { ToolbarModule, ToolbarService } from '@framework/toolbar';
 import { WithTokenInterceptor } from '@common/interceptors';
+import { CommonPipesModule } from '@common/pipes';
 import { UserSessionService } from '@common/services';
 
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ registerLocaleData(localeRu);
     AppComponent,
   ],
   imports: [
+    CommonPipesModule,
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,

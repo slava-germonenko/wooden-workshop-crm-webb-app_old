@@ -26,6 +26,12 @@ export const LEFT_SECTION_TOOLBAR_BUTTONS: IButton[] = [
     link: '/products',
     permissions: [Permissions.Admin, Permissions.Products, Permissions.Products],
   },
+  {
+    name: 'assets',
+    label: 'Ассеты',
+    link: '/assets',
+    permissions: [Permissions.Admin, Permissions.Assets, Permissions.ViewAssets],
+  },
 ];
 
 export const PROFILE_MENU_ACTIONS: IButton[] = [

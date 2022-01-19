@@ -1,7 +1,8 @@
 export interface IConfirmationDialogConfiguration {
   cancelButtonText: string;
   confirmButtonText: string;
-  description: string;
+  question: string;
+  termsList: string[];
   showCancelButton: boolean;
   showTitle: boolean;
   title: string;

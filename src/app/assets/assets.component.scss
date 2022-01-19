@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+.nav-buttons-bar {
+  height: 40px;
+}
+
+.assets-page-content {
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  padding-bottom: 10px;
+
+  &.empty {
+    position: relative;
+    display: grid;
+    place-content: center center;
+  }
+}
+
+.section-header {
+  margin: 16px;
+  color: #5f6368;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}

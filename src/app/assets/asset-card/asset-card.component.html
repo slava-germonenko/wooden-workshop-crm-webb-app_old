@@ -1,0 +1,18 @@
+<ng-container *ngIf="_asset">
+  <div>
+    <img
+      class="preview"
+      [class.placeholder]="imageIsPlaceholder"
+      [src]="previewImageUrl"
+      [alt]="_asset.assetName"
+    />
+  </div>
+  <div
+    class="align-center asset-description"
+    [class.selected]="selected"
+    [matTooltip]="_asset.assetName"
+  >
+    <mat-icon>description</mat-icon>
+    <span>{{ _asset.assetName }}</span>
+  </div>
+</ng-container>
