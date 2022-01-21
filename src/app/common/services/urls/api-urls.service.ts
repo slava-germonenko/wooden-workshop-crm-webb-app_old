@@ -8,6 +8,14 @@ export class ApiUrlsService {
     private readonly envService: EnvironmentService,
   ) { }
 
+  public getAssetsBaseEndpointsUrl(): string {
+    return `${this.envService.apiBaseUrl}/assets`;
+  }
+
+  public getAssetBaseEndpointsUrl(assetId: string): string {
+    return `${this.envService.apiBaseUrl}/assets/${assetId}`;
+  }
+
   public getAuthorizationEndpointUrl(): string {
     return `${this.envService.apiBaseUrl}/auth`;
   }
@@ -26,6 +34,18 @@ export class ApiUrlsService {
 
   public getExpireTokenEndpointUrl(): string {
     return `${this.envService.apiBaseUrl}/auth/expire`;
+  }
+
+  public getFolderAssetsEndpointUrl(folderId: string): string {
+    return `${this.envService.apiBaseUrl}/folders/${folderId}/assets`;
+  }
+
+  public getFolderBaseEndpointUrl(folderId: string): string {
+    return `${this.envService.apiBaseUrl}/folders/${folderId}`;
+  }
+
+  public getFoldersBaseEndpointsUrl(): string {
+    return `${this.envService.apiBaseUrl}/folders`;
   }
 
   public getRefreshTokenEndpointUrl(): string {

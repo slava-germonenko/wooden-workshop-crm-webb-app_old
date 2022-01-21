@@ -9,9 +9,12 @@ import { IDynamicFormDialogConfig } from './dynamic-form-dialog-config.interface
 export class DynamicFormDialogService {
   public constructor(private readonly matDialog: MatDialog) { }
 
-  public openFormDialog(config: IDynamicFormDialogConfig): MatDialogRef<unknown> {
+  public openFormDialog(config: IDynamicFormDialogConfig, value?: Record<string, any>): MatDialogRef<unknown> {
     return this.matDialog.open(DynamicFormDialogComponent, {
-      data: config,
+      data: {
+        config,
+        value,
+      },
     });
   }
 }

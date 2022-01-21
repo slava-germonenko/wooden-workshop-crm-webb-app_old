@@ -1,7 +1,12 @@
 <span mat-dialog-title>{{config.title}}</span>
 
 <mat-dialog-content class="description">
-  {{config.description}}
+  <p>{{config.question}}</p>
+  <ul *ngIf="config.termsList.length">
+    <li *ngFor="let term of config.termsList">
+      {{term}}
+    </li>
+  </ul>
 </mat-dialog-content>
 
 <mat-dialog-actions class="flex-row" *ngIf="config.showCancelButton">

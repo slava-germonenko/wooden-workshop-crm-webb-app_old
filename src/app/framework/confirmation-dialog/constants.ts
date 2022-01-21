@@ -2,7 +2,8 @@ import { IConfirmationDialogConfiguration } from './confirmation-dialog-configur
 
 export const BASE_CONFIRMATION_DIALOG_CONFIG: IConfirmationDialogConfiguration = {
   title: 'Подтвержедение действия',
-  description: 'Вы действительно хотите продолжить',
+  question: 'Вы действительно хотите продолжить',
+  termsList: [],
   cancelButtonText: 'Отмена',
   confirmButtonText: 'Подтвердить',
   showCancelButton: true,

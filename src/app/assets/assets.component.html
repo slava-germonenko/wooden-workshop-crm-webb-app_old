@@ -1,0 +1,75 @@
+<div class="flex-row align-center nav-buttons-bar">
+  <button mat-button (click)="goToFolder(null)">Ассеты</button>
+  <ng-container *ngFor="let folder of foldersHierarchy$ | async">
+    <mat-icon>chevron_right</mat-icon>
+    <button mat-button (click)="goToFolder(folder)">{{folder.name}}</button>
+  </ng-container>
+
+  <span class="spacer"></span>
+
+  <button mat-icon-button (click)="action.click && action.click()" *ngFor="let action of actions$ | async">
+    <mat-icon>{{action.icon}}</mat-icon>
+  </button>
+</div>
+<mat-divider></mat-divider>
+
+<div class="assets-page-content" [class.empty]="folderIsEmpty$ | async">
+  <ng-container *ngIf="folders$ | async as folders">
+    <div class="section-header" *ngIf="folders.length">Директории</div>
+
+    <section
+      class="responsive-grid"
+      (click)="$event.target === $event.currentTarget && clearFoldersSelection()"
+    >
+      <ww-folder-card
+        [folder]="folder"
+        [selected]="isFolderSelected(folder)"
+        (click)="toggleFolder(folder)"
+        (dblclick)="goToFolder(folder)"
+        *ngFor="let folder of folders"
+      ></ww-folder-card>
+    </section>
+  </ng-container>
+
+  <ng-container *ngIf="assets$ | async as assets">
+    <div class="section-header" *ngIf="assets.length">Файлы</div>
+
+    <section class="responsive-grid" (click)="$event.target === $event.currentTarget && clearAssetsSelection()">
+      <ww-asset-card
+        [asset]="asset"
+        [selected]="isAssetSelected(asset)"
+        (click)="toggleAsset(asset)"
+        *ngFor="let asset of assets"
+      ></ww-asset-card>
+    </section>
+  </ng-container>
+
+  <div class="place-center" *ngIf="folderIsEmpty$ | async">
+    <span class="empty-page-message">Эта папка пуста.</span>
+    <span class="empty-page-description">Вы можете добавить сюда файлы или папки при помощи кнопки '+'.</span>
+  </div>
+</div>
+
+<button
+  mat-fab
+  color="primary"
+  class="bottom-right-corner"
+  [style.position]="'absolute'"
+  [mat-menu-trigger-for]="addMenu"
+  *wwWithPermissions="uploadAssetPermissions"
+>
+  <mat-icon>add</mat-icon>
+</button>
+
+<mat-menu #addMenu="matMenu" xPosition="before" yPosition="above">
+  <button
+    mat-menu-item
+    (click)="createFolder()"
+    *wwWithPermissions="addButtonPermissions"
+  >
+    <mat-icon>folder</mat-icon>Папка
+  </button>
+  <button mat-menu-item (click)="uploadAsset()">
+    <mat-icon>description</mat-icon>Файл
+  </button>
+</mat-menu>

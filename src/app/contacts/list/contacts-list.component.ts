@@ -1,7 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 
-import { FullNamePipe } from '@framework/full-name';
 import { IOrderByQuery, IPage, IUser } from '@common/interfaces';
+import { FullNamePipe } from '@common/pipes';
 import { UsersListStateService } from '@common/services/user';
 
 import { ContactsOrderField } from '../types';

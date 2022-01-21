@@ -25,7 +25,7 @@ export class RoleDetailsComponent implements OnInit {
 
   public readonly availablePermissions$ = this.roleDetailsStateService.availablePermissions$;
 
-  public readonly permissionLabels = { ...PERMISSION_LABELS };
+  public readonly permissionLabels: Record<Permissions, string> = { ...PERMISSION_LABELS };
 
   public readonly roleNameControl = new FormControl('', Validators.required);
 

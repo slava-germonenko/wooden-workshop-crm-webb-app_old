@@ -1,10 +1,11 @@
-<h1 mat-dialog-title>{{data.title}}</h1>
+<h1 mat-dialog-title>{{data.config.title}}</h1>
 <ww-dynamic-form
   mat-dialog-content
-  [fields]="data.formControls"
+  [fields]="data.config.formControls"
   [showCancel]="true"
-  [submitButtonText]="data.submitText ?? 'Подтвердить'"
-  [cancelButtonText]="data.cancelText ?? 'Отменить'"
+  [submitButtonText]="data.config.submitText ?? 'Подтвердить'"
+  [cancelButtonText]="data.config.cancelText ?? 'Отменить'"
+  [value]="data.value"
   (formSubmit)="close($event)"
   (formCancel)="close()"
 ></ww-dynamic-form>

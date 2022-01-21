@@ -1,0 +1,58 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+
+<input
+  #fileInput
+  hidden
+  multiple
+  type="file"
+  [accept]="acceptedFileTypes"
+  (change)="setAttachedFiles($event)"
+/>
+<div
+  *ngIf="!attachedFiles.length else files"
+  class="dashed-border file-picker-container align-center justify-center"
+  (drop)="dropFiles($event); $event.preventDefault(); $event.stopPropagation(); isDragging = false"
+  (dragover)="$event.preventDefault(); $event.stopPropagation(); isDragging = true"
+  (dragenter)="$event.preventDefault(); $event.stopPropagation(); isDragging = true"
+  (dragleave)="$event.preventDefault(); $event.stopPropagation(); isDragging = false"
+>
+  <ng-container *ngIf="isDragging else clickToUploadArea">
+    <mat-icon [style.pointer-events]="'none'">file_download</mat-icon>
+  </ng-container>
+
+  <ng-template #clickToUploadArea>
+    <div class="align-center small-gap">
+      <mat-icon>cloud_upload</mat-icon>
+      <span class="text">Перетащите файлы сюда.</span>
+    </div>
+    <span class="text">
+      Либо нажмите <a (click)="fileInput.click()">здесь</a>, чтобы выбрать.
+    </span>
+  </ng-template>
+</div>
+
+<ng-template #files>
+  <mat-list class="files-list">
+    <mat-list-item class="file-item flex-row" *ngFor="let file of attachedFiles">
+      <mat-icon mat-list-icon>description</mat-icon>
+      <span class="file-name">{{file.name}}</span>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="excludedFiles(file)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</ng-template>
+
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="null">{{data.cancelButtonText}}</button>
+  <span class="spacer"></span>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!attachedFiles.length"
+    [mat-dialog-close]="attachedFiles"
+    >
+      {{data.submitButtonText}}
+    </button>
+</mat-dialog-actions>

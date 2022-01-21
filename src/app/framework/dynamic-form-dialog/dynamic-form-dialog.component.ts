@@ -12,7 +12,7 @@ import { IDynamicFormDialogConfig } from './dynamic-form-dialog-config.interface
 export class DynamicFormDialogComponent {
   constructor(
     private readonly dialogRef: MatDialogRef<DynamicFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public readonly data: IDynamicFormDialogConfig,
+    @Inject(MAT_DIALOG_DATA) public readonly data: { config: IDynamicFormDialogConfig, value: Record<string, any> },
   ) { }
 
   public close(data?: Record<string, any>): void {
