@@ -47,6 +47,8 @@ export class AssetsComponent implements OnInit {
       shareReplay(1),
     );
 
+  public loading = true;
+
   public addButtonPermissions: Permissions[] = [
     Permissions.Admin,
     Permissions.Assets,
@@ -100,6 +102,6 @@ export class AssetsComponent implements OnInit {
   }
 
   public uploadAsset(): void {
-    this.assetsListStateService.uploadAsset();
+    this.assetsListStateService.addAssets();
   }
 }

@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  width: min(600px, 70vw);
+  max-height: 70vh;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.folders-section {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.pad-message {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
