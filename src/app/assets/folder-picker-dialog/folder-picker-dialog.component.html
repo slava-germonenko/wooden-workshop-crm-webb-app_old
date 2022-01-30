@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Выбор папки</h1>
+<div class="align-center">
+  <button mat-button (click)="goToFolder(null)">Корневой каталог</button>
+
+  <ng-container *ngFor="let folder of foldersHierarchy$ | async">
+    <mat-icon>chevron_right</mat-icon>
+    <button mat-button (click)="goToFolder(folder)">{{folder.name}}</button>
+  </ng-container>
+</div>
+
+<section class="responsive-grid folders-section full-width" *ngIf="folders$ | async as folders">
+  <ww-folder-card
+    [folder]="folder"
+    [selected]="isFolderSelected(folder)"
+    (dblclick)="goToFolder(folder)"
+    (click)="toggleFolder(folder)"
+    *ngFor="let folder of folders"
+  ></ww-folder-card>
+
+  <div class="justify-center full-width pad-message" *ngIf="!folders || !folders.length">
+    <span class="empty-page-message">Эта папка пуста</span>
+  </div>
+</section>
+
+<mat-dialog-actions class="flex-row">
+  <button mat-button color="primary" [mat-dialog-close]="undefined">Отмена</button>
+
+  <span class="spacer"></span>
+
+  <button mat-raised-button color="primary" [mat-dialog-close]="{ folderId: pickedFolderId }">
+    Переместить
+  </button>
+</mat-dialog-actions>

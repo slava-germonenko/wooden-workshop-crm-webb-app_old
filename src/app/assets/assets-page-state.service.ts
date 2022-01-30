@@ -1,32 +1,23 @@
+/* eslint-disable eqeqeq */
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { SelectionModel } from '@angular/cdk/collections';
 import {
   BehaviorSubject,
   Observable,
   combineLatest,
-  filter,
   forkJoin,
   map,
   startWith,
-  switchMap,
   tap,
 } from 'rxjs';
 
 import { ConfirmationDialogService } from '@framework/confirmation-dialog';
 import { DynamicFormDialogService } from '@framework/dynamic-form-dialog';
 import { FilePickerDialogService } from '@framework/file-picker-dialog';
-import { ToastrService } from '@framework/toastr';
-import { ALLOWED_ASSET_FILE_EXTENSIONS, DEFAULT_ERROR_MESSAGE } from '@common/constants';
 import { IPage, IButton } from '@common/interfaces';
 import { IAsset, IFolder } from '@common/interfaces/models';
 
-import {
-  ADD_FOLDER_DIALOG_CONFIG,
-  RENAME_FOLDER_DIALOG_CONFIG,
-  AssetsService,
-  FoldersService, RENAME_ASSET_DIALOG_CONFIG,
-} from './common';
+import { AssetsService, FoldersService, FoldersHierarchy } from './common';
 import { BASE_EDIT_ACTION, BASE_MOVE_ACTION, BASE_REMOVE_ACTION } from './actions';
 
 const MAX_PAGE: IPage = {
@@ -40,7 +31,7 @@ export class AssetsPageStateService {
 
   private readonly assetsSource = new BehaviorSubject<IAsset[]>([]);
 
-  private readonly foldersHierarchySource = new BehaviorSubject<IFolder[]>([]);
+  private readonly foldersHierarchy = new FoldersHierarchy();
 
   private readonly foldersSelection = new SelectionModel<IFolder>(true);
 
@@ -50,18 +41,9 @@ export class AssetsPageStateService {
 
   public readonly assets$ = this.assetsSource.asObservable();
 
-  public readonly foldersHierarchy$ = this.foldersHierarchySource.asObservable();
+  public readonly foldersHierarchy$ = this.foldersHierarchy.changed$;
 
   public readonly folders$ = this.foldersSource.asObservable();
-
-  public get currentFolderSnapshot(): IFolder | null {
-    const folders = this.foldersHierarchySnapshot;
-    return folders.length ? folders[folders.length - 1] : null;
-  }
-
-  public get foldersHierarchySnapshot(): IFolder[] {
-    return this.foldersHierarchySource.value;
-  }
 
   public constructor(
     private readonly assetsService: AssetsService,
@@ -69,7 +51,6 @@ export class AssetsPageStateService {
     private readonly dynamicFormDialogService: DynamicFormDialogService,
     private readonly filePickerDialogService: FilePickerDialogService,
     private readonly foldersService: FoldersService,
-    private readonly toastrService: ToastrService,
   ) {
     this.actions$ = combineLatest([
       this.assetsSelection.changed.pipe(startWith([])),
@@ -89,29 +70,27 @@ export class AssetsPageStateService {
   }
 
   public createFolder(): void {
-    this.dynamicFormDialogService.openFormDialog(ADD_FOLDER_DIALOG_CONFIG)
-      .afterClosed()
-      .pipe(
-        filter((folder: { name: string }) => !!folder?.name),
-        switchMap(({ name }) => {
-          const currentFolderId = this.currentFolderSnapshot?.id;
-          return this.foldersService.createFolder({ name, parentFolderId: currentFolderId });
-        }),
-      )
-      .subscribe({
-        next: (folder) => this.addFolderLocally(folder),
-        error: (err: HttpErrorResponse) => this.toastrService.error(err.error?.message ?? DEFAULT_ERROR_MESSAGE),
-      });
+    this.foldersService.createFolder(this.foldersHierarchy.currentFolderSnapshot?.id)
+      .subscribe((folder) => this.addFolderLocally(folder));
   }
 
   public goToFolder(folder: IFolder | null, forceReload: boolean = false): void {
-    if (this.currentFolderSnapshot?.id === folder?.id && !forceReload) {
+    if (this.foldersHierarchy.currentFolderSnapshot?.id === folder?.id && !forceReload) {
       return;
     }
 
-    this.getLoadFolderContentObservable(folder?.id)
+    forkJoin([
+      this.assetsService.getAssetsList(MAX_PAGE, folder?.id),
+      this.foldersService.getFoldersList(MAX_PAGE, folder?.id),
+    ])
+      .pipe(
+        tap(([assetsPage, foldersPage]) => {
+          this.assetsSource.next(assetsPage.items);
+          this.foldersSource.next(foldersPage.items);
+        }),
+      )
       .subscribe(() => {
-        this.setCurrentFolder(folder);
+        this.foldersHierarchy.setCurrentFolder(folder);
         this.clearSelections();
       });
   }
@@ -122,6 +101,26 @@ export class AssetsPageStateService {
 
   public isFolderSelected(folder: IFolder): boolean {
     return this.foldersSelection.isSelected(folder);
+  }
+
+  public moveSelectedAsset(): void {
+    if (!this.assetsSelection.selected.length) {
+      return;
+    }
+
+    const assetToMove = this.assetsSelection.selected[0];
+    this.assetsService.moveAsset(assetToMove)
+      .subscribe((asset) => this.updateAssetLocally(asset));
+  }
+
+  public moveSelectedFolder(): void {
+    if (!this.foldersSelection.selected.length) {
+      return;
+    }
+
+    const folderToMove = this.foldersSelection.selected[0];
+    this.foldersService.moveFolder(folderToMove)
+      .subscribe((folder) => this.updateFolderLocally(folder));
   }
 
   public removeSelectedAssets(): void {
@@ -145,19 +144,11 @@ export class AssetsPageStateService {
       return;
     }
 
-    const selectedFolderIds = this.foldersSelection.selected.map((folder) => folder.id);
+    const selectedFolders = this.foldersSelection.selected;
     const unselectedFolders = this.foldersSource.value
-      .filter((folder) => !selectedFolderIds.includes(folder.id));
+      .filter((folder) => !selectedFolders.includes(folder));
 
-    const folderNames = this.foldersSelection.selected.map((folder) => folder.name);
-    this.confirmationDialogService.open({
-      title: 'Удаление папок',
-      question: 'Вы действительно хотите удалить следующие папаки:',
-      termsList: folderNames,
-    }).confirmed$
-      .pipe(
-        switchMap(() => this.foldersService.removeFolders(selectedFolderIds)),
-      )
+    this.foldersService.removeFolders(this.foldersSelection.selected)
       .subscribe(() => {
         this.clearSelections();
         this.foldersSource.next(unselectedFolders);
@@ -170,23 +161,12 @@ export class AssetsPageStateService {
     }
 
     const assetToRename = this.assetsSelection.selected[0];
-    this.dynamicFormDialogService.openFormDialog(
-      RENAME_ASSET_DIALOG_CONFIG,
-      { assetName: assetToRename.assetName },
-    )
-      .afterClosed()
-      .pipe(
-        filter((asset) => !!asset),
-        switchMap(({ assetName }) => {
-          return this.assetsService.updateAssetDetails({ ...assetToRename, assetName });
-        }),
-      )
+    this.assetsService.renameAsset(assetToRename)
       .subscribe({
         next: (asset) => {
           this.updateAssetLocally(asset);
           this.clearSelections();
         },
-        error: (err: HttpErrorResponse) => this.toastrService.error(err.error?.message ?? DEFAULT_ERROR_MESSAGE),
       });
   }
 
@@ -196,18 +176,10 @@ export class AssetsPageStateService {
     }
 
     const folderToRename = this.foldersSelection.selected[0];
-    this.dynamicFormDialogService.openFormDialog(RENAME_FOLDER_DIALOG_CONFIG, { name: folderToRename.name })
-      .afterClosed()
-      .pipe(
-        filter((file) => !!file),
-        switchMap(({ name }) => this.foldersService.updateFolder({ ...folderToRename, name })),
-      )
-      .subscribe({
-        next: (folder) => {
-          this.updateFolderLocally(folder);
-          this.clearSelections();
-        },
-        error: (err: HttpErrorResponse) => this.toastrService.error(err.error?.message ?? DEFAULT_ERROR_MESSAGE),
+    this.foldersService.renameFolder(folderToRename)
+      .subscribe((folder) => {
+        this.updateFolderLocally(folder);
+        this.clearSelections();
       });
   }
 
@@ -221,11 +193,8 @@ export class AssetsPageStateService {
     this.assetsSelection.clear();
   }
 
-  public uploadAsset(): void {
-    this.filePickerDialogService.open({ allowedFileTypes: [...ALLOWED_ASSET_FILE_EXTENSIONS] }).submitted$
-      .pipe(
-        switchMap((files) => this.assetsService.uploadAssets(files, this.currentFolderSnapshot?.id)),
-      )
+  public addAssets(): void {
+    this.assetsService.createAssets(this.foldersHierarchy.currentFolderSnapshot?.id)
       .subscribe((assets) => {
         this.addAssetsLocally(assets);
         this.clearSelections();
@@ -235,8 +204,7 @@ export class AssetsPageStateService {
   private addAssetsLocally(assets: IAsset[]): void {
     const currentAssets = this.assetsSource.value;
     assets.forEach((asset) => {
-      // eslint-disable-next-line eqeqeq
-      if (asset.folder == this.currentFolderSnapshot?.id) {
+      if (asset.folder == this.foldersHierarchy.currentFolderSnapshot?.id) {
         currentAssets.push(asset);
       }
     });
@@ -260,11 +228,11 @@ export class AssetsPageStateService {
     const buttons: IButton[] = [];
     if (this.assetsSelection.selected.length === 1) {
       buttons.push({ ...BASE_EDIT_ACTION, click: () => this.renameSelectedAsset() });
-      buttons.push({ ...BASE_MOVE_ACTION });
+      buttons.push({ ...BASE_MOVE_ACTION, click: () => this.moveSelectedAsset() });
     }
     if (this.foldersSelection.selected.length === 1) {
       buttons.push({ ...BASE_EDIT_ACTION, click: () => this.renameSelectedFolder() });
-      buttons.push({ ...BASE_MOVE_ACTION });
+      buttons.push({ ...BASE_MOVE_ACTION, click: () => this.moveSelectedFolder() });
     }
     if (this.assetsSelection.selected.length) {
       buttons.push({ ...BASE_REMOVE_ACTION, click: () => this.removeSelectedAssets() });
@@ -276,61 +244,34 @@ export class AssetsPageStateService {
     return buttons;
   }
 
-  private getLoadFolderContentObservable(folderId?: string): Observable<void> {
-    return forkJoin([
-      this.assetsService.getAssetsList(MAX_PAGE, folderId),
-      this.foldersService.getFoldersList(MAX_PAGE, folderId),
-    ])
-      .pipe(
-        tap(([assetsPage, foldersPage]) => {
-          this.assetsSource.next(assetsPage.items);
-          this.foldersSource.next(foldersPage.items);
-        }),
-        map(() => {}),
-      );
-  }
-
-  private setCurrentFolder(folder: IFolder | null): void {
-    if (folder === null) {
-      this.foldersHierarchySource.next([]);
-      return;
-    }
-
-    const currentFolder = this.currentFolderSnapshot;
-    const foldersHierarchy = this.foldersHierarchySnapshot;
-    if (folder.parentFolderId === currentFolder?.id) {
-      foldersHierarchy.push(folder);
-      this.foldersHierarchySource.next([...foldersHierarchy]);
-      return;
-    }
-
-    const folderIndexInHierarchy = foldersHierarchy.findIndex((f) => f.id === folder.id);
-    if (folderIndexInHierarchy < 0) {
-      this.foldersHierarchySource.next([folder]);
-      return;
-    }
-
-    foldersHierarchy.splice(folderIndexInHierarchy + 1);
-    this.foldersHierarchySource.next([...foldersHierarchy]);
-  }
-
   private updateAssetLocally(asset: IAsset): void {
     const assetIndex = this.assetsSource.value.findIndex((a) => a.id === asset.id);
-    // eslint-disable-next-line eqeqeq
-    if (assetIndex >= 0 && asset.folderId == this.currentFolderSnapshot?.id) {
-      const assets = this.assetsSource.value;
-      assets.splice(assetIndex, 1, asset);
-      this.assetsSource.next([...assets]);
+    const assets = this.assetsSource.value;
+    if (assetIndex < 0) {
+      return;
     }
+    if (asset.folderId == this.foldersHierarchy.currentFolderSnapshot?.id) {
+      assets.splice(assetIndex, 1, asset);
+    } else {
+      assets.splice(assetIndex, 1);
+    }
+
+    this.assetsSource.next([...assets]);
   }
 
   private updateFolderLocally(folder: IFolder): void {
     const folderIndex = this.foldersSource.value.findIndex((f) => f.id === folder.id);
-    // eslint-disable-next-line eqeqeq
-    if (folderIndex >= 0 && folder.parentFolderId == this.currentFolderSnapshot?.id) {
-      const folders = this.foldersSource.value;
-      folders.splice(folderIndex, 1, folder);
-      this.foldersSource.next([...folders]);
+    const folders = this.foldersSource.value;
+
+    if (folderIndex < 0) {
+      return;
     }
+    if (folder.parentFolderId == this.foldersHierarchy.currentFolderSnapshot?.id) {
+      folders.splice(folderIndex, 1, folder);
+    } else {
+      folders.splice(folderIndex, 1);
+    }
+
+    this.foldersSource.next([...folders]);
   }
 }

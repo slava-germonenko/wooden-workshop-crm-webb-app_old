@@ -13,7 +13,10 @@
 </div>
 <mat-divider></mat-divider>
 
-<div class="assets-page-content" [class.empty]="folderIsEmpty$ | async">
+<div
+  class="assets-page-content"
+  [class.empty]="folderIsEmpty$ | async"
+>
   <ng-container *ngIf="folders$ | async as folders">
     <div class="section-header" *ngIf="folders.length">Директории</div>
 
