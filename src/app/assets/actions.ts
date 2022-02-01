@@ -11,8 +11,14 @@ export const BASE_REMOVE_ACTION: IButton = {
 export const BASE_EDIT_ACTION: IButton = {
   name: 'edit',
   label: 'Редактировать',
-  icon: 'edit',
+  icon: 'drive_file_rename_outline',
   permissions: [Permissions.Admin, Permissions.Assets],
+};
+
+export const BASE_DOWNLOAD_ACTION: IButton = {
+  name: 'download',
+  label: 'Скачать',
+  icon: 'file_download',
 };
 
 export const BASE_MOVE_ACTION: IButton = {
