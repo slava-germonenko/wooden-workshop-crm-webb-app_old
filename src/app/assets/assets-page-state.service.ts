@@ -10,6 +10,7 @@ import {
   startWith,
   tap,
 } from 'rxjs';
+import { saveAs } from 'file-saver';
 
 import { ConfirmationDialogService } from '@framework/confirmation-dialog';
 import { DynamicFormDialogService } from '@framework/dynamic-form-dialog';
@@ -18,7 +19,12 @@ import { IPage, IButton } from '@common/interfaces';
 import { IAsset, IFolder } from '@common/interfaces/models';
 
 import { AssetsService, FoldersService, FoldersHierarchy } from './common';
-import { BASE_EDIT_ACTION, BASE_MOVE_ACTION, BASE_REMOVE_ACTION } from './actions';
+import {
+  BASE_DOWNLOAD_ACTION,
+  BASE_EDIT_ACTION,
+  BASE_MOVE_ACTION,
+  BASE_REMOVE_ACTION,
+} from './actions';
 
 const MAX_PAGE: IPage = {
   index: 0,
@@ -72,6 +78,19 @@ export class AssetsPageStateService {
   public createFolder(): void {
     this.foldersService.createFolder(this.foldersHierarchy.currentFolderSnapshot?.id)
       .subscribe((folder) => this.addFolderLocally(folder));
+  }
+
+  public downloadSelectedAsset(): void {
+    if (!this.assetsSelection.selected.length) {
+      return;
+    }
+
+    const assetToDownload = this.assetsSelection.selected[0];
+    if (!assetToDownload.url) {
+      throw new Error(`Asset ${assetToDownload.id} URL is undefined`);
+    }
+
+    saveAs(assetToDownload.url, assetToDownload.assetName);
   }
 
   public goToFolder(folder: IFolder | null, forceReload: boolean = false): void {
@@ -227,6 +246,7 @@ export class AssetsPageStateService {
   private getActions(): IButton[] {
     const buttons: IButton[] = [];
     if (this.assetsSelection.selected.length === 1) {
+      buttons.push({ ...BASE_DOWNLOAD_ACTION, click: () => this.downloadSelectedAsset() });
       buttons.push({ ...BASE_EDIT_ACTION, click: () => this.renameSelectedAsset() });
       buttons.push({ ...BASE_MOVE_ACTION, click: () => this.moveSelectedAsset() });
     }

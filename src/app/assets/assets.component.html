@@ -7,7 +7,11 @@
 
   <span class="spacer"></span>
 
-  <button mat-icon-button (click)="action.click && action.click()" *ngFor="let action of actions$ | async">
+  <button
+    mat-icon-button
+    (click)="action.click && action.click()"
+    *ngFor="let action of actions$ | async"
+  >
     <mat-icon>{{action.icon}}</mat-icon>
   </button>
 </div>
