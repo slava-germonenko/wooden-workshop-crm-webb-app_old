@@ -26,7 +26,7 @@ export class AssetCardComponent {
   @Input()
   public set asset(asset: IAsset) {
     this._asset = asset;
-    this.setAssetPreviewImageUrlAndFileTypeThumbnail(asset);
+    this.setAssetThumbnailAndType(asset);
   }
 
   public imageIsPlaceholder = true;
@@ -37,7 +37,7 @@ export class AssetCardComponent {
 
   public _asset: IAsset | null = null;
 
-  private setAssetPreviewImageUrlAndFileTypeThumbnail(asset: IAsset): void {
+  private setAssetThumbnailAndType(asset: IAsset): void {
     const fileExt = asset.url?.split('.')?.pop();
     if (!isAssetFileType(fileExt)) {
       throw new Error(`${fileExt} files are not supported.`);

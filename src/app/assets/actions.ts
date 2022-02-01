@@ -21,6 +21,12 @@ export const BASE_DOWNLOAD_ACTION: IButton = {
   icon: 'file_download',
 };
 
+export const BASE_PREVIEW_ACTION: IButton = {
+  name: 'preview',
+  label: 'Просмотреть',
+  icon: 'fullscreen',
+};
+
 export const BASE_MOVE_ACTION: IButton = {
   name: 'move',
   label: 'Переместить',
