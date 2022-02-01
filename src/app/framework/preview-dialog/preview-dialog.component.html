@@ -1,0 +1,21 @@
+<div class="flex-row full-width">
+  <span mat-dialog-title>{{fileName}}</span>
+  <span class="spacer"></span>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="max-size place-center">
+  <img
+    *ngIf="contentType === 'image' else documentViewer"
+    mat-dialog-content
+    [class.fixed-size]="fixedSizeEnabled"
+    [src]="fileUrl"
+    [alt]="fileName"
+  />
+
+  <ng-template #documentViewer>
+    <ww-document-viewer class="full-size" [src]="fileUrl"></ww-document-viewer>
+  </ng-template>
+</div>

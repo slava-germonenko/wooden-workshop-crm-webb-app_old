@@ -12,6 +12,7 @@ import { ConfirmationDialogModule } from '@framework/confirmation-dialog';
 import { DynamicFormDialogModule } from '@framework/dynamic-form-dialog';
 import { FilePickerDialogModule } from '@framework/file-picker-dialog';
 import { LoadingModule } from '@framework/loading/loading.module';
+import { PreviewDialogModule } from '@framework/preview-dialog';
 import { ToastrModule } from '@framework/toastr';
 import { WithPermissionsModule } from '@framework/with-permissions';
 import { CommonPipesModule } from '@common/pipes';
@@ -38,6 +39,7 @@ import { FolderPickerDialogComponent } from './folder-picker-dialog/folder-picke
     MatIconModule,
     MatMenuModule,
     MatTooltipModule,
+    PreviewDialogModule,
     RouterModule.forChild(routes),
     ToastrModule,
     WithPermissionsModule,

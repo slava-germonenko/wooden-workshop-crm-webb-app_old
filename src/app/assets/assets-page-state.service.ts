@@ -15,6 +15,8 @@ import { saveAs } from 'file-saver';
 import { ConfirmationDialogService } from '@framework/confirmation-dialog';
 import { DynamicFormDialogService } from '@framework/dynamic-form-dialog';
 import { FilePickerDialogService } from '@framework/file-picker-dialog';
+import { PreviewDialogService } from '@framework/preview-dialog';
+import { AssetsHelper } from '@common/helpers';
 import { IPage, IButton } from '@common/interfaces';
 import { IAsset, IFolder } from '@common/interfaces/models';
 
@@ -22,7 +24,7 @@ import { AssetsService, FoldersService, FoldersHierarchy } from './common';
 import {
   BASE_DOWNLOAD_ACTION,
   BASE_EDIT_ACTION,
-  BASE_MOVE_ACTION,
+  BASE_MOVE_ACTION, BASE_PREVIEW_ACTION,
   BASE_REMOVE_ACTION,
 } from './actions';
 
@@ -57,6 +59,7 @@ export class AssetsPageStateService {
     private readonly dynamicFormDialogService: DynamicFormDialogService,
     private readonly filePickerDialogService: FilePickerDialogService,
     private readonly foldersService: FoldersService,
+    private readonly previewDialogService: PreviewDialogService,
   ) {
     this.actions$ = combineLatest([
       this.assetsSelection.changed.pipe(startWith([])),
@@ -65,6 +68,14 @@ export class AssetsPageStateService {
       .pipe(
         map(() => this.getActions()),
       );
+  }
+
+  public addAssets(): void {
+    this.assetsService.createAssets(this.foldersHierarchy.currentFolderSnapshot?.id)
+      .subscribe((assets) => {
+        this.addAssetsLocally(assets);
+        this.clearSelections();
+      });
   }
 
   public clearAssetsSelection(): void {
@@ -142,6 +153,20 @@ export class AssetsPageStateService {
       .subscribe((folder) => this.updateFolderLocally(folder));
   }
 
+  public previewSelectedAsset(): void {
+    if (!this.assetsSelection.selected.length) {
+      return;
+    }
+
+    const { url, assetName } = this.assetsSelection.selected[0];
+    const selectedAssetFileType = AssetsHelper.getAssetFileType({ url });
+    if (selectedAssetFileType === null) {
+      return;
+    }
+
+    this.previewDialogService.openPreview(url!, assetName, selectedAssetFileType);
+  }
+
   public removeSelectedAssets(): void {
     if (!this.assetsSelection.selected.length) {
       return;
@@ -212,14 +237,6 @@ export class AssetsPageStateService {
     this.assetsSelection.clear();
   }
 
-  public addAssets(): void {
-    this.assetsService.createAssets(this.foldersHierarchy.currentFolderSnapshot?.id)
-      .subscribe((assets) => {
-        this.addAssetsLocally(assets);
-        this.clearSelections();
-      });
-  }
-
   private addAssetsLocally(assets: IAsset[]): void {
     const currentAssets = this.assetsSource.value;
     assets.forEach((asset) => {
@@ -246,6 +263,7 @@ export class AssetsPageStateService {
   private getActions(): IButton[] {
     const buttons: IButton[] = [];
     if (this.assetsSelection.selected.length === 1) {
+      buttons.push({ ...BASE_PREVIEW_ACTION, click: () => this.previewSelectedAsset() });
       buttons.push({ ...BASE_DOWNLOAD_ACTION, click: () => this.downloadSelectedAsset() });
       buttons.push({ ...BASE_EDIT_ACTION, click: () => this.renameSelectedAsset() });
       buttons.push({ ...BASE_MOVE_ACTION, click: () => this.moveSelectedAsset() });
