@@ -1,0 +1,18 @@
+<h1>Администрирование</h1>
+<mat-tree [dataSource]="treeNodesDataSource" [treeControl]="treeNodesControl">
+
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+    <button mat-button [routerLink]="node.link?.toString() || []">{{ node.label }}</button>
+  </mat-tree-node>
+
+  <mat-nested-tree-node [style.display]="'block'" class="full-width" *matTreeNodeDef="let node; when: hasChild">
+    <button mat-icon-button matTreeNodeToggle>
+      <mat-icon>{{ treeNodesControl.isExpanded(node) ? 'expand_more' : 'chevron_right'  }}</mat-icon>
+    </button>
+    <button mat-button matTreeNodeToggle>{{ node.label }}</button>
+
+    <div class="nested-node" *ngIf="treeNodesControl.isExpanded(node)">
+      <ng-container matTreeNodeOutlet></ng-container>
+    </div>
+  </mat-nested-tree-node>
+</mat-tree>

@@ -4,27 +4,10 @@ import { IButton } from '@common/interfaces';
 
 export const LEFT_SECTION_TOOLBAR_BUTTONS: IButton[] = [
   {
-    name: 'home',
-    icon: 'home',
-    link: '/dashboard',
-  },
-  {
     name: 'contacts',
     label: 'Контакты',
     link: '/contacts',
     permissions: [Permissions.Admin, Permissions.Contacts, Permissions.ViewContacts],
-  },
-  {
-    name: 'orders',
-    label: 'Заказы',
-    link: '/orders',
-    permissions: [Permissions.Admin, Permissions.Orders, Permissions.ViewOrders],
-  },
-  {
-    name: 'products',
-    label: 'Продукты',
-    link: '/products',
-    permissions: [Permissions.Admin, Permissions.Products, Permissions.Products],
   },
   {
     name: 'assets',
@@ -41,15 +24,14 @@ export const PROFILE_MENU_ACTIONS: IButton[] = [
     link: '/profile',
   },
   {
-    name: 'users',
-    label: 'Пользователи',
-    link: '/users',
+    name: 'administration',
+    label: 'Администрирование',
+    link: '/administration',
   },
   {
-    name: 'roles',
-    label: 'Роли',
-    link: '/roles',
-    permissions: [Permissions.Admin],
+    name: 'users',
+    label: 'Список Пользователей',
+    link: '/users',
   },
   {
     name: 'sign-out',
