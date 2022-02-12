@@ -33,6 +33,7 @@ export const ADMINISTRATION_TREE_ITEMS: ITreeNode[] = [
       {
         name: 'materials',
         label: 'Материалы',
+        link: '/materials',
       },
     ],
   },

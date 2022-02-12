@@ -48,6 +48,14 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/folders`;
   }
 
+  public getMaterialBaseEndpointUrl(materialId: string): string {
+    return `${this.envService.apiBaseUrl}/materials/${materialId}`;
+  }
+
+  public getMaterialsBaseEndpointUrl(): string {
+    return `${this.envService.apiBaseUrl}/materials`;
+  }
+
   public getRefreshTokenEndpointUrl(): string {
     return `${this.envService.apiBaseUrl}/auth/refresh`;
   }
