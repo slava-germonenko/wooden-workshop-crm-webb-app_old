@@ -27,6 +27,12 @@ export const routes: Routes = [
     canActivate: [AuthorizedGuard],
   },
   {
+    path: 'materials',
+    loadChildren: () => import('@app/materials/materials.module').then((m) => m.MaterialsModule),
+    canActivate: [AuthorizedGuard, PermissionsGuard],
+    data: { permissions: [Permissions.Admin] },
+  },
+  {
     path: 'profile',
     loadChildren: () => import('@app/profile/profile.module').then((m) => m.ProfileModule),
     canActivate: [AuthorizedGuard],

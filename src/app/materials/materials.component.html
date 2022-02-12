@@ -1,0 +1,25 @@
+<div class="align-center actions-section">
+  <h1>Материалы</h1>
+  <span class="spacer"></span>
+
+  <ww-search-field
+    class="default-text-input"
+    label="Поиск по матиралам"
+    placeholder="Начните вводить..."
+    (searchChanged)="setMaterialsSearch($event)"
+  ></ww-search-field>
+
+  <button mat-raised-button (click)="addMaterial()">
+    Добавить
+  </button>
+</div>
+
+<ww-dynamic-table
+  class="mat-elevation-z6"
+  [actions]="tableRowsActions"
+  [columnDefinitions]="tableColumns"
+  [dataSource]="materials$"
+  [length]="(materialsCount$ | async) || 0"
+  (rowAction)="dispatchTableRowAction($event)"
+  (pageChange)="setMaterialsPage($event)"
+></ww-dynamic-table>
