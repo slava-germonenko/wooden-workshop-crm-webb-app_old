@@ -7,7 +7,7 @@ import { DynamicTableCellFormatter } from '../types';
 
 export class TableCellFormatters {
   public static date(format: string): DynamicTableCellFormatter<Date> {
-    const datePipe = new DatePipe(navigator.language);
+    const datePipe = new DatePipe('ru');
     return (value: Date) => `<time datetime="${value.toString()}">${datePipe.transform(value, format)}</time>`;
   }
 

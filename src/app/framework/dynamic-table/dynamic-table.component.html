@@ -25,6 +25,29 @@
       ></td>
     </ng-container>
 
+    <ng-container *ngIf="rowActions.length" matColumnDef="_actions">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="full-width flex-row">
+          <span class="spacer"></span>
+          <span>Управление</span>
+        </div>
+      </th>
+
+      <td mat-cell *matCellDef="let row">
+        <div class="full-width flex-row">
+          <span class="spacer"></span>
+          <button
+            mat-icon-button
+            [matTooltip]="action.label ?? ''"
+            (click)="rowAction.emit({ item: row, action: action.name })"
+            *ngFor="let action of rowActions"
+          >
+            <mat-icon>{{ action.icon }}</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumnNames; sticky: true"></tr>
     <tr
       mat-row
