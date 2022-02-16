@@ -1,0 +1,25 @@
+<div class="align-center actions-section">
+  <h1>Категории</h1>
+  <span class="spacer"></span>
+
+  <ww-search-field
+    class="default-text-input"
+    label="Поиск по матиралам"
+    placeholder="Начните вводить..."
+    (searchChanged)="setCategoriesSearch($event)"
+  ></ww-search-field>
+
+  <button mat-raised-button (click)="addCategory()">
+    Добавить
+  </button>
+</div>
+
+<ww-dynamic-table
+  class="mat-elevation-z6"
+  [actions]="tableRowActions"
+  [columnDefinitions]="tableColumnDefinitions"
+  [dataSource]="categories$"
+  [length]="(categoriesCount$ | async) || 0"
+  (rowAction)="dispatchTableRowAction($event)"
+  (pageChange)="setCategoriesPage($event)"
+></ww-dynamic-table>

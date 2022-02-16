@@ -11,6 +11,7 @@ import {
 
 import { DEFAULT_PAGE } from '@common/constants';
 import { IMaterial, IPage } from '@common/interfaces';
+import { MaterialsListService } from '@common/services';
 
 import { MaterialsService } from './common';
 
@@ -24,12 +25,15 @@ export class MaterialsStateService {
 
   public readonly materialsCount$: Observable<number>;
 
-  public constructor(private readonly materialsService: MaterialsService) {
+  public constructor(
+    private readonly materialsService: MaterialsService,
+    private readonly materialsListService: MaterialsListService,
+  ) {
     const materialsPage$ = combineLatest([
       this.materialsPageSource,
       this.materialsSearchSource.pipe(skip(1)),
     ]).pipe(
-      switchMap(([page, search]) => this.materialsService.getMaterialsPage(page, search)),
+      switchMap(([page, search]) => this.materialsListService.getMaterialsPage(page, search)),
       shareReplay(1),
     );
 

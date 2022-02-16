@@ -20,6 +20,14 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/auth`;
   }
 
+  public getCategoriesBaseEndpointUrl(): string {
+    return `${this.envService.apiBaseUrl}/categories`;
+  }
+
+  public getCategoryBaseEndpointUrl(categoryId: string): string {
+    return `${this.envService.apiBaseUrl}/categories/${categoryId}`;
+  }
+
   public getContactsEndpointUrl(): string {
     return `${this.envService.apiBaseUrl}/contacts`;
   }
