@@ -1,5 +1,11 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  OnInit,
+  Component,
+  HostBinding, ChangeDetectorRef,
+} from '@angular/core';
 
+import { DEFAULT_PAGE } from '@common/constants';
 import { IMaterial, IPage } from '@common/interfaces';
 
 import { MATERIALS_TABLE_ACTIONS, MATERIALS_TABLE_COLUMNS } from './common';
@@ -11,7 +17,7 @@ import { MaterialsStateService } from './materials-state.service';
   styleUrls: ['materials.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MaterialsComponent {
+export class MaterialsComponent implements OnInit {
   @HostBinding('class')
   public hostClasses = ['pad-page-content', 'full-height'];
 
@@ -23,7 +29,20 @@ export class MaterialsComponent {
 
   public readonly tableRowsActions = [...MATERIALS_TABLE_ACTIONS];
 
-  public constructor(private readonly materialsStateService: MaterialsStateService) { }
+  public materialsPage = DEFAULT_PAGE;
+
+  public constructor(
+    private readonly materialsStateService: MaterialsStateService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+  ) { }
+
+  public ngOnInit(): void {
+    this.materialsStateService.materialsPage$
+      .subscribe((page) => {
+        this.materialsPage = page;
+        this.changeDetectorRef.markForCheck();
+      });
+  }
 
   public addMaterial(): void {
     this.materialsStateService.addMaterial();

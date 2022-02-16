@@ -29,7 +29,7 @@ export class CategoriesComponent implements OnInit {
 
   public readonly tableColumnDefinitions = [...CATEGORIES_TABLE_COLUMNS];
 
-  public categoriesPage: IPage = DEFAULT_PAGE;
+  public categoriesPage = DEFAULT_PAGE;
 
   public constructor(
     private readonly categoriesService: CategoriesStateService,

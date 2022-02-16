@@ -25,6 +25,8 @@ export class MaterialsStateService {
 
   public readonly materialsCount$: Observable<number>;
 
+  public readonly materialsPage$ = this.materialsPageSource.asObservable();
+
   public constructor(
     private readonly materialsService: MaterialsService,
     private readonly materialsListService: MaterialsListService,
