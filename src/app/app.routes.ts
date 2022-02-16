@@ -22,6 +22,12 @@ export const routes: Routes = [
     data: { permissions: [Permissions.Admin, Permissions.Assets, Permissions.ViewAssets] },
   },
   {
+    path: 'categories',
+    loadChildren: () => import('@app/categories/categories.module').then((m) => m.CategoriesModule),
+    canActivate: [AuthorizedGuard, PermissionsGuard],
+    data: { permissions: [Permissions.Admin] },
+  },
+  {
     path: 'contacts',
     loadChildren: () => import('@app/contacts/contacts.module').then((m) => m.ContactsModule),
     canActivate: [AuthorizedGuard],

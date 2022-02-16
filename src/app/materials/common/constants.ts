@@ -26,14 +26,14 @@ export const MATERIALS_TABLE_COLUMNS: IDynamicTableColumnDefinition<IMaterial, a
 
 export const MATERIALS_TABLE_ACTIONS = [
   {
-    name: 'remove',
-    label: 'Удалить',
-    icon: 'delete_outline',
-  },
-  {
     name: 'update',
     label: 'Редактировать',
     icon: 'edit',
+  },
+  {
+    name: 'remove',
+    label: 'Удалить',
+    icon: 'delete_outline',
   },
 ];
 

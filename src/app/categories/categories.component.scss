@@ -1,0 +1,9 @@
+$page-title-height: 72px;
+
+.actions-section button[mat-raised-button] {
+  margin-left: 20px;
+}
+
+ww-dynamic-table {
+  max-height: calc(100% - #{$page-title-height});
+}

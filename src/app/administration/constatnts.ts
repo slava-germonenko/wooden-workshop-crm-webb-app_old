@@ -24,6 +24,7 @@ export const ADMINISTRATION_TREE_ITEMS: ITreeNode[] = [
       {
         name: 'categories',
         label: 'Категории Товаров',
+        link: '/categories',
       },
       {
         name: 'price-types',

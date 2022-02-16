@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   EMPTY,
   Observable,
   catchError,
-  switchMap, filter, map,
+  switchMap,
+  filter,
 } from 'rxjs';
 
 import { ConfirmationDialogService } from '@framework/confirmation-dialog';
@@ -13,7 +14,6 @@ import { ToastrService } from '@framework/toastr';
 
 import { DEFAULT_ERROR_MESSAGE } from '@common/constants';
 import { IMaterial } from '@common/interfaces/models';
-import { IPage, IPagedCollection } from '@common/interfaces';
 import { ApiUrlsService } from '@common/services';
 
 import {
@@ -46,25 +46,9 @@ export class MaterialsService {
       .pipe(
         switchMap(() => {
           const removeUrl = this.apiUrlsService.getMaterialBaseEndpointUrl(materialId);
-          return this.httpClient.delete(removeUrl);
+          return this.httpClient.delete<void>(removeUrl);
         }),
-        map(() => {}),
       );
-  }
-
-  public getMaterialsPage(page: IPage, search?: string): Observable<IPagedCollection<IMaterial>> {
-    let params = new HttpParams()
-      .set('size', page.size)
-      .set('index', page.index);
-
-    if (search) {
-      params = params.set('search', search);
-    }
-
-    return this.httpClient.get<IPagedCollection<IMaterial>>(
-      this.apiUrlsService.getMaterialsBaseEndpointUrl(),
-      { params },
-    );
   }
 
   public updateMaterial(material: Pick<IMaterial, 'id' | 'name'>): Observable<IMaterial | never> {
@@ -76,7 +60,7 @@ export class MaterialsService {
       );
   }
 
-  public saveMaterial(material: Partial<IMaterial>): Observable<IMaterial> {
+  public saveMaterial(material: Partial<IMaterial>): Observable<IMaterial | never> {
     const updateUrl = this.apiUrlsService.getMaterialsBaseEndpointUrl();
     return this.httpClient.put<IMaterial>(updateUrl, material)
       .pipe(
