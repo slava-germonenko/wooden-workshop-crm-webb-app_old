@@ -64,6 +64,14 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/materials`;
   }
 
+  public getProductsBaseEndpointUrl(): string {
+    return `${this.envService.apiBaseUrl}/products`;
+  }
+
+  public getProductBaseEndpointUrl(productId: string): string {
+    return `${this.envService.apiBaseUrl}/products/${productId}`;
+  }
+
   public getRefreshTokenEndpointUrl(): string {
     return `${this.envService.apiBaseUrl}/auth/refresh`;
   }

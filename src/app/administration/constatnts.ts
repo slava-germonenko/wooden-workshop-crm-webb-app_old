@@ -27,11 +27,6 @@ export const ADMINISTRATION_TREE_ITEMS: ITreeNode[] = [
         link: '/categories',
       },
       {
-        name: 'price-types',
-        label: 'Список Типов Цен',
-        // link: '/prices',
-      },
-      {
         name: 'materials',
         label: 'Материалы',
         link: '/materials',

@@ -4,6 +4,8 @@ export * from './category.interface';
 export * from './contact.interface';
 export * from './folder.interface';
 export * from './material.interface';
+export * from './product-size.interface';
+export * from './product-thumbnail.interface'
 export * from './role.interface';
 export * from './session.interface';
 export * from './user.interface';

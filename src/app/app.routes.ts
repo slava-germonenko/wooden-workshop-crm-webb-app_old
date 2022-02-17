@@ -39,6 +39,12 @@ export const routes: Routes = [
     data: { permissions: [Permissions.Admin] },
   },
   {
+    path: 'products',
+    loadChildren: () => import('@app/products/products.module').then((m) => m.ProductsModule),
+    canActivate: [AuthorizedGuard, PermissionsGuard],
+    data: { permissions: [Permissions.Admin, Permissions.Products, Permissions.ViewProducts] },
+  },
+  {
     path: 'profile',
     loadChildren: () => import('@app/profile/profile.module').then((m) => m.ProfileModule),
     canActivate: [AuthorizedGuard],

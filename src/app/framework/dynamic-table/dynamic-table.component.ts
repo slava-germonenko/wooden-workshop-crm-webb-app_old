@@ -9,9 +9,10 @@ import { SafeHtml } from '@angular/platform-browser';
 import { Sort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 
+import { DEFAULT_PAGE } from '@common/constants';
 import { IButton, IOrderByQuery, IPage } from '@common/interfaces';
 
-import { DEFAULT_PAGE, DEFAULT_PAGING_OPTIONS } from './constants';
+import { DEFAULT_PAGING_OPTIONS } from './constants';
 import { IDynamicTableColumnDefinition } from './interfaces';
 
 @Component({

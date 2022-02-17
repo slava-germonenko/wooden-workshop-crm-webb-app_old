@@ -1,0 +1,93 @@
+<div class="align-center actions-section">
+  <h1>Товары</h1>
+  <span class="spacer"></span>
+
+  <mat-form-field class="status-picker">
+    <mat-label>Статус</mat-label>
+    <mat-select
+      placeholder="Выберите из списка"
+      [value]="true"
+      (valueChange)="setProductIsActiveFilter($event)"
+    >
+      <mat-option [value]="1">Все</mat-option>
+      <mat-option [value]="true">Активные</mat-option>
+      <mat-option [value]="false">Не Активные</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ww-search-field
+    label="Поиск по товарам"
+    placeholder="Начните вводить..."
+    (searchChanged)="setProductsSearch($event)"
+  ></ww-search-field>
+
+  <button
+    mat-icon-button
+    [matTooltip]="advancedFiltersEnabled ? 'Спрятать расширенные фильты' : 'Показать расширенные фильтры'"
+    (click)="advancedFiltersEnabled = !advancedFiltersEnabled"
+  >
+    <mat-icon>{{ advancedFiltersEnabled ? 'filter_list_off' : 'filter_list' }}</mat-icon>
+  </button>
+
+  <button mat-raised-button>
+    Добавить
+  </button>
+</div>
+
+<mat-card *ngIf="advancedFiltersEnabled" class="advanced-filters mat-elevation-z6" cdkDrag>
+  <div class="flex-row">
+    <mat-card-subtitle>Расширенные фильтры</mat-card-subtitle>
+    <span class="spacer"></span>
+    <ww-handle-icon cdkDragHandle></ww-handle-icon>
+  </div>
+
+  <ww-search-field
+    label="Категория"
+    placeholder="Начните вводить..."
+    [autocompleteEnabled]="true"
+    [displayWith]="displayName"
+    [options]="(categories$ | async) || []"
+    [selectedItems]="selectedCategory ? [selectedCategory] : []"
+    (searchChanged)="setProductCategorySearch($event)"
+    (optionSelected)="setProductCategoryFilter($event)"
+    (optionRemoved)="setProductCategoryFilter(null)"
+  ></ww-search-field>
+
+  <ww-search-field
+    [autocompleteEnabled]="true"
+    [displayWith]="displayName"
+    [options]="(materials$ | async) || []"
+    [selectedItems]="selectedMaterial ? [selectedMaterial] : []"
+    (searchChanged)="setProductMaterialSearch($event)"
+    (optionSelected)="setProductMaterialFilter($event)"
+    (optionRemoved)="setProductMaterialFilter(null)"
+    label="Материал"
+    placeholder="Начните вводить..."
+  ></ww-search-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Статус Номенклатуры</mat-label>
+    <mat-select
+      placeholder="Выберите из списка"
+      [value]="null"
+      (valueChange)="setProductStatusFilter($event)"
+    >
+      <mat-option [value]="null">Все</mat-option>
+      <mat-option [value]="status.status" *ngFor="let status of productStatuses">
+        {{ status.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-card>
+
+<ww-dynamic-table
+  class="mat-elevation-z6"
+  [actions]="tableActions"
+  [columnDefinitions]="tableColumnDefinitions"
+  [dataSource]="products$"
+  [length]="(productsCount$ | async) || 0"
+  [pageIndex]="currentProductsPage.index"
+  [pageSize]="currentProductsPage.size"
+  (rowAction)="dispatchTableRowAction($event)"
+  (sortChange)="setProductsSort($event)"
+></ww-dynamic-table>
