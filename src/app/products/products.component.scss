@@ -1,0 +1,28 @@
+:host {
+  position: relative;
+}
+
+$page-title-height: 72px;
+
+.actions-section {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  .status-picker {
+    margin-top: 10px;
+    width: 150px;
+  }
+}
+
+ww-dynamic-table {
+  max-height: calc(100% - #{$page-title-height});
+}
+
+.advanced-filters {
+  width: 400px;
+  position: absolute;
+  z-index: 999;
+  cursor: default;
+  right: 30px;
+}

@@ -5,4 +5,5 @@ export * from './messages';
 export * from './objects';
 export * from './permission-labels';
 export * from './pill-classes';
+export * from './product-item-status-labels';
 export * from './timings';

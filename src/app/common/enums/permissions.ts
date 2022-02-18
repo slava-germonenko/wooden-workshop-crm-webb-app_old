@@ -11,4 +11,6 @@ export enum Permissions {
   ViewOrders = 'orders.view',
   Products = 'products',
   ViewProducts = 'products.view',
+  ManageProducts = 'products.manage',
+  RemoveProducts = 'products.remove',
 }
