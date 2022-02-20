@@ -33,6 +33,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   flex-wrap: wrap;
 }
 
+.stick-end {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .align-center {
   @extend .flex-row;
   align-content: center;

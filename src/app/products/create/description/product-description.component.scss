@@ -1,0 +1,13 @@
+:host {
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  max-height: 100%;
+}
+
+.description-content {
+  padding: 20px;
+  overflow-y: auto;
+  height: calc(100% - 42px);
+}

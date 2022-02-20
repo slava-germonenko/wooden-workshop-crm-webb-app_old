@@ -9,7 +9,7 @@ import { distinctUntilChanged } from 'rxjs';
 
 import { DEFAULT_PAGE } from '@common/constants';
 import { ProductItemStatuses } from '@common/enums';
-import { pagesAreEqual } from '@common/helper-functions';
+import { displayName, pagesAreEqual } from '@common/helper-functions';
 import { ICategory, IMaterial, IProductThumbnail } from '@common/interfaces/models';
 import { IOrderByQuery } from '@common/interfaces';
 
@@ -70,9 +70,7 @@ export class ProductsComponent implements OnInit {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public displayName({ name }: Pick<ICategory, 'name'> | Pick<IMaterial, 'name'>): string {
-    return name;
-  }
+  public displayName = displayName;
 
   public dispatchTableRowAction({ item, action }: { item: IProductThumbnail; action: string }): void | never {
     switch (action) {

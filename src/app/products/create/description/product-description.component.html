@@ -1,0 +1,8 @@
+<div>
+  <textarea
+    [froalaEditor]="froalaConfig"
+    [froalaModel]="productDescription"
+    (froalaModelChange)="setProductDescription($event)"
+  ></textarea>
+</div>
+<div class="mat-border description-content" [froalaView]="productDescription"></div>

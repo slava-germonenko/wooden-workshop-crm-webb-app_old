@@ -49,7 +49,7 @@ export class DynamicFormComponent implements OnDestroy {
   @Input()
   public submitButtonText = 'Подтвердить';
 
-  @Output()
+  @Input()
   public showSubmit = true;
 
   @Input()

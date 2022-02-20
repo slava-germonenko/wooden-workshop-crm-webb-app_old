@@ -1,0 +1,14 @@
+.fr-box {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+
+  .fr-wrapper {
+    flex: 1;
+    overflow-y: auto;
+
+    .fr-element {
+      min-height: 100%;
+    }
+  }
+}

@@ -1,0 +1,54 @@
+<section class="actions-section flex-row">
+  <h1>Добавление Товара | {{ currentStepLabel }}</h1>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/products">
+    Выйти
+  </button>
+  <ng-template [ngIf]="productIsValid$ | async">
+    <button mat-button>
+      Сохранить
+    </button>
+    <button mat-raised-button color="primary">
+      Сохранить и выйти
+    </button>
+  </ng-template>
+</section>
+
+<section class="step-wrapper full-width">
+  <router-outlet></router-outlet>
+</section>
+
+<section class="stepper-container full-width flex-row">
+  <button mat-button class="stepper-navigation-button" (click)="prevStepClick()">
+    {{ prevStepLabel }}
+  </button>
+
+  <span class="spacer"></span>
+
+  <mat-stepper
+    #stepper
+    linear
+    [selectedIndex]="(currentStep$ | async) || 0"
+    (selectionChange)="setSelectedStep($event.selectedIndex)"
+  >
+    <mat-step
+      [completed]="step.completed"
+      [hasError]="step.hasError"
+      [errorMessage]="step.errorMessage || ''"
+      *ngFor="let step of steps"
+    >
+      <ng-template matStepLabel>{{ step.name }}</ng-template>
+    </mat-step>
+  </mat-stepper>
+
+  <span class="spacer"></span>
+
+  <button
+    mat-button
+    class="stepper-navigation-button"
+    [disabled]="!steps[stepper.selectedIndex].completed"
+    (click)="nextStepClick()"
+  >
+    {{ nextStepLabel }}
+  </button>
+</section>

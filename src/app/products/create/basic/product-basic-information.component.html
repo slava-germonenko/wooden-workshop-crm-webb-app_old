@@ -1,0 +1,8 @@
+<mat-card class="basic-form-container mat-elevation-z6">
+  <ww-dynamic-form
+    [fields]="basicInformationFormControls"
+    [showSubmit]="false"
+    [value]="basicProductInformation"
+    (valueChange)="setBasicProductInformation($event)"
+  ></ww-dynamic-form>
+</mat-card>

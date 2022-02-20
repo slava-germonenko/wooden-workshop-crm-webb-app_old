@@ -3,9 +3,13 @@ export * from './authorization-result.interface';
 export * from './category.interface';
 export * from './contact.interface';
 export * from './folder.interface';
+export * from './price-type.interface';
 export * from './material.interface';
+export * from './product.interface';
+export * from './product-asset.interface';
+export * from './product-price.interface';
 export * from './product-size.interface';
-export * from './product-thumbnail.interface'
+export * from './product-thumbnail.interface';
 export * from './role.interface';
 export * from './session.interface';
 export * from './user.interface';

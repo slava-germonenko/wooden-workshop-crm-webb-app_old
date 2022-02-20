@@ -10,7 +10,7 @@ import {
 import { ConfirmationDialogService, IConfirmationDialogConfiguration } from '@framework/confirmation-dialog';
 import { DEFAULT_ERROR_MESSAGE} from '@common/constants';
 import { ObjectsHelper } from '@common/helpers';
-import { IProductThumbnail } from '@common/interfaces/models';
+import { IProduct, IProductThumbnail } from '@common/interfaces/models';
 import { IOrderByQuery, IPage, IPagedCollection } from '@common/interfaces';
 import { ApiUrlsService } from '@common/services';
 
@@ -67,5 +67,16 @@ export class ProductsService {
   public removeProduct(productId: string): Observable<void> {
     const productUrl = this.apiUrlsService.getProductBaseEndpointUrl(productId);
     return this.httpClient.delete<void>(productUrl);
+  }
+
+  public saveProductDetails(product: IProduct): Observable<IProduct | never> {
+    const productsUrl = this.apiUrlsService.getProductsBaseEndpointUrl();
+    return this.httpClient.put<IProduct>(productsUrl, product)
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          this.toastrService.error(err.error?.message ?? DEFAULT_ERROR_MESSAGE);
+          return EMPTY;
+        }),
+      );
   }
 }

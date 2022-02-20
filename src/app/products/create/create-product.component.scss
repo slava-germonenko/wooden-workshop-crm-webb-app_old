@@ -1,0 +1,33 @@
+$action-section-height: 68px;
+$stepper-height: 72px;
+
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.actions-section {
+  padding: 16px;
+  gap: 10px;
+  h1 {
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.step-wrapper {
+  overflow-y: auto;
+  height: calc(100% - #{$stepper-height} - #{$action-section-height});
+}
+
+.stepper-container {
+  .stepper-navigation-button {
+    width: 100px;
+  }
+}
+
+mat-stepper .mat-horizontal-content-container {
+  display: none;
+}

@@ -7,11 +7,15 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import localeRu from '@angular/common/locales/ru';
+// eslint-disable-next-line
+import 'froala-editor/js/plugins.pkgd.min.js';
+// eslint-disable-next-line
+import 'froala-editor/js/languages/ru.js';
 
 import { ToolbarModule, ToolbarService } from '@framework/toolbar';
 import { WithTokenInterceptor } from '@common/interceptors';
 import { CommonPipesModule } from '@common/pipes';
-import { UserSessionService, UserStateService } from '@common/services';
+import { UserSessionService } from '@common/services';
 
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';

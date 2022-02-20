@@ -2,13 +2,30 @@
   <ng-container *ngFor="let field of fieldDefinitions">
     <ng-container [ngSwitch]="field.type">
 
-      <ng-template [ngSwitchCase]="'text' || 'number'">
+      <ng-template ngSwitchCase="text">
         <mat-form-field [appearance]="field.appearance ?? 'standard'">
           <mat-label *ngIf="field.label">{{field.label}}</mat-label>
           <input
             matInput
+            type="text"
             [name]="field.name"
-            [type]="field.type"
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder ?? ''"
+          />
+
+          <mat-error>
+            {{getErrorMessage(field)}}
+          </mat-error>
+        </mat-form-field>
+      </ng-template>
+
+      <ng-template ngSwitchCase="number">
+        <mat-form-field [appearance]="field.appearance ?? 'standard'">
+          <mat-label *ngIf="field.label">{{field.label}}</mat-label>
+          <input
+            matInput
+            type="number"
+            [name]="field.name"
             [formControlName]="field.name"
             [placeholder]="field.placeholder ?? ''"
           />

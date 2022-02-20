@@ -1,0 +1,20 @@
+<mat-card class="tech-specs-form">
+  <ww-search-field
+    label="Материал"
+    placeholder="Начните вводить"
+    [autocompleteEnabled]="true"
+    [displayWith]="displayName"
+    [options]="(availableMaterials$ | async) || []"
+    [selectedItems]="selectedMaterial"
+    (optionSelected)="setProductMaterial($event)"
+    (optionRemoved)="setProductMaterial(undefined)"
+    (searchChanged)="setMaterialsSearch($event)"
+  ></ww-search-field>
+
+  <ww-dynamic-form
+    [fields]="productSizeFormControls"
+    [showSubmit]="false"
+    [value]="productSize"
+    (valueChange)="setProductSize($event)"
+  ></ww-dynamic-form>
+</mat-card>

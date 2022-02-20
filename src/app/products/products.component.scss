@@ -4,15 +4,9 @@
 
 $page-title-height: 72px;
 
-.actions-section {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-
-  .status-picker {
-    margin-top: 10px;
-    width: 150px;
-  }
+.status-picker {
+  margin-top: 10px;
+  width: 150px;
 }
 
 ww-dynamic-table {
