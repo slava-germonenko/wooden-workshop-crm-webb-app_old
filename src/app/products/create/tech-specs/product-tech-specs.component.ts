@@ -34,7 +34,11 @@ export class ProductTechSpecsComponent implements OnInit {
   public constructor(private readonly createProductStateService: CreateProductStateService) { }
 
   public ngOnInit(): void {
-    this.createProductStateService.setProductTechSpecs(this.productSize);
+    this.setMaterialsSearch('');
+    this.createProductStateService.setProductTechSpecs(
+      mapToProductSize(this.createProductStateService.productModelSnapshot),
+      this.createProductStateService.productModelSnapshot.material,
+    );
     this.createProductStateService.productModel$
       .subscribe((product) => {
         this.productSize = mapToProductSize(product);

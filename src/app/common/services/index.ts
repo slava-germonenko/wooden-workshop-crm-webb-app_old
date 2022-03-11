@@ -4,3 +4,4 @@ export * from './categories-list.service';
 export * from './date-format.service';
 export * from './environment.service';
 export * from './materials-list.service';
+export * from './price-types.service-list';

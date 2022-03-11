@@ -30,6 +30,7 @@ import { CreateProductComponent } from './create/create-product.component';
 import { ProductBasicInformationComponent } from './create/basic/product-basic-information.component';
 import { ProductDescriptionComponent } from './create/description/product-description.component';
 import { ProductTechSpecsComponent } from './create/tech-specs/product-tech-specs.component';
+import { ProductTradingInfoComponent } from './create/trading-info/product-trading-info.component';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { ProductTechSpecsComponent } from './create/tech-specs/product-tech-spec
     ProductBasicInformationComponent,
     ProductDescriptionComponent,
     ProductTechSpecsComponent,
+    ProductTradingInfoComponent,
   ],
   providers: [
     ProductsService,

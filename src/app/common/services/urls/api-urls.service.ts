@@ -64,6 +64,10 @@ export class ApiUrlsService {
     return `${this.envService.apiBaseUrl}/materials`;
   }
 
+  public getPriceTypesBaseEndpointUrl(): string {
+    return `${this.envService.apiBaseUrl}/price-types`;
+  }
+
   public getProductsBaseEndpointUrl(): string {
     return `${this.envService.apiBaseUrl}/products`;
   }

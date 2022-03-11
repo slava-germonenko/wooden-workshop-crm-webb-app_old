@@ -53,7 +53,7 @@ export class CreateProductComponent implements OnInit {
     // Always redirect to the first step
     // until we implement kind of persistence
     // for product drafts
-    // this.createProductStateService.setCurrentStep(STEPS.BASIC_STEP);
+    this.createProductStateService.setCurrentStep(STEPS.BASIC_STEP);
   }
 
   public nextStepClick(): void {

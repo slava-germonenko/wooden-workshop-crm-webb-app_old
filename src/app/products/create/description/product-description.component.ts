@@ -25,7 +25,9 @@ export class ProductDescriptionComponent implements OnInit {
   public constructor(private readonly createProductStateService: CreateProductStateService) { }
 
   public ngOnInit(): void {
-    this.setProductDescription('');
+    this.createProductStateService.setProductDescription(
+      this.createProductStateService.productModelSnapshot.description ?? '',
+    );
   }
 
   public setProductDescription(descriptionHtml: string): void {

@@ -1,0 +1,10 @@
+<mat-card>
+  <ww-search-field
+    label="Категория"
+    placeholder="Начните вводить..."
+    [autocompleteEnabled]="true"
+    [options]="(availableMaterials$ | async) || []"
+    (optionSelected)="setProductCategory($event)"
+    (optionRemoved)="setProductCategory(undefined)"
+  ></ww-search-field>
+</mat-card>

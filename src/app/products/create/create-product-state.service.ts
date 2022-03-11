@@ -13,7 +13,7 @@ import {
 import { DEFAULT_PAGE } from '@common/constants';
 import { IProductSize, IStepperStep } from '@common/interfaces';
 import { ICategory, IMaterial, IProduct } from '@common/interfaces/models';
-import { CategoriesListService, MaterialsListService } from '@common/services';
+import { CategoriesListService, MaterialsListService, PriceTypesServiceList } from '@common/services';
 
 import * as STEPS from '@app/products/common/constants/create-products-step-indexes';
 import {
@@ -28,6 +28,8 @@ import {
 
 @Injectable()
 export class CreateProductStateService {
+  private readonly categoreisSearchSrouce = new BehaviorSubject<string>('');
+
   private readonly currentStepSource = new BehaviorSubject<CreateProductStepIndex>(STEPS.BASIC_STEP);
 
   private readonly materialsSearchSource = new BehaviorSubject<string>('');
@@ -37,6 +39,13 @@ export class CreateProductStateService {
   private readonly stepsSource = new BehaviorSubject<ArrayLike<IStepperStep>>(CREATE_PRODUCT_STEP_DEFAULTS);
 
   public readonly currentStep$ = this.currentStepSource.asObservable();
+
+  public readonly categories$ = this.categoreisSearchSrouce.pipe(
+    distinctUntilChanged(),
+    switchMap((search) => this.categoriesListService.getCategoriesPage(DEFAULT_PAGE, search)),
+    pluck('items'),
+    shareReplay(1),
+  );
 
   public readonly materials$ = this.materialsSearchSource.pipe(
     distinctUntilChanged(),
@@ -69,6 +78,7 @@ export class CreateProductStateService {
     private readonly activatedRoute: ActivatedRoute,
     private readonly categoriesListService: CategoriesListService,
     private readonly materialsListService: MaterialsListService,
+    private readonly priceTypesListService: PriceTypesServiceList,
     private readonly productsService: ProductsService,
     private readonly router: Router,
   ) { }
@@ -91,8 +101,8 @@ export class CreateProductStateService {
     this.setStepCompletedStatus(STEPS.BASIC_STEP, productBasicInformationIsValid(basicInformation));
   }
 
-  public setProductCategory(category: ICategory): void {
-    this.pathProduct({ category, categoryId: category.id });
+  public setProductCategory(category?: ICategory): void {
+    this.pathProduct({ category, categoryId: category?.id });
   }
 
   public setProductDescription(description: string): void {
